@@ -2064,7 +2064,7 @@
 
   /* ================= VIRAL EDGE CARDS (Phase 3) ================= */
   var EDGE_URL='https://edgewallstreet.com';
-  var CARDFMT={square:{w:1080,h:1080,rows:6},x:{w:1200,h:675,rows:5},story:{w:1080,h:1920,rows:8}};
+  var CARDFMT={square:{w:1080,h:1080,rows:6},x:{w:1200,h:675,rows:3},story:{w:1080,h:1920,rows:8}};
   var CTONE={green:'#00e28a',red:'#ff4d6d',amber:'#ffb020',grey:'#8b90a3',gold:'#f5c451',blue:'#4f9bff'};
   function xesc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   function toneIcon(t){return t==='green'?'✓':t==='red'?'⚠':t==='amber'?'↔':t==='blue'?'↑':'—';}
@@ -2072,7 +2072,7 @@
   /* ---- generic card renderer: spec -> SVG string ---- */
   function renderCard(spec,fmt){
     var F=CARDFMT[fmt]||CARDFMT.square,W=F.w,H=F.h,pad=Math.round(W*0.075);
-    var sc=(fmt==='x')?0.82:(fmt==='story'?1.06:1);
+    var sc=(fmt==='x')?0.66:(fmt==='story'?1.06:1);
     var acc=spec.accent||CTONE.gold;
     var s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" font-family="Inter, Helvetica, Arial, sans-serif">';
     s+='<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12141d"/><stop offset="1" stop-color="#0a0b11"/></linearGradient>';
