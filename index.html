@@ -747,6 +747,62 @@
   .edge-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--gold);color:#04120b;font-weight:800;font-size:13.5px;padding:11px 20px;border-radius:999px;z-index:10000;opacity:0;pointer-events:none;transition:.25s}
   .edge-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
   @media(max-width:560px){.share-acts{grid-template-columns:1fr}.share-canvas.square{max-width:300px}.edge-share-row{flex-wrap:wrap}}
+
+  /* ===== LEARN THE EDGE ===== */
+  .lz-hero{margin:2px 0 14px}
+  .lz-hero h2{font-size:26px;letter-spacing:-.02em}
+  .lz-hero p{color:var(--muted);font-size:14px;line-height:1.5;margin-top:6px;max-width:640px}
+  .lz-search input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:13px 15px;font:inherit;font-size:15px;margin-bottom:14px}
+  .lz-search input:focus{outline:none;border-color:var(--gold)}
+  .lz-prog{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:18px}
+  .lz-prog-l{font-size:13px;color:var(--muted);margin-bottom:7px}.lz-prog-l b{color:var(--text)}
+  .lz-prog-bar{height:8px;background:var(--card2);border-radius:999px;overflow:hidden}
+  .lz-prog-fill{height:100%;background:var(--gold);border-radius:999px;transition:width .4s}
+  .lz-sec-h{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:20px 0 11px;display:flex;align-items:center;gap:10px}
+  .lz-sec-sub{font-weight:400;font-size:13px;color:var(--muted)}
+  .lz-back-sm{background:var(--card2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:12.5px;cursor:pointer}
+  .lz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:11px}
+  .lz-card{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:7px}
+  .lz-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .lz-c-top{display:flex;align-items:center;gap:8px}
+  .lz-diff{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:6px}
+  .lz-diff.st{color:var(--buy);background:var(--buy-bg)}.lz-diff.in{color:var(--watch);background:var(--watch-bg)}.lz-diff.ad{color:var(--c-pink);background:#2e1622}
+  .lz-time{font-size:11.5px;color:var(--muted)}
+  .lz-seen{margin-left:auto;color:var(--buy);font-weight:800;font-size:13px}
+  .lz-c-title{font-size:15px;font-weight:700;line-height:1.25}
+  .lz-c-sum{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .lz-paths{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .lz-path{text-align:left;background:linear-gradient(180deg,#141b28,#0e1420);border:1px solid var(--line);border-radius:13px;padding:14px;cursor:pointer;transition:.15s}
+  .lz-path:hover{border-color:var(--gold)}
+  .lz-path-t{font-weight:800;font-size:15px}.lz-path-s{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .lz-cats{display:flex;flex-wrap:wrap;gap:8px}
+  .lz-cat{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer}
+  .lz-cat:hover{border-color:var(--gold)}.lz-cat span{color:var(--muted);font-weight:700;margin-left:4px}
+  .lz-empty{color:var(--muted);font-size:14px;padding:20px 4px}
+  .lz-legacy-h{font-size:17px;font-weight:800;margin:30px 0 4px;padding-top:20px;border-top:1px solid var(--line)}
+  /* lesson view */
+  .lz-back{background:var(--card2);border:1px solid var(--line);color:var(--muted);border-radius:9px;padding:7px 13px;font-size:13px;cursor:pointer;margin-bottom:14px}
+  .lz-back:hover{color:var(--text)}
+  .lv-head{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .lv-cat{font-size:12px;color:var(--muted)}
+  .lv-title{font-size:25px;letter-spacing:-.02em;margin-bottom:16px}
+  .lv-sec{margin-bottom:15px}
+  .lv-sec-l{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:5px}
+  .lv-sec-t{font-size:15px;line-height:1.6;color:#e8eaf2}
+  .lv-try{margin:18px 0}
+  .lv-try-btn{background:var(--gold);border:none;color:#04120b;font-weight:800;padding:13px 20px;border-radius:12px;font-size:14.5px;cursor:pointer;width:100%}
+  .lv-try-btn:hover{filter:brightness(1.08)}
+  .lv-deep{margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:0 14px}
+  .lv-deep summary{cursor:pointer;padding:12px 0;font-weight:700;font-size:14px;color:var(--gold)}
+  .lv-deep-t{font-size:14px;line-height:1.6;color:#cfd3e0;padding-bottom:14px}
+  .lv-notice{font-size:12px;color:var(--muted);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:16px 0;line-height:1.5}
+  .lv-rel-l{font-size:13px;font-weight:800;color:var(--muted);margin:20px 0 10px;text-transform:uppercase;letter-spacing:.04em}
+  .lv-share{margin-top:16px}
+  .lv-share-btn{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer}
+  .lv-share-btn:hover{border-color:var(--gold)}
+  /* contextual learn links on cards */
+  .edge-learnlink{color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;margin-top:10px;display:inline-block}
+  .edge-learnlink:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -1394,8 +1450,9 @@
       </div>
 
       <div class="tabpanel" id="tab-learn">
-        <div class="section-title">📚 Learn the basics</div>
-        <div class="section-sub">Short, plain-English lessons. Tap any question.</div>
+        <div id="learn-root"></div>
+        <div class="lz-legacy-h">Quick market questions</div>
+        <div class="section-sub">Short, plain-English answers on the current market. Tap any question.</div>
         <details><summary>What is "The Great Rotation"?</summary><div class="gloss"><p>When big investors move money <b>out</b> of one group of stocks and <b>into</b> another. Right now they're leaving expensive tech and buying cheaper, steadier sectors (industrials, materials, healthcare). Spotting where money flows <i>next</i> is how you stay ahead of the crowd.</p></div></details>
         <details><summary>A stock dropped 50% — is that automatically a bargain?</summary><div class="gloss"><p><b>No.</b> A big drop just means it's cheaper than before, not that it's <i>cheap</i>. Some fell because they were wildly overpriced; others are great businesses on sale. The job is telling them apart — look at whether the company still makes good money, not just how far it fell. "Cheap" can always get cheaper.</p></div></details>
         <details><summary>Why does cheaper oil matter for stocks?</summary><div class="gloss"><p>Oil feeds into the price of almost everything — fuel, shipping, plastics. When it falls hard, <b>inflation cools</b>, which can eventually let the Fed ease up on interest rates. Lower rates tend to help stocks (especially growth names). The catch: cheaper oil also hurts <b>energy companies'</b> profits — so the same news helps one part of the market and hurts another.</p></div></details>
@@ -1584,6 +1641,7 @@
     if(name==='earnings')renderEarningsGrid();
     if(name==='floor')renderFloor();
     if(name==='watchlist'){WL.promoted=false;WL.ensuring=false;renderWatch();}
+    if(name==='learn')learnEnter();
     applyClamp();
     window.scrollTo(0, 0);
   }
@@ -1932,11 +1990,12 @@
     var h='<div class="edge-block">';
     h+='<div class="es-card es-'+tier+'"><div class="es-num">'+es.score+arrow+'</div><div class="es-lab">Edge Score'+(delta!=null?' &middot; change since you last checked':'')+'</div><div class="es-comps">';
     for(i=0;i<es.comps.length;i++){var c=es.comps[i];h+='<span class="es-comp '+(c.v>0?'pos':c.v<0?'neg':'')+'">'+c.n+' '+(c.v>0?'+':'')+c.v+'</span>';}
-    h+='</div><div class="es-miss">Not included (no data yet): '+es.missing.join(', ')+'.</div></div>';
+    h+='</div><div class="es-miss">Not included (no data yet): '+es.missing.join(', ')+'.</div><div class="edge-learnlink" onclick="openLearn(\'edge-score\')">What is Edge Score? &rarr;</div></div>';
     h+='<div class="ec-card"><div class="ec-h">Edge Check <span class="ec-sub">is the story backed by evidence?</span></div><div class="ec-rows">';
     for(i=0;i<ec.rows.length;i++){var r=ec.rows[i];h+='<div class="ec-row"><span class="ec-dot '+r.tone+'"></span><span class="ec-l">'+r.label+'</span><span class="ec-v '+r.tone+'">'+r.status+'</span></div>';}
     h+='</div><div class="ec-verdict"><b>Edge Verdict:</b> '+ec.verdict+'</div>';
     h+='<div class="ec-method">Scored from price action, valuation, fundamentals, analyst ratings, catalysts, earnings and insider activity — modeled &amp; free data. Options flow, short interest and institutional positioning are not connected yet, so they are excluded rather than guessed.</div>';
+    h+='<div class="edge-learnlink" onclick="openLearn(\'edge-check\')">How Edge Check works &rarr;</div>';
     h+='<button class="ec-lab-btn" onclick="edgeToLab(\''+esc(sig.tick)+'\')">Model this trade in the Options Lab &rarr;</button>';
     h+='</div></div>';
     return h;
@@ -2343,11 +2402,350 @@
     if(/^#\/floor\/?$/.test(h)){showTab('floor');edgeTrack('landing',{route:'floor'});return true;}
     if(m=h.match(/^#\/lab\/([A-Za-z.\-]+)/)){var lt=m[1].toUpperCase();showTab('lab');if(el('lab-tick'))el('lab-tick').value=lt;if(typeof labLoad==='function')labLoad();edgeTrack('landing',{route:'lab',tick:lt});return true;}
     if(/^#\/watchlist\/?$/.test(h)){showTab('watchlist');edgeTrack('landing',{route:'watchlist'});return true;}
+    if(m=h.match(/^#\/learn\/([a-z0-9\-]+)/i)){openLearn(m[1].toLowerCase());edgeTrack('landing',{route:'learn',id:m[1]});return true;}
+    if(/^#\/learn\/?$/.test(h)){LEARN.pending=null;showTab('learn');learnHome();edgeTrack('landing',{route:'learn'});return true;}
     return false;
   }
   window.addEventListener('hashchange',edgeRoute);
   window.addEventListener('load',function(){setTimeout(function(){try{if(location.hash&&location.hash.indexOf('#/')===0)edgeRoute();}catch(e){}},400);});
   /* ================= END SHARE ================= */
+
+  /* ================= LEARN THE EDGE — lessons (Phase 4) ================= */
+  var LESSONS=[
+    /* ---- The Edge Method ---- */
+    {id:'edge-score',t:'What is Edge Score?',cat:'The Edge Method',diff:'Starter',time:'2 min',tags:['edge score','rating','framework'],
+     summary:'A single 5–97 number that sums up how strong a stock’s setup looks right now across momentum, fundamentals, valuation, analysts, catalysts and insiders.',
+     why:'It’s a fast read on the whole picture instead of you juggling ten metrics — but it’s a snapshot of the setup, not a prediction of the price.',
+     real:'Open NVDA and look at its Edge Score. The little chips below it (Momentum, Fundamentals, Valuation…) show exactly what pushed the number up or down.',
+     edge:'Edge builds the score only from data it can actually verify. If options flow or short interest aren’t available, it says so and leaves them out rather than guessing.',
+     mistake:'Treating a high score as “this will go up.” A great setup can still fall on a bad headline. The score rates evidence, not the future.',
+     deeper:'The score is base 50 plus weighted components, clamped 5–97. Missing feeds are excluded, not zero-filled — so two stocks with the same score can be strong for very different reasons.',
+     tryLabel:'See NVDA’s Edge Score',tryAction:'ticker:NVDA',related:['edge-check','what-changed','pe-ratio']},
+    {id:'edge-check',t:'How Edge Check works',cat:'The Edge Method',diff:'Starter',time:'3 min',tags:['edge check','evidence'],
+     summary:'A checklist that asks one question: is the story actually backed by evidence? Each row is green (supports), red (works against), yellow (mixed) or grey (no data).',
+     why:'It separates a good story from a proven one. Hype is easy; evidence is the filter.',
+     real:'Search any ticker and read its Edge Check. Notice rows like “Short interest: No data yet” — Edge won’t pretend to know what it can’t see.',
+     edge:'Edge Check ranks information by how hard it is: verified facts and earnings first, then market data and analysts, then derived signals, then community sentiment last.',
+     mistake:'Reading only the green rows. The verdict weighs the reds and the missing data too — that’s why it can say “mixed, not enough evidence.”',
+     deeper:'A stock can have a high Edge Score and a “mixed” Edge Check at the same time: the score can be lifted by momentum while the evidence underneath stays thin.',
+     tryLabel:'Run Edge Check on AAPL',tryAction:'ticker:AAPL',related:['edge-score','floor-vs-evidence','the-angle']},
+    {id:'floor-vs-evidence',t:'Sentiment is a signal, not evidence',cat:'The Edge Method',diff:'Starter',time:'2 min',tags:['floor','sentiment','community'],
+     summary:'The Floor shows what retail thinks. Edge Check shows what the evidence says. They are two different things — and they often disagree.',
+     why:'Crowds can be right early and wrong at the top. Sentiment tells you the mood; it doesn’t tell you the facts.',
+     real:'A ticker can be 78% bullish on the Floor while its Edge Check reads “mixed.” That gap is the whole point — loud ≠ proven.',
+     edge:'Edge never lets community opinion outrank verified data. The Floor adds energy; the evidence layer keeps you honest.',
+     mistake:'Buying because “everyone’s bullish.” High sentiment with thin evidence is exactly when to slow down.',
+     deeper:'Sentiment is most useful at extremes and as a contrarian tell, not as a reason on its own.',
+     tryLabel:'Compare Floor vs Edge on NVDA',tryAction:'floor:NVDA',related:['edge-check','short-squeeze','what-changed']},
+    {id:'what-changed',t:'Why “what changed” beats “what’s the price”',cat:'The Edge Method',diff:'Starter',time:'2 min',tags:['watchlist','change'],
+     summary:'Staring at price tells you little. What moves your decision is what changed — a new catalyst, an analyst shift, a score move, earnings approaching.',
+     why:'Markets are forward-looking. The edge is noticing the change before the crowd fully reacts.',
+     real:'Add a few names to your Watchlist, leave, and come back. Edge shows you what moved since you last checked instead of another price list.',
+     edge:'Watchlist Intelligence diffs today against your last visit and only surfaces changes it can verify — never invented moves.',
+     mistake:'Refreshing the price 20 times a day. Price noise isn’t information; change is.',
+     deeper:'Change detection only flags a score or price move when both readings are live, so it won’t mistake a data gap for a real shift.',
+     tryLabel:'Open your Watchlist',tryAction:'watchlist',related:['edge-score','analyst-revisions','guidance']},
+    {id:'the-angle',t:'Think in competing cases, not predictions',cat:'The Edge Method',diff:'Intermediate',time:'3 min',tags:['angle','thesis'],
+     summary:'Instead of “is it going up?”, ask: what would make the bull case right, what would make the bear case right, and what would invalidate each?',
+     why:'Prediction is a coin flip. Thinking in falsifiable cases is how real analysts avoid getting trapped by their own story.',
+     real:'Open a ticker and read The Angle. It lays out the bull case, the bear case, what the market may be missing, and what would break the thesis.',
+     edge:'The Angle is built from the same evidence as Edge Check — so the cases are grounded in data, not vibes.',
+     mistake:'Falling in love with one side. If you can’t state what would prove you wrong, you don’t have a thesis — you have a hope.',
+     deeper:'Write down your “invalidation” before you enter. When it triggers, you act instead of rationalizing.',
+     tryLabel:'Read The Angle on TSLA',tryAction:'ticker:TSLA',related:['edge-check','why-fall-after-beat','valuation-vs-growth']},
+    /* ---- Market Basics ---- */
+    {id:'market-cap',t:'Market cap',cat:'Market Basics',diff:'Starter',time:'2 min',tags:['market cap','size'],
+     summary:'Share price × number of shares. It’s what the whole company is worth in the market — not the same as price.',
+     why:'A $5 stock can be bigger than a $500 stock. Cap tells you size and how much money it takes to move it.',
+     real:'Compare AAPL (trillions) with RKLB (billions). Same market, very different scale and volatility.',
+     edge:'Edge shows market cap on every ticker so you judge a move in context — a 5% pop means different things at $4T and $4B.',
+     mistake:'Thinking a low share price means “cheap.” Price alone says nothing; cap and valuation do.',
+     deeper:'Enterprise value adds debt and subtracts cash — often a fairer size measure than market cap alone.',
+     tryLabel:'Compare AAPL vs RKLB',tryAction:'ticker:RKLB',related:['pe-ratio','valuation-vs-growth','price-target']},
+    {id:'pe-ratio',t:'P/E ratio',cat:'Market Basics',diff:'Starter',time:'2 min',tags:['pe','valuation','earnings'],
+     summary:'Price divided by earnings per share — how many dollars you pay for each dollar of profit.',
+     why:'It’s the quickest gut-check on valuation. A high P/E means the market expects fast growth; a low one means low expectations (or trouble).',
+     real:'Open NVDA and look at its P/E. It’s high because investors expect earnings to keep growing fast — the number only makes sense next to growth.',
+     edge:'In Edge Check, valuation is graded relative to context, and it can be the single red flag under an otherwise green setup.',
+     mistake:'Calling a high P/E “expensive” with no growth context. A 40x stock growing 50% can be cheaper than a 12x stock shrinking.',
+     deeper:'Forward P/E uses expected earnings; PEG divides P/E by growth to compare across growth rates.',
+     tryLabel:'See NVDA’s valuation',tryAction:'ticker:NVDA',related:['valuation-vs-growth','eps-vs-revenue','price-target']},
+    {id:'eps-vs-revenue',t:'Revenue vs EPS',cat:'Market Basics',diff:'Starter',time:'2 min',tags:['eps','revenue','earnings'],
+     summary:'Revenue is total sales. EPS is profit per share after all costs. A company can grow sales while EPS stalls — or the reverse.',
+     why:'The market often cares more about the one that’s slowing. Growth in the wrong line can still sink a stock.',
+     real:'At earnings, watch whether revenue and EPS both beat — and which one the guidance points to next quarter.',
+     edge:'Edge’s fundamentals read weighs margins and growth together, not just one headline number.',
+     mistake:'Cheering a revenue beat while margins quietly collapse. Profitable growth ≠ growth.',
+     deeper:'Buybacks lift EPS without lifting profit — always check whether earnings grew or the share count shrank.',
+     tryLabel:'Look at an earnings name',tryAction:'ticker:AMD',related:['earnings-beat','guidance','free-cash-flow']},
+    {id:'free-cash-flow',t:'Free cash flow',cat:'Market Basics',diff:'Intermediate',time:'2 min',tags:['fcf','cash','quality'],
+     summary:'The cash a business actually generates after running and investing in itself. Harder to fake than accounting earnings.',
+     why:'Cash pays debt, buybacks and dividends. Companies with real FCF have staying power; “profitable” ones without it can be fragile.',
+     real:'Mature names like AAPL throw off huge free cash flow; many early-growth names burn it while they scale.',
+     edge:'Strong, growing cash generation supports the fundamentals side of an Edge read.',
+     mistake:'Trusting net income alone. Earnings can be positive while cash flow is negative.',
+     deeper:'FCF = operating cash flow − capital expenditures. Watch it per share and as a yield vs the market cap.',
+     tryLabel:'Open a cash-rich name',tryAction:'ticker:AAPL',related:['eps-vs-revenue','valuation-vs-growth','pe-ratio']},
+    /* ---- Price & Momentum ---- */
+    {id:'volume',t:'What volume tells you',cat:'Price & Momentum',diff:'Starter',time:'2 min',tags:['volume','conviction'],
+     summary:'Volume is how many shares traded. It’s the conviction behind a price move.',
+     why:'A move on heavy volume is more believable than the same move on light volume. Big players leave big footprints.',
+     real:'A stock breaking out on 3× its average volume is a very different signal than a quiet drift up.',
+     edge:'Unusual volume is one of the tells Edge watches for when flagging that something changed.',
+     mistake:'Reacting to a price spike without checking volume. No volume, no conviction.',
+     deeper:'Compare today’s volume to the 3-month average, and watch whether up-days or down-days carry the bigger volume.',
+     tryLabel:'Check a mover',tryAction:'ticker:NVDA',related:['momentum','volatility','short-squeeze']},
+    {id:'momentum',t:'Momentum',cat:'Price & Momentum',diff:'Starter',time:'2 min',tags:['momentum','trend'],
+     summary:'The tendency of stocks that have been moving to keep moving — strength or weakness that persists.',
+     why:'Momentum is one of the most durable patterns in markets, but it reverses hard when it breaks.',
+     real:'A stock near its 52-week high acting strongly has momentum; one making new lows has it working against it.',
+     edge:'Edge’s momentum component blends where a stock sits in its 52-week range with how it’s trading versus the market.',
+     mistake:'Chasing momentum with no plan for the reversal. Trends end — decide your exit before you need it.',
+     deeper:'Relative strength compares a stock to the index: leading in a weak tape is a stronger signal than rising with everything.',
+     tryLabel:'See a momentum name',tryAction:'ticker:PLTR',related:['volume','volatility','the-angle']},
+    {id:'volatility',t:'Volatility',cat:'Price & Momentum',diff:'Intermediate',time:'2 min',tags:['volatility','risk'],
+     summary:'How much and how fast a price swings. High volatility means bigger moves in both directions.',
+     why:'Volatility is risk and opportunity in one. It sets position sizes and it’s the fuel behind options pricing.',
+     real:'A high-beta name like TSLA swings far more than a steady one like AAPL for the same market move.',
+     edge:'Volatility feeds directly into the Options Lab — bigger expected swings make options more expensive.',
+     mistake:'Sizing a volatile stock like a calm one. The same dollar position carries very different risk.',
+     deeper:'Realized volatility is what already happened; implied volatility is what options are pricing for the future.',
+     tryLabel:'Model volatility in the Lab',tryAction:'lab:long-straddle:TSLA',related:['implied-volatility','iv-crush','straddle']},
+    /* ---- Earnings & Catalysts ---- */
+    {id:'earnings-beat',t:'What an earnings beat really means',cat:'Earnings & Catalysts',diff:'Starter',time:'2 min',tags:['earnings','beat'],
+     summary:'A “beat” means results came in above the consensus estimate. But the estimate — not zero — is the bar.',
+     why:'Stocks trade on expectations. Beating a low bar or missing a high one matters more than the raw number.',
+     real:'A company can beat and still drop if the beat was small and the guide was soft. The reaction is the tell.',
+     edge:'Edge’s catalyst read looks at the surprise size and how fresh it is, not just “beat or miss.”',
+     mistake:'Assuming a beat = up. The market already priced in an expected beat; only the surprise moves it.',
+     deeper:'Whisper numbers — the unofficial higher bar — explain why some beats still disappoint.',
+     tryLabel:'Open an earnings stock',tryAction:'ticker:AMD',related:['why-fall-after-beat','guidance','eps-vs-revenue']},
+    {id:'why-fall-after-beat',t:'Why stocks fall after good earnings',cat:'Earnings & Catalysts',diff:'Intermediate',time:'3 min',tags:['earnings','expectations','priced in'],
+     summary:'A stock can beat and still drop because the good news was already “priced in,” the guidance was weak, or expectations were sky-high.',
+     why:'This is the single most confusing thing for new investors — and understanding it changes how you read every report.',
+     real:'A hot AI name beats, then falls 8% because the guide didn’t clear the raised bar. The number was good; the expectation was better.',
+     edge:'Read the Edge Check and Angle after a report: often valuation was stretched and positioning was crowded going in.',
+     mistake:'Thinking the market is “wrong” for selling a beat. The market trades the future, not the quarter that just ended.',
+     deeper:'Crowded, high-expectation names need a blowout plus a strong guide just to hold — a mere beat can be a sell signal.',
+     tryLabel:'Analyze a post-earnings name',tryAction:'ticker:NVDA',related:['earnings-beat','guidance','pe-ratio']},
+    {id:'guidance',t:'Guidance',cat:'Earnings & Catalysts',diff:'Starter',time:'2 min',tags:['guidance','outlook'],
+     summary:'Management’s forecast for upcoming quarters. Often it moves the stock more than the results just reported.',
+     why:'Markets look forward. A great quarter with weak guidance frequently sells off; a soft quarter with a strong guide can rally.',
+     real:'Watch the reaction to the guide, not just the print — the conference call often decides the move.',
+     edge:'A raised guide is a real catalyst; Edge treats it as forward evidence, not backward-looking noise.',
+     mistake:'Ignoring the outlook because the quarter “looked fine.” The next quarter is what’s being traded.',
+     deeper:'Sandbagging — deliberately low guidance that’s easy to beat — is a common management game to watch for.',
+     tryLabel:'See a guidance-driven name',tryAction:'ticker:NFLX',related:['earnings-beat','analyst-revisions','why-fall-after-beat']},
+    {id:'analyst-revisions',t:'Analyst revisions',cat:'Earnings & Catalysts',diff:'Intermediate',time:'2 min',tags:['analysts','ratings'],
+     summary:'Changes in analyst ratings and price targets. The direction of change often matters more than the rating itself.',
+     why:'A wave of upgrades or estimate cuts signals shifting institutional expectations before it fully shows in price.',
+     real:'A stock quietly getting a string of estimate increases is a different setup than one being downgraded into a rally.',
+     edge:'Edge’s analyst component reads the balance of buy/hold/sell and flags when the consensus shifts.',
+     mistake:'Following a single rating. One upgrade is noise; a trend of revisions is signal.',
+     deeper:'Estimate revisions (the numbers) often lead rating changes (the labels) — watch the numbers.',
+     tryLabel:'Check analyst view',tryAction:'ticker:AMD',related:['guidance','price-target','what-changed']},
+    /* ---- Options ---- */
+    {id:'calls',t:'What is a call?',cat:'Options',diff:'Starter',time:'2 min',tags:['calls','options'],
+     summary:'A call gives you the right (not obligation) to buy 100 shares at a set strike price before expiration. You pay a premium for it.',
+     why:'Calls let you get upside exposure for a fraction of the share price — with the trade-off that they can expire worthless.',
+     real:'Model a long call on NVDA in the Lab and watch what happens if the stock moves 5%, 10% or 20% by expiration.',
+     edge:'The Lab prices calls with a modeled premium (clearly labeled MODELED — not live options data) so you can learn the shape risk-free.',
+     mistake:'Thinking a call is “cheap” because it costs less than the stock. It can lose 100% while the stock barely moves.',
+     deeper:'A call’s value = intrinsic (how far in-the-money) + extrinsic (time and volatility), which decays as expiration nears.',
+     tryLabel:'Model a call on NVDA',tryAction:'lab:long-call:NVDA',related:['puts','implied-volatility','greeks']},
+    {id:'puts',t:'What is a put?',cat:'Options',diff:'Starter',time:'2 min',tags:['puts','options','hedge'],
+     summary:'A put gives you the right to sell 100 shares at a strike before expiration. It gains value when the stock falls.',
+     why:'Puts are how you profit from — or protect against — a decline without shorting the stock.',
+     real:'Model a long put on NVDA and see how it pays off if the stock drops 10% versus if it stays flat.',
+     edge:'Like calls, Lab put premiums are MODELED and labeled — the point is to learn the payoff, not to quote a live price.',
+     mistake:'Buying puts as a permanent hedge. Their time value bleeds away — protection has an ongoing cost.',
+     deeper:'A protective put on shares you own is portfolio insurance; a naked long put is a directional bearish bet.',
+     tryLabel:'Model a put on NVDA',tryAction:'lab:long-put:NVDA',related:['calls','greeks','volatility']},
+    {id:'implied-volatility',t:'Implied volatility (IV)',cat:'Options',diff:'Intermediate',time:'3 min',tags:['iv','options','volatility'],
+     summary:'IV is the size of the move the options market is pricing in. High IV = options expect a big swing = pricier options.',
+     why:'You can be right on direction and still lose if you overpay for IV. It’s often the hidden reason an option “didn’t work.”',
+     real:'Before earnings, a name like NVDA sees IV spike because a large move is expected. Model a straddle in the Lab to see how much movement it takes to profit.',
+     edge:'The Lab lets you set volatility yourself so you can feel how IV changes an option’s price and breakeven.',
+     mistake:'Buying options into high IV before earnings and getting crushed when IV collapses afterward.',
+     deeper:'IV is forward-looking and mean-reverting — it tends to rise into events and fall after them.',
+     tryLabel:'Model IV with a straddle',tryAction:'lab:long-straddle:NVDA',related:['iv-crush','straddle','volatility']},
+    {id:'iv-crush',t:'IV crush',cat:'Options',diff:'Advanced',time:'2 min',tags:['iv crush','earnings','options'],
+     summary:'The sharp drop in implied volatility right after a known event like earnings — which slams option prices even if the stock moves your way.',
+     why:'It’s why beginners buy an option before earnings, get the direction right, and still lose money.',
+     real:'A stock jumps 4% on earnings but your call falls — because IV collapsed the instant the uncertainty cleared.',
+     edge:'The Lab shows how much of an option’s price is time/volatility value that can evaporate after an event.',
+     mistake:'Buying single options into earnings for the “obvious” move. You need a move bigger than the IV was pricing in.',
+     deeper:'Spreads and defined-risk structures reduce IV-crush exposure by selling volatility to offset what you buy.',
+     tryLabel:'See the volatility value',tryAction:'lab:long-straddle:NVDA',related:['implied-volatility','straddle','why-fall-after-beat']},
+    {id:'greeks',t:'Delta, theta & vega',cat:'Options',diff:'Advanced',time:'3 min',tags:['greeks','delta','theta','vega'],
+     summary:'The Greeks measure what drives an option’s price: delta (stock move), theta (time decay), vega (volatility). Gamma is how fast delta changes.',
+     why:'They tell you why an option gained or lost — often it’s theta or vega, not direction.',
+     real:'Model any strategy in the Lab and read the net Greeks: a long call is positive delta, negative theta, positive vega.',
+     edge:'The Lab computes net Greeks for multi-leg strategies so you can see the full risk profile, not just the payoff.',
+     mistake:'Watching only the stock (delta) and ignoring theta bleed — time works against option buyers every day.',
+     deeper:'Theta accelerates in the final weeks; gamma spikes near the strike at expiration, making moves violent.',
+     tryLabel:'Read the Greeks in the Lab',tryAction:'lab:long-call:NVDA',related:['calls','implied-volatility','iv-crush']},
+    {id:'bull-call-spread',t:'Bull call spread',cat:'Options',diff:'Advanced',time:'3 min',tags:['spread','options','defined risk'],
+     summary:'Buy a call and sell a higher-strike call. You cap your upside in exchange for a cheaper, defined-risk bullish bet.',
+     why:'It’s often smarter than a naked call: you pay less, you’re less exposed to IV, and your max loss is fixed.',
+     real:'Model a bull call spread on NVDA and compare it to a single call — same direction, lower cost, capped payoff.',
+     edge:'The Lab shows max profit (strike width − net debit), max loss and breakeven so the trade-off is concrete.',
+     mistake:'Forgetting the upside is capped. If the stock rockets past your short strike, you don’t keep the extra.',
+     deeper:'Selling the higher call finances part of the trade and reduces vega — helpful when IV is elevated.',
+     tryLabel:'Model a bull call spread',tryAction:'lab:bull-call:NVDA',related:['calls','iron-condor','greeks']},
+    {id:'iron-condor',t:'Iron condor',cat:'Options',diff:'Advanced',time:'3 min',tags:['iron condor','neutral','income'],
+     summary:'A four-leg, defined-risk strategy that profits if the stock stays inside a range. You collect premium and win on time and calm.',
+     why:'It’s the classic “I think this goes nowhere” trade — you’re selling volatility with a capped loss.',
+     real:'Model an iron condor on NVDA and see the profit zone, the breakevens and the max loss on each wing.',
+     edge:'The Lab plots the payoff and probability-of-profit so you can see how wide the range needs to be.',
+     mistake:'Selling condors into a big catalyst. A single earnings gap can blow through a wing.',
+     deeper:'Condors are short vega and positive theta — they like high IV going in and calm, decaying markets after.',
+     tryLabel:'Model an iron condor',tryAction:'lab:iron-condor:NVDA',related:['straddle','implied-volatility','bull-call-spread']},
+    {id:'straddle',t:'Straddle & strangle',cat:'Options',diff:'Advanced',time:'2 min',tags:['straddle','volatility','options'],
+     summary:'Buy a call and a put together to bet on a big move in either direction. A strangle is the cheaper, wider-strike version.',
+     why:'It’s a pure volatility bet — you don’t need to know direction, only that the move will be large.',
+     real:'Model a long straddle on NVDA before earnings: it only profits if the move is bigger than the (expensive) premium you paid.',
+     edge:'The Lab shows the two breakevens — the stock has to clear one of them just for you to break even.',
+     mistake:'Buying straddles into earnings and losing to IV crush even when the stock moves. The move has to beat what was priced in.',
+     deeper:'Long straddles are long vega and long gamma but bleed theta fast — they’re a race between movement and time.',
+     tryLabel:'Model a straddle',tryAction:'lab:long-straddle:NVDA',related:['implied-volatility','iv-crush','iron-condor']},
+    /* ---- Positioning ---- */
+    {id:'short-interest',t:'Short interest',cat:'Positioning',diff:'Intermediate',time:'2 min',tags:['short interest','positioning'],
+     summary:'The share of a stock’s float that’s been sold short — a bet the price will fall. High short interest means many are positioned bearish.',
+     why:'It shapes risk in both directions: crowded shorts can fuel violent squeezes, but they’re often short for a real reason.',
+     real:'Search a heavily-shorted name and check its Edge Check. If the feed isn’t available, Edge shows “Short interest: No data yet” rather than making it up.',
+     edge:'Edge treats short interest as a signal to weigh, never as proof a squeeze is coming.',
+     mistake:'Buying only because short interest is high. High and rising short interest sometimes means the bears are right.',
+     deeper:'“Days to cover” (short interest ÷ average volume) estimates how long shorts would need to buy back — squeeze fuel.',
+     tryLabel:'Check a ticker’s positioning',tryAction:'ticker:GME',related:['short-squeeze','floor-vs-evidence','volume']},
+    {id:'short-squeeze',t:'Short squeeze',cat:'Positioning',diff:'Intermediate',time:'2 min',tags:['squeeze','short interest'],
+     summary:'When a rising price forces shorts to buy back to cut losses — and that buying pushes the price even higher, feeding on itself.',
+     why:'Squeezes create explosive, unsustainable moves. Understanding the mechanics keeps you from mistaking one for a real trend.',
+     real:'A crowded short with a sudden catalyst and heavy volume is the classic setup — fast up, often just as fast down.',
+     edge:'The Floor may go euphoric during a squeeze; Edge Check keeps the evidence separate from the frenzy.',
+     mistake:'Buying late into a squeeze and holding for “more.” The fuel (shorts covering) runs out, then it reverses.',
+     deeper:'A squeeze is a positioning event, not a fundamental one — the story rarely justifies the final prices.',
+     tryLabel:'See the Floor on a squeeze name',tryAction:'floor:GME',related:['short-interest','floor-vs-evidence','volume']},
+    /* ---- Valuation ---- */
+    {id:'valuation-vs-growth',t:'Growth vs valuation',cat:'Valuation',diff:'Intermediate',time:'3 min',tags:['valuation','growth'],
+     summary:'A high multiple isn’t automatically expensive, and a low one isn’t automatically cheap. Price only makes sense next to growth.',
+     why:'This is how you avoid two classic traps: the “cheap” value trap and the “great company, terrible price” trap.',
+     real:'A fast grower like NVDA can deserve a rich multiple; a shrinking business at a low multiple can still be overpriced.',
+     edge:'Edge Check grades valuation in context — it can flag “rich” as the main risk even when everything else is green.',
+     mistake:'Buying the lowest P/E on the screen. Cheap is cheap for a reason until proven otherwise.',
+     deeper:'PEG (P/E ÷ growth) roughly normalizes valuation across growth rates — a quick apples-to-apples check.',
+     tryLabel:'See growth vs valuation',tryAction:'ticker:NVDA',related:['pe-ratio','price-target','free-cash-flow']},
+    {id:'price-target',t:'What a price target really means',cat:'Valuation',diff:'Starter',time:'2 min',tags:['price target','analysts'],
+     summary:'An analyst’s estimate of where a stock could trade in ~12 months under their assumptions. It’s an opinion, not a promise.',
+     why:'Targets move markets short-term, but they’re frequently wrong and often chase the price after it moves.',
+     real:'When a target is raised right after a rally, ask whether it’s new information or just catching up to the chart.',
+     edge:'Edge treats targets as one analyst input among many, not as a forecast to trust on its own.',
+     mistake:'Buying because “the target is 30% higher.” Assumptions change; targets get cut just as fast as they’re raised.',
+     deeper:'Look at the spread of targets and the direction of revisions, not a single number.',
+     tryLabel:'Check analyst targets',tryAction:'ticker:AAPL',related:['analyst-revisions','valuation-vs-growth','pe-ratio']}
+  ];
+  var LPATHS=[
+    {id:'start-here',t:'Start here',sub:'New to markets? Begin with these.',ids:['edge-score','edge-check','market-cap','pe-ratio','what-changed']},
+    {id:'better-analyst',t:'Become a better analyst',sub:'Read a company like a pro.',ids:['eps-vs-revenue','free-cash-flow','valuation-vs-growth','analyst-revisions','the-angle','edge-check']},
+    {id:'understand-options',t:'Understand options',sub:'From a single call to spreads.',ids:['calls','puts','implied-volatility','greeks','bull-call-spread','iron-condor']},
+    {id:'read-the-market',t:'Read the market',sub:'Volume, momentum, catalysts.',ids:['volume','momentum','volatility','guidance','why-fall-after-beat']},
+    {id:'think-like-trader',t:'Think like a trader',sub:'Positioning and psychology.',ids:['momentum','short-interest','short-squeeze','floor-vs-evidence','iv-crush']}
+  ];
+  var LCATS=['The Edge Method','Market Basics','Price & Momentum','Earnings & Catalysts','Options','Positioning','Valuation'];
+  /* ================= END LEARN lessons ================= */
+
+/* ================= LEARN THE EDGE — UI + routing (Phase 4) ================= */
+  var LEARN={view:'home',lesson:null,cat:null,path:null,q:'',pending:null};
+  function learnProg(){try{var v=JSON.parse(localStorage.getItem('edge_learn')||'null');if(v&&v.viewed)return v;}catch(e){}return {viewed:[]};}
+  function learnProgSave(o){try{localStorage.setItem('edge_learn',JSON.stringify(o));}catch(e){}}
+  function learnSeen(id){return learnProg().viewed.indexOf(id)>=0;}
+  function lessonById(id){for(var i=0;i<LESSONS.length;i++)if(LESSONS[i].id===id)return LESSONS[i];return null;}
+  function ldiffClass(d){return d==='Starter'?'st':d==='Intermediate'?'in':'ad';}
+  function learnEnter(){if(LEARN.pending){var id=LEARN.pending;LEARN.pending=null;openLesson(id);}else{learnHome();}}
+  function openLearn(id){LEARN.pending=id;showTab('learn');}
+  function learnHome(){LEARN.view='home';LEARN.lesson=null;LEARN.cat=null;LEARN.path=null;LEARN.q='';renderLearn();window.scrollTo(0,0);}
+  function learnCard(l){
+    var seen=learnSeen(l.id);
+    return '<button class="lz-card" onclick="openLesson(\''+l.id+'\')">'
+      +'<div class="lz-c-top"><span class="lz-diff '+ldiffClass(l.diff)+'">'+l.diff+'</span><span class="lz-time">'+l.time+'</span>'+(seen?'<span class="lz-seen">✓</span>':'')+'</div>'
+      +'<div class="lz-c-title">'+esc(l.t)+'</div><div class="lz-c-sum">'+esc(l.summary.slice(0,96))+(l.summary.length>96?'…':'')+'</div></button>';
+  }
+  function renderLearn(){
+    var root=el('learn-root');if(!root)return;
+    if(LEARN.view==='lesson'&&LEARN.lesson){root.innerHTML=lessonViewHTML(LEARN.lesson);window.scrollTo(0,0);return;}
+    var prog=learnProg(),done=0;for(var i=0;i<LESSONS.length;i++)if(prog.viewed.indexOf(LESSONS[i].id)>=0)done++;
+    var pct=Math.round(done/LESSONS.length*100);
+    var h='<div class="lz-hero"><h2>Learn the Edge</h2><p>Understand the market — then use it. No textbooks, no finance degree. Real markets, explained clearly.</p></div>';
+    h+='<div class="lz-search"><input id="learn-q" placeholder="What do you want to understand? e.g. implied volatility" oninput="learnSearchInput()" value="'+esc(LEARN.q)+'"></div>';
+    h+='<div class="lz-prog"><div class="lz-prog-l">Your Edge knowledge <b>'+done+' / '+LESSONS.length+'</b></div><div class="lz-prog-bar"><div class="lz-prog-fill" style="width:'+pct+'%"></div></div></div>';
+    /* browse area */
+    if(LEARN.q){
+      var q=LEARN.q.toLowerCase();var res=LESSONS.filter(function(l){return (l.t+' '+l.summary+' '+(l.tags||[]).join(' ')+' '+l.cat).toLowerCase().indexOf(q)>=0;});
+      h+='<div class="lz-sec-h">'+res.length+' result'+(res.length===1?'':'s')+' for “'+esc(LEARN.q)+'”</div><div class="lz-grid">';
+      h+=res.map(learnCard).join('')||'<div class="lz-empty">No lessons match. Try “options”, “earnings”, “valuation”…</div>';
+      h+='</div>';root.innerHTML=h;return;
+    }
+    if(LEARN.path){
+      var p=null;for(i=0;i<LPATHS.length;i++)if(LPATHS[i].id===LEARN.path)p=LPATHS[i];
+      if(p){h+='<div class="lz-sec-h"><button class="lz-back-sm" onclick="learnHome()">← All</button>'+esc(p.t)+' <span class="lz-sec-sub">'+esc(p.sub)+'</span></div><div class="lz-grid">';
+        h+=p.ids.map(function(id){var l=lessonById(id);return l?learnCard(l):'';}).join('')+'</div>';root.innerHTML=h;return;}
+    }
+    if(LEARN.cat){
+      h+='<div class="lz-sec-h"><button class="lz-back-sm" onclick="learnHome()">← All</button>'+esc(LEARN.cat)+'</div><div class="lz-grid">';
+      h+=LESSONS.filter(function(l){return l.cat===LEARN.cat;}).map(learnCard).join('')+'</div>';root.innerHTML=h;return;
+    }
+    /* default landing */
+    var sh=LPATHS[0];
+    h+='<div class="lz-sec-h">Start here</div><div class="lz-grid">'+sh.ids.map(function(id){var l=lessonById(id);return l?learnCard(l):'';}).join('')+'</div>';
+    h+='<div class="lz-sec-h">Learning paths</div><div class="lz-paths">';
+    for(i=0;i<LPATHS.length;i++)h+='<button class="lz-path" onclick="learnPath(\''+LPATHS[i].id+'\')"><div class="lz-path-t">'+esc(LPATHS[i].t)+'</div><div class="lz-path-s">'+esc(LPATHS[i].sub)+'</div></button>';
+    h+='</div>';
+    h+='<div class="lz-sec-h">Browse by topic</div><div class="lz-cats">';
+    for(i=0;i<LCATS.length;i++){var cn=LESSONS.filter(function(l){return l.cat===LCATS[i];}).length;h+='<button class="lz-cat" onclick="learnCat(\''+LCATS[i].replace(/'/g,"\\'")+'\')">'+esc(LCATS[i])+' <span>'+cn+'</span></button>';}
+    h+='</div>';
+    var today=['why-fall-after-beat','implied-volatility','floor-vs-evidence'];
+    h+='<div class="lz-sec-h">Learn from today’s market</div><div class="lz-grid">'+today.map(function(id){var l=lessonById(id);return l?learnCard(l):'';}).join('')+'</div>';
+    root.innerHTML=h;
+  }
+  function learnSearchInput(){var i=el('learn-q');if(!i)return;LEARN.q=i.value.trim();var root=el('learn-root');
+    /* re-render only browse portion by full re-render but keep focus */
+    var pos=i.selectionStart;renderLearn();var n=el('learn-q');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(e){}}}
+  function learnCat(c){LEARN.cat=c;LEARN.q='';LEARN.path=null;renderLearn();window.scrollTo(0,0);}
+  function learnPath(p){LEARN.path=p;LEARN.q='';LEARN.cat=null;renderLearn();window.scrollTo(0,0);}
+  function openLesson(id){
+    var l=lessonById(id);if(!l)return;LEARN.view='lesson';LEARN.lesson=l;
+    var pr=learnProg();if(pr.viewed.indexOf(id)<0){pr.viewed.push(id);learnProgSave(pr);}
+    if(typeof edgeTrack==='function')edgeTrack('lesson_view',{id:id});
+    showTab('learn');renderLearn();
+  }
+  function lessonViewHTML(l){
+    var sec=function(lab,txt){return txt?'<div class="lv-sec"><div class="lv-sec-l">'+lab+'</div><div class="lv-sec-t">'+esc(txt)+'</div></div>':'';};
+    var h='<div class="lv"><button class="lz-back" onclick="learnHome()">← Learn the Edge</button>';
+    h+='<div class="lv-head"><span class="lz-diff '+ldiffClass(l.diff)+'">'+l.diff+'</span><span class="lz-time">'+l.time+'</span><span class="lv-cat">'+esc(l.cat)+'</span></div>';
+    h+='<h2 class="lv-title">'+esc(l.t)+'</h2>';
+    h+=sec('The simple version',l.summary);
+    h+=sec('Why it matters',l.why);
+    h+=sec('Real world',l.real);
+    h+=sec('How Edge uses it',l.edge);
+    if(l.tryAction)h+='<div class="lv-try"><button class="lv-try-btn" onclick="tryIt(\''+l.tryAction+'\')">'+esc(l.tryLabel||'Try it in Edge')+' →</button></div>';
+    h+=sec('Common mistake',l.mistake);
+    if(l.deeper)h+='<details class="lv-deep"><summary>Go deeper</summary><div class="lv-deep-t">'+esc(l.deeper)+'</div></details>';
+    h+='<div class="lv-notice">Educational only — not financial advice. Options examples in the Lab use <b>modeled premiums</b>, not live pricing.</div>';
+    if(l.related&&l.related.length){h+='<div class="lv-rel-l">Keep learning</div><div class="lz-grid">'+l.related.map(function(id){var r=lessonById(id);return r?learnCard(r):'';}).join('')+'</div>';}
+    h+='<div class="lv-share"><button class="lv-share-btn" onclick="learnCopyLink(\''+l.id+'\')">Copy lesson link</button></div>';
+    h+='</div>';return h;
+  }
+  function learnCopyLink(id){var url=(typeof EDGE_URL!=='undefined'?EDGE_URL:'https://edgewallstreet.com')+'/#/learn/'+id;if(typeof copyText==='function')copyText(url,'Lesson link copied');if(typeof edgeTrack==='function')edgeTrack('learn_copylink',{id:id});}
+  function learnToLab(strat,tick){var i=el('lab-tick');if(i)i.value=tick||'NVDA';showTab('lab');if(typeof labLoad==='function')labLoad();if(strat)setTimeout(function(){if(typeof labSet==='function')labSet('strat',strat);},1600);}
+  function tryIt(a){
+    var parts=String(a||'').split(':');var kind=parts[0];
+    if(kind==='lab'){learnToLab(parts[1],parts[2]||'NVDA');}
+    else if(kind==='floor'){if(typeof openFloorTicker==='function')openFloorTicker((parts[1]||'NVDA').toUpperCase());}
+    else if(kind==='watchlist'){showTab('watchlist');}
+    else{var t=(parts[1]||'NVDA').toUpperCase();if(el('g-ticker'))el('g-ticker').value=t;showTab('search');if(typeof runSearch==='function')runSearch();}
+    if(typeof edgeTrack==='function')edgeTrack('learn_tryit',{action:a});
+  }
+  /* ================= END LEARN UI ================= */
 
   function renderStock(d){
     var chg=(d.chgp!=null&&!isNaN(d.chgp))?' <span class="s-chg '+(d.chgp>=0?'pos':'neg')+'">'+(d.chgp>=0?'▲ +':'▼ ')+(+d.chgp).toFixed(2)+'%</span>':'';
