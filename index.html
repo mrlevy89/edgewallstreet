@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta property="og:title" content="Edge Wall Street — Get the edge on Wall Street">
+  <meta property="og:description" content="Market intelligence for retail: Edge Score, Edge Check, The Angle, the Options Lab and The Floor. See what changed in your stocks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://edgewallstreet.com">
+  <meta property="og:image" content="https://edgewallstreet.com/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Edge Wall Street">
+  <meta name="twitter:description" content="What retail thinks. What the evidence says. Get the edge on Wall Street.">
+  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Edge — Wall Street</title>
@@ -695,6 +704,44 @@
   .wl-c-acts button.ghost{flex:0 0 auto;color:var(--muted)}
   .wl-empty{color:var(--muted);font-size:14px;padding:22px 6px;text-align:center}
   @media(max-width:720px){.wl-sum-grid{grid-template-columns:1fr}.wl-cards{grid-template-columns:1fr}.wl-dig-why{display:none}.wl-sortsel{margin-left:0;width:100%}}
+
+  /* ===== VIRAL EDGE CARDS — share UI ===== */
+  .edge-share-row{display:flex;gap:8px;margin:10px 0 2px}
+  .edge-share-row .s-watchbtn{margin:0}
+  .edge-share-btn{background:var(--gold);border:none;color:#04120b;font-weight:800;padding:10px 16px;border-radius:11px;font-size:13.5px;cursor:pointer;white-space:nowrap;transition:.15s}
+  .edge-share-btn:hover{filter:brightness(1.08)}
+  .edge-share-row .edge-share-btn{flex:0 0 auto}
+  .edge-share-row .s-watchbtn{flex:1}
+  .wl-c-acts .ghost+.ghost{flex:0 0 auto}
+  .share-modal{position:fixed;inset:0;z-index:9999;display:none}
+  .share-modal.on{display:block}
+  .share-back{position:absolute;inset:0;background:rgba(4,6,12,.72);backdrop-filter:blur(3px)}
+  .share-sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,94vw);max-height:92vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px}
+  .share-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .share-hd span{font-size:17px;font-weight:800}
+  .share-x{background:none;border:none;color:var(--muted);font-size:17px;cursor:pointer}
+  .share-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .share-chip{background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .share-chip.on{background:var(--gold);border-color:var(--gold);color:#04120b}
+  .share-preview{display:flex;justify-content:center;margin:0 0 12px}
+  .share-canvas{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+  .share-canvas svg{display:block;width:100%;height:auto}
+  .share-canvas.x{max-width:100%}
+  .share-canvas.square{max-width:360px}
+  .share-canvas.story{max-width:250px}
+  .share-na{color:var(--muted);font-size:13.5px;padding:26px 10px;text-align:center}
+  .share-fmt{display:flex;gap:6px;justify-content:center;margin-bottom:14px}
+  .share-fbtn{background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:6px 13px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .share-fbtn.on{border-color:var(--gold);color:var(--gold)}
+  .share-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .sa{background:var(--card2);border:1px solid var(--line);color:var(--text);padding:11px;border-radius:11px;font-size:13.5px;font-weight:700;cursor:pointer}
+  .sa:hover{border-color:var(--gold)}
+  .sa.primary{background:var(--gold);border-color:var(--gold);color:#04120b;grid-column:1/-1}
+  .share-cap-l{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:5px}
+  .share-cap-t{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;line-height:1.5;color:#cfd3e0;white-space:pre-wrap;word-break:break-word;font-family:inherit;max-height:150px;overflow:auto}
+  .edge-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--gold);color:#04120b;font-weight:800;font-size:13.5px;padding:11px 20px;border-radius:999px;z-index:10000;opacity:0;pointer-events:none;transition:.25s}
+  .edge-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(max-width:560px){.share-acts{grid-template-columns:1fr}.share-canvas.square{max-width:300px}.edge-share-row{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -1786,6 +1833,7 @@
     var _cf=!!(top&&top.datetime&&(Date.now()/1000-top.datetime)<3*86400);
     var _sig={tick:t,chgp:d.chgp,spyPct:spyPct,pos52:_pos52,ret52:(oneYr!=null?+oneYr:null),pe:_sr.pe,ps:_sr.ps,nm:_sr.nm,revg:_sr.revg,roe:(mm&&mm.roeTTM!=null?+mm.roeTTM:null),beta:_sr.beta,aBuy:(sb+bb),aHold:hh,aSell:ss,aTot:tot,upside:upPct,catFresh:_cf,newsN:(news?news.length:0),nextDays:nextDays,lastBeat:_lb,insBuys:_ib,insSells:_is,insN:insData.length};
     var _ew=el('edge-wrap');if(_ew){var _ecx=computeEdgeCheck(_sig);_ew.innerHTML=edgeBlockHTML(_sig,d)+floorTickerCard(_sig.tick,_ecx.verdict);}
+    try{window.LASTSIG={tick:t,d:d,sig:_sig};}catch(e){}
     /* ---- templated catalyst-led "why" ---- */
     var mt=(d.chgp!=null&&!isNaN(d.chgp))?((d.tick||'The stock')+' '+movePhrase(d)+'. '):'';
     var whyTxt=mt+(top?('The driver: '+cleanHead(top)+' ('+esc(top.source)+', '+timeAgo(top.datetime)+').')
@@ -2009,15 +2057,275 @@
     h+='<div class="fl-pcts"><span class="b">'+pb+'% Bullish</span><span class="r">'+pr+'% Bearish</span></div>';
     var vshort=String(verdict||'').split('. ')[0];if(vshort&&vshort.length<String(verdict||'').length)vshort+='.';if(!vshort)vshort=verdict||'';
     h+='<div class="fl-contrast"><span class="fl-lab">Community vs. Edge</span>The Floor leans '+(pb>=55?'bullish':pb<=45?'bearish':'split')+' at '+pb+'% bull. Edge Check’s evidence read: '+esc(vshort)+' — opinion is energy, the evidence layer is the check.</div>';
-    h+='<button class="fl-open" onclick="openFloorTicker(\''+esc(tick)+'\')">See the Floor on $'+esc(tick)+' →</button></div>';
+    h+='<button class="fl-open" onclick="openFloorTicker(\''+esc(tick)+'\')">See the Floor on $'+esc(tick)+' →</button>'+shareBtnHTML('floor',tick)+'</div>';
     return h;
   }
   /* ================= END THE FLOOR ================= */
 
+  /* ================= VIRAL EDGE CARDS (Phase 3) ================= */
+  var EDGE_URL='https://edgewallstreet.com';
+  var CARDFMT={square:{w:1080,h:1080,rows:6},x:{w:1200,h:675,rows:5},story:{w:1080,h:1920,rows:8}};
+  var CTONE={green:'#00e28a',red:'#ff4d6d',amber:'#ffb020',grey:'#8b90a3',gold:'#f5c451',blue:'#4f9bff'};
+  function xesc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function toneIcon(t){return t==='green'?'✓':t==='red'?'⚠':t==='amber'?'↔':t==='blue'?'↑':'—';}
+  function wrapLines(str,max){var w=String(str||'').split(' '),lines=[],cur='';for(var i=0;i<w.length;i++){if((cur+' '+w[i]).trim().length>max){if(cur)lines.push(cur);cur=w[i];}else cur=(cur?cur+' ':'')+w[i];}if(cur)lines.push(cur);return lines;}
+  /* ---- generic card renderer: spec -> SVG string ---- */
+  function renderCard(spec,fmt){
+    var F=CARDFMT[fmt]||CARDFMT.square,W=F.w,H=F.h,pad=Math.round(W*0.075);
+    var sc=(fmt==='x')?0.82:(fmt==='story'?1.06:1);
+    var acc=spec.accent||CTONE.gold;
+    var s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" font-family="Inter, Helvetica, Arial, sans-serif">';
+    s+='<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12141d"/><stop offset="1" stop-color="#0a0b11"/></linearGradient>';
+    s+='<radialGradient id="glow" cx="0.15" cy="0" r="1"><stop offset="0" stop-color="'+acc+'" stop-opacity="0.10"/><stop offset="0.5" stop-color="'+acc+'" stop-opacity="0"/></radialGradient></defs>';
+    s+='<rect width="'+W+'" height="'+H+'" fill="url(#bg)"/><rect width="'+W+'" height="'+H+'" fill="url(#glow)"/>';
+    s+='<rect x="6" y="6" width="'+(W-12)+'" height="'+(H-12)+'" rx="26" fill="none" stroke="#23273a" stroke-width="2"/>';
+    var y=pad+Math.round(48*sc);
+    // header: ticker + name + price
+    s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(64*sc)+'" font-weight="800" fill="#ffffff">$'+xesc(spec.tick)+'</text>';
+    if(spec.price)s+='<text x="'+(W-pad)+'" y="'+y+'" text-anchor="end" font-size="'+Math.round(34*sc)+'" font-weight="700" fill="#ffffff">'+xesc(spec.price)+(spec.change?'  <tspan fill="'+(spec.chgPos?CTONE.green:CTONE.red)+'">'+xesc(spec.change)+'</tspan>':'')+'</text>';
+    y+=Math.round(30*sc);
+    if(spec.name)s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(24*sc)+'" fill="#8b90a3">'+xesc(spec.name)+'</text>';
+    y+=Math.round(58*sc);
+    // kicker
+    s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(26*sc)+'" font-weight="800" letter-spacing="3" fill="'+acc+'">'+xesc(spec.kicker||'')+'</text>';
+    if(spec.badge){s+='<text x="'+(W-pad)+'" y="'+y+'" text-anchor="end" font-size="'+Math.round(17*sc)+'" font-weight="700" letter-spacing="1" fill="#8b90a3">'+xesc(spec.badge)+'</text>';}
+    y+=Math.round(28*sc);
+    // focal
+    if(spec.focal){y+=Math.round(70*sc);s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(96*sc)+'" font-weight="800" fill="'+(spec.focalTone||'#ffffff')+'">'+xesc(spec.focal)+'</text>';
+      if(spec.focalSub){y+=Math.round(38*sc);s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(26*sc)+'" fill="#b9bdcc">'+xesc(spec.focalSub)+'</text>';}
+      y+=Math.round(30*sc);
+    }
+    // rows
+    var rows=(spec.rows||[]).slice(0,F.rows);var rh=Math.round(48*sc);
+    for(var i=0;i<rows.length;i++){var r=rows[i];y+=rh;
+      if(r.sec){s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(20*sc)+'" font-weight="800" letter-spacing="2" fill="#8b90a3">'+xesc(r.sec)+'</text>';continue;}
+      var col=CTONE[r.tone]||'#cfd3e0';
+      s+='<text x="'+pad+'" y="'+y+'" font-size="'+Math.round(30*sc)+'" font-weight="700" fill="'+col+'">'+xesc(toneIcon(r.tone))+'</text>';
+      s+='<text x="'+(pad+Math.round(46*sc))+'" y="'+y+'" font-size="'+Math.round(29*sc)+'" fill="#e8eaf2">'+xesc(r.text)+'</text>';
+    }
+    // verdict
+    if(spec.verdict){y+=Math.round(56*sc);var vy=y;var vl=wrapLines(spec.verdict,fmt==='x'?58:40);
+      var boxH=Math.round(vl.length*36*sc+34*sc);
+      s+='<rect x="'+pad+'" y="'+(vy-Math.round(30*sc))+'" width="'+(W-pad*2)+'" height="'+boxH+'" rx="14" fill="#191c27" stroke="#2a2f42" stroke-width="1.5"/>';
+      s+='<text x="'+(pad+Math.round(18*sc))+'" y="'+(vy)+'" font-size="'+Math.round(18*sc)+'" font-weight="800" letter-spacing="2" fill="'+acc+'">EDGE VERDICT</text>';
+      for(var k=0;k<vl.length;k++){s+='<text x="'+(pad+Math.round(18*sc))+'" y="'+(vy+Math.round((28+k*32)*sc))+'" font-size="'+Math.round(26*sc)+'" fill="#f2f3f8">'+xesc(vl[k])+'</text>';}
+    }
+    // footer watermark
+    var fy=H-pad+Math.round(6*sc);
+    s+='<text x="'+pad+'" y="'+fy+'" font-size="'+Math.round(30*sc)+'" font-weight="800" fill="#ffffff">THE <tspan fill="'+acc+'">EDGE</tspan></text>';
+    s+='<text x="'+(W-pad)+'" y="'+fy+'" text-anchor="end" font-size="'+Math.round(22*sc)+'" fill="#8b90a3">edgewallstreet.com</text>';
+    s+='</svg>';return s;
+  }
+  /* ---- header helper from available data ---- */
+  function cardHeader(tick){
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;var e=DB[tick]||{};
+    var name=(L&&L.d&&L.d.name)||e.name||'';
+    var price='',chg='',pos=true;
+    if(L&&L.d){price=L.d.price||'';if(L.d.chgp!=null){pos=L.d.chgp>=0;chg=(pos?'+':'')+(+L.d.chgp).toFixed(2)+'%';}}
+    else if(e.price!=null){price='$'+(+e.price).toFixed(2);if(e.chg!=null){pos=e.chg>=0;chg=(pos?'+':'')+(+e.chg).toFixed(2)+'%';}}
+    return {tick:tick,name:name,price:price,change:chg,chgPos:pos};
+  }
+  /* ---- per-type spec builders (reuse existing engines, honest) ---- */
+  function specEdgeCheck(tick){
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;if(!L)return null;
+    var ec=computeEdgeCheck(L.sig),es=computeEdgeScore(L.sig);
+    var focal=/supportive/.test(ec.verdict)?'SUPPORTIVE':/cautious/.test(ec.verdict)?'CAUTION':'MIXED';
+    var ft=focal==='SUPPORTIVE'?CTONE.green:focal==='CAUTION'?CTONE.red:CTONE.amber;
+    var rows=[];var pri=['Catalyst','Momentum','Fundamentals','Valuation','Analyst view','Last earnings','Short interest'];
+    for(var i=0;i<pri.length&&rows.length<5;i++){var rr=ec.rows.filter(function(r){return r.label===pri[i];})[0];if(rr)rows.push({tone:rr.tone,text:rr.label+': '+rr.status});}
+    var h=cardHeader(tick);h.kicker='EDGE CHECK';h.badge='SCORE '+es.score;h.focal=focal;h.focalTone=ft;h.focalSub='Is the story backed by evidence?';h.rows=rows;h.verdict=ec.verdict;h.accent=CTONE.gold;return h;
+  }
+  function specEdgeScore(tick,ctxType){
+    var score=null,comps=null,delta=null,verd=null;
+    if(ctxType==='watchlist'&&WL.intel[tick]){var x=WL.intel[tick];score=x.score;comps=x.comps;delta=wlDeltaFor(tick,WL.base);verd=x.verdict;}
+    else{var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;if(!L)return null;var es=computeEdgeScore(L.sig);score=es.score;comps=es.comps;delta=(typeof edgeScoreDelta==='function')?edgeScoreDelta(tick,score):null;verd=computeEdgeCheck(L.sig).verdict;}
+    var sorted=(comps||[]).slice().sort(function(a,b){return Math.abs(b.v)-Math.abs(a.v);});
+    var rows=[];for(var i=0;i<sorted.length&&i<5;i++){var c=sorted[i];rows.push({tone:c.v>0?'green':c.v<0?'red':'grey',text:c.n+' '+(c.v>0?'+':'')+c.v});}
+    var top=sorted[0],neg=sorted.filter(function(c){return c.v<0;})[0];
+    var vv=(top?top.n+(top.v>=0?' leads the setup':' is the drag'):'')+(neg&&top&&neg!==top?', '+neg.n.toLowerCase()+' is the main risk.':'.');
+    var h=cardHeader(tick);h.kicker='EDGE SCORE';h.badge='FRAMEWORK · NOT A PRICE TARGET';h.focal=''+score;h.focalTone='#ffffff';
+    h.focalSub=(delta!=null&&delta!==0)?((delta>0?'+':'')+delta+' since you last checked'):'Proprietary Edge Score (5–97)';h.rows=rows;h.verdict=vv;h.accent=CTONE.gold;return h;
+  }
+  function specWhatChanged(tick){
+    if(!WL.intel[tick])return null;var cur=WL.intel[tick];var b=(WL.base&&WL.base.map)?WL.base.map[tick]:null;
+    var cs=wlChangesFor(tick,cur,b);cs.sort(function(a,b){return b.weight-a.weight;});
+    var rows=[];for(var i=0;i<cs.length&&i<5;i++){rows.push({tone:cs[i].tone,text:cs[i].text});}
+    var h=cardHeader(tick);h.kicker='WHAT CHANGED';h.badge='SINCE YOU LAST CHECKED';
+    if(!cs.length){h.focal='STEADY';h.focalTone='#8b90a3';h.focalSub='No major change flagged';h.rows=[];h.verdict='Edge is watching price, Edge Score, analysts, catalysts and Floor sentiment for you.';}
+    else{h.focal=(cs.length)+' MOVE'+(cs.length>1?'S':'');h.focalTone=CTONE.gold;h.focalSub='in $'+tick+' since your last visit';h.rows=rows;h.verdict=cs[0].text+'. See what changed on Edge Wall Street.';}
+    h.accent=CTONE.gold;return h;
+  }
+  function specBullBear(tick){
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;if(!L)return null;var ec=computeEdgeCheck(L.sig);
+    var greens=ec.rows.filter(function(r){return r.tone==='green';}),reds=ec.rows.filter(function(r){return r.tone==='red';});
+    var rows=[{sec:'THE BULL CASE'}];
+    if(greens.length){for(var i=0;i<greens.length&&i<3;i++)rows.push({tone:'green',text:greens[i].label+': '+greens[i].status});}else rows.push({tone:'grey',text:'Not enough hard positives yet'});
+    rows.push({sec:'THE BEAR CASE'});
+    if(reds.length){for(var j=0;j<reds.length&&j<3;j++)rows.push({tone:'red',text:reds[j].label+': '+reds[j].status});}else rows.push({tone:'grey',text:'No clear negatives in the evidence'});
+    var h=cardHeader(tick);h.kicker='BULL vs BEAR';h.badge='EVIDENCE-WEIGHTED';h.rows=rows;h.verdict='What does the evidence actually support? '+ec.verdict;h.accent=CTONE.gold;return h;
+  }
+  function specAngle(tick){
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;if(!L)return null;var ec=computeEdgeCheck(L.sig);var sig=L.sig;
+    var greens=ec.rows.filter(function(r){return r.tone==='green';}),reds=ec.rows.filter(function(r){return r.tone==='red';});
+    var rows=[{sec:'BULL CASE'}];
+    rows.push(greens.length?{tone:'green',text:greens[0].label+': '+greens[0].status}:{tone:'grey',text:'Evidence thin on the upside'});
+    rows.push({sec:'BEAR CASE'});
+    rows.push(reds.length?{tone:'red',text:reds[0].label+': '+reds[0].status}:{tone:'grey',text:'No hard negative in the data'});
+    rows.push({sec:'WHAT THE MARKET MAY BE MISSING'});
+    var miss=(sig.catFresh?'A fresh catalyst the tape has not fully digested':(sig.nextDays!=null&&sig.nextDays<=14?'Earnings in '+sig.nextDays+' days — a near-term repricing event':'A quiet setup; the next catalyst resets the read'));
+    rows.push({tone:'blue',text:miss});
+    rows.push({sec:'WHAT WOULD INVALIDATE IT'});
+    var inval=reds.length?(reds[0].label+' turning decisive'):((ec.rows.filter(function(r){return r.label==='Valuation';})[0]||{}).tone==='red'?'Multiple compression on any growth wobble':'A momentum break or a guide cut');
+    rows.push({tone:'amber',text:inval});
+    var h=cardHeader(tick);h.kicker='THE ANGLE';h.badge='EDGE THESIS';h.rows=rows;h.verdict=ec.verdict;h.accent=CTONE.gold;return h;
+  }
+  function specFloor(tick){
+    var fp=floorPctFor(tick);var h=cardHeader(tick);h.kicker='THE FLOOR';h.badge='COMMUNITY · NOT ANALYSIS';h.accent=CTONE.blue;
+    var posts=[];try{var d=floorLoad();for(var i=0;i<d.posts.length&&posts.length<3;i++){var p=d.posts[i];if(!p.hidden&&p.ticker===tick)posts.push(p);}}catch(e){}
+    if(!fp){h.focal='NO FLOOR YET';h.focalTone='#8b90a3';h.focalSub='Be the first to post';h.rows=[];h.verdict='No community read on $'+tick+' yet. The Floor is where retail talks — Edge Check is the evidence layer.';return h;}
+    h.focal=fp.pct+'% BULLISH';h.focalTone=fp.pct>=55?CTONE.green:fp.pct<=45?CTONE.red:CTONE.amber;h.focalSub=fp.n+' post'+(fp.n>1?'s':'')+' on the Floor';
+    var rows=[];for(var j=0;j<posts.length;j++)rows.push({tone:posts[j].sentiment==='bull'?'green':posts[j].sentiment==='bear'?'red':'amber',text:'@'+posts[j].user+': '+posts[j].text.slice(0,54)});h.rows=rows;
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;h.verdict='Retail leans '+(fp.pct>=55?'bullish':fp.pct<=45?'bearish':'split')+'. Edge Check says: '+(L?computeEdgeCheck(L.sig).verdict:'open the ticker for the evidence read.');return h;
+  }
+  function specAlert(tick){
+    var L=(window.LASTSIG&&LASTSIG.tick===tick)?LASTSIG:null;if(!L)return null;var sig=L.sig,d=L.d,ec=computeEdgeCheck(L.sig);
+    var what=(d&&d.chgp!=null&&Math.abs(d.chgp)>=2)?('Moved '+(d.chgp>=0?'+':'')+(+d.chgp).toFixed(1)+'% today'):(sig.catFresh?'Fresh catalyst hit the wire':(sig.nextDays!=null&&sig.nextDays<=7?'Earnings inside a week':'Setup shifted on the latest data'));
+    var next=(sig.nextDays!=null&&sig.nextDays>=0&&sig.nextDays<=21)?('Earnings in '+sig.nextDays+' days is the next test'):'Watch follow-through and the next catalyst';
+    var h=cardHeader(tick);h.kicker='EDGE ALERT';h.badge=null;h.focal='SOMETHING CHANGED';h.focalTone=CTONE.gold;h.focalSub='$'+tick;
+    h.rows=[{sec:'WHAT HAPPENED'},{tone:'blue',text:what},{sec:'WHY IT MATTERS'},{tone:'amber',text:ec.verdict.slice(0,60)},{sec:"WHAT'S NEXT"},{tone:'green',text:next}];
+    h.verdict=ec.verdict;h.accent=CTONE.gold;return h;
+  }
+  function specOptions(tick){
+    var s=window.LABSTATS;if(!s)return null;var t=s.tick||tick;
+    var money=function(v){return v==null?'Unlimited':(v<0?'-$':'$')+Math.abs(Math.round(v)).toLocaleString();};
+    var rows=[{tone:'green',text:'Max profit: '+money(s.maxP)},{tone:'red',text:'Max loss: '+money(s.maxL)}];
+    if(s.be&&s.be.length)rows.push({tone:'amber',text:'Breakeven'+(s.be.length>1?'s':'')+': $'+s.be.join(' / $')});
+    if(s.pop!=null)rows.push({tone:'blue',text:'Probability of profit: '+Math.round(s.pop*100)+'%'});
+    rows.push({tone:'grey',text:s.net>0?('Net debit paid: $'+Math.round(s.net).toLocaleString()):('Net credit taken: $'+Math.round(-s.net).toLocaleString())});
+    var h=cardHeader(t);h.kicker='OPTIONS LAB';h.badge='MODELED — NOT LIVE PRICING';h.focal=(s.name||'Strategy');h.focalTone='#ffffff';h.focalSub=(s.days!=null?s.days+' days to expiry':'')+' · modeled premiums';h.rows=rows;h.verdict='Modeled scenario using Black-Scholes premiums — not live options data. Model it yourself on Edge Wall Street.';h.accent=CTONE.amber;return h;
+  }
+  function buildCardSpec(card,tick,ctxType){
+    if(card==='check')return specEdgeCheck(tick);
+    if(card==='score')return specEdgeScore(tick,ctxType);
+    if(card==='changed')return specWhatChanged(tick);
+    if(card==='bull')return specBullBear(tick);
+    if(card==='angle')return specAngle(tick);
+    if(card==='floor')return specFloor(tick);
+    if(card==='alert')return specAlert(tick);
+    if(card==='options')return specOptions(tick);
+    return null;
+  }
+  function cardDeepLink(card,tick){
+    if(card==='changed')return EDGE_URL+'/#/watchlist';
+    if(card==='floor')return EDGE_URL+'/#/floor/'+tick;
+    if(card==='options')return EDGE_URL+'/#/lab/'+tick;
+    return EDGE_URL+'/#/stock/'+tick;
+  }
+  /* ---- X / social caption generator (per card, honest, curiosity-led) ---- */
+  function captionFor(card,tick,spec){
+    var link=cardDeepLink(card,tick);var lines=[];
+    if(card==='check'){lines.push('$'+tick+' — Edge Check');lines.push('Is the story backed by evidence? '+spec.focal+'.');var g=(spec.rows||[]).slice(0,3).map(function(r){return toneIcon(r.tone)+' '+r.text;});lines=lines.concat(g);lines.push('Edge Verdict: '+spec.verdict);}
+    else if(card==='score'){lines.push('$'+tick+' just scored '+spec.focal+' on Edge Score.');(spec.rows||[]).slice(0,3).forEach(function(r){lines.push(r.text);});lines.push('But is the story actually backed by evidence? Edge Check inside ↓');}
+    else if(card==='changed'){lines.push('What changed in $'+tick+'?');(spec.rows||[]).slice(0,4).forEach(function(r){lines.push('• '+r.text);});lines.push('Edge tracks it so you don’t have to ↓');}
+    else if(card==='bull'){lines.push('$'+tick+' — the bull case vs the bear case, weighted by the evidence.');lines.push(spec.verdict);}
+    else if(card==='angle'){lines.push('$'+tick+' — The Angle: the thesis, what the market may be missing, and what would kill it.');lines.push(spec.verdict);}
+    else if(card==='floor'){lines.push('$'+tick+' on The Floor: '+spec.focal+' ('+(spec.focalSub||'')+').');lines.push('That’s what retail thinks. Here’s what the evidence says ↓');}
+    else if(card==='alert'){lines.push('EDGE ALERT: $'+tick+' — something changed.');lines.push(spec.verdict);}
+    else if(card==='options'){lines.push('$'+tick+' '+spec.focal+' — modeled scenario (not live pricing).');(spec.rows||[]).slice(0,3).forEach(function(r){lines.push(r.text);});lines.push('Model the trade yourself ↓');}
+    lines.push(link);
+    return lines.join('\n');
+  }
+  /* ================= END VIRAL EDGE CARDS ================= */
+
+/* ================= SHARE SHEET + ROUTER + ANALYTICS (Phase 3) ================= */
+  var SHARE={type:'ticker',tick:'',card:'check',fmt:'square'};
+  var SHARE_LABELS={check:'Edge Check',score:'Edge Score',changed:'What Changed',bull:'Bull vs Bear',angle:'The Angle',floor:'The Floor',alert:'Edge Alert',options:'Options'};
+  function edgeTrack(ev,props){try{var a=JSON.parse(localStorage.getItem('edge_events')||'[]');a.push({ev:ev,t:Date.now(),p:props||{}});if(a.length>500)a=a.slice(a.length-500);localStorage.setItem('edge_events',JSON.stringify(a));}catch(e){}if(window.console&&console.debug)console.debug('[edge]',ev,props||{});}
+  function shareCardsFor(type,tick){
+    if(type==='watchlist')return ['changed','score'];
+    if(type==='floor')return (window.LASTSIG&&LASTSIG.tick===tick)?['floor','check']:['floor'];
+    if(type==='lab')return ['options'];
+    var base=['check','score','bull','angle','floor','alert'];
+    if(window.WL&&WL.intel&&WL.intel[tick])base.splice(2,0,'changed');
+    return base;
+  }
+  function shareBtnHTML(type,tick,label){return '<button class="edge-share-btn" onclick="openShare(\''+type+'\',\''+tick+'\')">▲ '+(label||'Share Edge')+'</button>';}
+  function ensureShareModal(){
+    if(el('share-modal'))return;
+    var d=document.createElement('div');d.id='share-modal';d.className='share-modal';
+    d.innerHTML='<div class="share-back" onclick="shareClose()"></div><div class="share-sheet"><div class="share-hd"><span>Share this Edge</span><button class="share-x" onclick="shareClose()">✕</button></div><div class="share-chips" id="share-chips"></div><div class="share-preview" id="share-preview"></div><div class="share-fmt" id="share-fmt"></div><div class="share-acts" id="share-acts"></div><div class="share-cap" id="share-cap"></div></div>';
+    document.body.appendChild(d);
+  }
+  function openShare(type,tick){
+    tick=(tick||'').toUpperCase();ensureShareModal();
+    SHARE.type=type;SHARE.tick=tick;var cards=shareCardsFor(type,tick);
+    SHARE.card=cards[0];SHARE.fmt='square';
+    el('share-modal').classList.add('on');document.body.style.overflow='hidden';
+    edgeTrack('share_open',{type:type,tick:tick});
+    shareRender();
+  }
+  function shareClose(){var m=el('share-modal');if(m)m.classList.remove('on');document.body.style.overflow='';}
+  function shareSetCard(c){SHARE.card=c;shareRender();edgeTrack('card_view',{type:SHARE.type,tick:SHARE.tick,card:c});}
+  function shareSetFmt(f){SHARE.fmt=f;shareRender();}
+  function shareCurrentSVG(){var spec=buildCardSpec(SHARE.card,SHARE.tick,SHARE.type);if(!spec)return null;return {svg:renderCard(spec,SHARE.fmt),spec:spec};}
+  function shareRender(){
+    var cards=shareCardsFor(SHARE.type,SHARE.tick);
+    var ch='';for(var i=0;i<cards.length;i++){var c=cards[i];ch+='<button class="share-chip'+(SHARE.card===c?' on':'')+'" onclick="shareSetCard(\''+c+'\')">'+SHARE_LABELS[c]+'</button>';}
+    el('share-chips').innerHTML=ch;
+    var r=shareCurrentSVG();
+    if(!r){el('share-preview').innerHTML='<div class="share-na">This card needs the ticker page open first. Open a stock, then share.</div>';el('share-fmt').innerHTML='';el('share-acts').innerHTML='';el('share-cap').innerHTML='';return;}
+    el('share-preview').innerHTML='<div class="share-canvas '+SHARE.fmt+'">'+r.svg+'</div>';
+    var fmts=[['square','Square'],['x','X / Twitter'],['story','Story']];var fh='';
+    for(var j=0;j<fmts.length;j++)fh+='<button class="share-fbtn'+(SHARE.fmt===fmts[j][0]?' on':'')+'" onclick="shareSetFmt(\''+fmts[j][0]+'\')">'+fmts[j][1]+'</button>';
+    el('share-fmt').innerHTML=fh;
+    el('share-acts').innerHTML='<button class="sa primary" onclick="shareNative()">Share</button><button class="sa" onclick="shareDownload()">Download image</button><button class="sa" onclick="shareCopyX()">Copy for X</button><button class="sa" onclick="shareCopyLink()">Copy link</button>';
+    var cap=captionFor(SHARE.card,SHARE.tick,r.spec);
+    el('share-cap').innerHTML='<div class="share-cap-l">Caption (tap Copy for X)</div><pre class="share-cap-t">'+xesc(cap)+'</pre>';
+  }
+  function svgToPng(svg,w,h,cb){
+    try{var blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'});var url=URL.createObjectURL(blob);var img=new Image();
+      img.onload=function(){var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);try{c.toBlob(function(b){cb(b);},'image/png');}catch(e){cb(null);}};
+      img.onerror=function(){URL.revokeObjectURL(url);cb(null);};img.src=url;}catch(e){cb(null);}
+  }
+  function shareFileName(){return 'edge-'+SHARE.tick+'-'+SHARE.card+'-'+SHARE.fmt+'.png';}
+  function shareDownload(){
+    var r=shareCurrentSVG();if(!r)return;var F=CARDFMT[SHARE.fmt];
+    svgToPng(r.svg,F.w,F.h,function(b){if(!b){toast('Could not render image');return;}var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=shareFileName();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},1500);toast('Image downloaded');edgeTrack('download',{type:SHARE.type,tick:SHARE.tick,card:SHARE.card,fmt:SHARE.fmt});});
+  }
+  function shareNative(){
+    var r=shareCurrentSVG();if(!r)return;var F=CARDFMT[SHARE.fmt];var cap=captionFor(SHARE.card,SHARE.tick,r.spec);
+    svgToPng(r.svg,F.w,F.h,function(b){
+      if(b&&navigator.canShare){try{var file=new File([b],shareFileName(),{type:'image/png'});if(navigator.canShare({files:[file]})){navigator.share({files:[file],text:cap}).then(function(){edgeTrack('share_native',{tick:SHARE.tick,card:SHARE.card});}).catch(function(){});return;}}catch(e){}}
+      if(navigator.share){navigator.share({text:cap,url:cardDeepLink(SHARE.card,SHARE.tick)}).then(function(){edgeTrack('share_native',{tick:SHARE.tick,card:SHARE.card});}).catch(function(){});return;}
+      shareCopyX();
+    });
+  }
+  function copyText(t,okMsg){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast(okMsg);}).catch(function(){fallbackCopy(t,okMsg);});}
+    else fallbackCopy(t,okMsg);
+  }
+  function fallbackCopy(t,okMsg){try{var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast(okMsg);}catch(e){toast('Copy failed');}}
+  function shareCopyLink(){var l=cardDeepLink(SHARE.card,SHARE.tick);copyText(l,'Link copied');edgeTrack('copy_link',{tick:SHARE.tick,card:SHARE.card});}
+  function shareCopyX(){var r=shareCurrentSVG();if(!r)return;copyText(captionFor(SHARE.card,SHARE.tick,r.spec),'Caption copied for X');edgeTrack('copy_x',{tick:SHARE.tick,card:SHARE.card});}
+  function toast(m){var t=el('edge-toast');if(!t){t=document.createElement('div');t.id='edge-toast';t.className='edge-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('on');clearTimeout(window._tt);window._tt=setTimeout(function(){t.classList.remove('on');},1900);}
+  /* ---- deep-link router (hash-based; does not break existing URLs) ---- */
+  function edgeRoute(){
+    var h=location.hash||'';var m;
+    if(m=h.match(/^#\/(?:stock|edge-check|edge-score)\/([A-Za-z.\-]+)/)){var t=m[1].toUpperCase();if(el('g-ticker'))el('g-ticker').value=t;showTab('search');if(typeof runSearch==='function')runSearch();edgeTrack('landing',{route:'stock',tick:t});return true;}
+    if(m=h.match(/^#\/floor\/([A-Za-z.\-]+)/)){openFloorTicker(m[1].toUpperCase());edgeTrack('landing',{route:'floor',tick:m[1].toUpperCase()});return true;}
+    if(/^#\/floor\/?$/.test(h)){showTab('floor');edgeTrack('landing',{route:'floor'});return true;}
+    if(m=h.match(/^#\/lab\/([A-Za-z.\-]+)/)){var lt=m[1].toUpperCase();showTab('lab');if(el('lab-tick'))el('lab-tick').value=lt;if(typeof labLoad==='function')labLoad();edgeTrack('landing',{route:'lab',tick:lt});return true;}
+    if(/^#\/watchlist\/?$/.test(h)){showTab('watchlist');edgeTrack('landing',{route:'watchlist'});return true;}
+    return false;
+  }
+  window.addEventListener('hashchange',edgeRoute);
+  window.addEventListener('load',function(){setTimeout(function(){try{if(location.hash&&location.hash.indexOf('#/')===0)edgeRoute();}catch(e){}},400);});
+  /* ================= END SHARE ================= */
+
   function renderStock(d){
     var chg=(d.chgp!=null&&!isNaN(d.chgp))?' <span class="s-chg '+(d.chgp>=0?'pos':'neg')+'">'+(d.chgp>=0?'▲ +':'▼ ')+(+d.chgp).toFixed(2)+'%</span>':'';
     var h='<div class="s-head"><div class="s-id"><span class="s-logowrap">'+logoImg(d.logo,d.tick||'?','s')+'</span><span class="nm">'+d.name+'</span></div><span class="px">'+d.price+chg+'<span class="s-mkt">'+d.mkt+'</span></span></div>';
-    h+=watchToggleHTML(d.tick);
+    h+='<div class="edge-share-row">'+watchToggleHTML(d.tick)+shareBtnHTML('ticker',d.tick)+'</div>';
     h+='<div id="edge-wrap" class="edge-wrap"><div class="edge-loading">Computing Edge Score &amp; Edge Check&hellip;</div></div>';
     h+='<div class="s-cols"><div class="s-main"><div class="sg-title">Price & trading</div><div class="sg">';
     h+=sRow('Previous close',d.prevC);
@@ -2417,7 +2725,7 @@
       +'<span class="wl-c-m">◔ Floor '+esc(floor)+'</span></div></div>';
     h+='</div>';
     h+='<div class="wl-c-acts"><button onclick="searchWatch(\''+t+'\')">View Edge →</button>'
-      +'<button class="ghost" onclick="openFloorTicker(\''+t+'\')">Floor</button></div>';
+      +'<button class="ghost" onclick="openFloorTicker(\''+t+'\')">Floor</button><button class="ghost" onclick="openShare(\'watchlist\',\''+t+'\')">Share</button></div>';
     h+='</div>';return h;
   }
   function wlPaint(){
@@ -2653,6 +2961,7 @@
     for(i=0;i<legs.length;i++){var L=legs[i],q=(L.q||1);if(L.t!=='stock'){net+=L.s*prems[i]*100*q;var K=legK(L);if(K<smin)smin=K;if(K>smax)smax=K;}}
     if(smin>smax){smin=S*0.9;smax=S*1.1;}
     var stt=labStats(S,r,v,prems),g=netGreeks(S,T,r,v),pop=popCalc(S,T,r,v,prems);
+    try{window.LABSTATS={tick:LAB.tick,name:strat.n,days:D,net:net,maxP:stt.maxP,maxL:stt.maxL,be:stt.be,pop:pop};}catch(e){}
     var maxP=stt.maxP,maxL=stt.maxL,cap=(maxL!=null&&maxL<0)?Math.abs(maxL):(net>0?Math.abs(net):Math.abs(LAB.strikes[LAB.ci]*100));
     var struct=[];for(i=0;i<legs.length;i++){var L2=legs[i],q2=(L2.q||1);if(L2.t==='stock'){struct.push('Buy 100 shares');continue;}struct.push((L2.s>0?'Buy':'Sell')+' '+q2+' &times; $'+legK(L2)+' '+L2.t);}
     var netTxt=net>0?('you pay a net <b>'+labMoney(net)+'</b> debit'):('you collect a net <b>'+labMoney(-net)+'</b> credit');
@@ -2684,7 +2993,7 @@
       hh+='</tr>';
     }
     hh+='</tbody></table></div><div class="s-note" style="margin-top:12px">Premiums are modelled with Black-Scholes at the volatility above — not live bid/ask. Real option prices differ, especially around earnings. Educational tool, not a recommendation.</div></div>';
-    out.innerHTML=h+hh;
+    out.innerHTML=h+hh+'<div class="edge-share-row">'+shareBtnHTML('lab',LAB.tick,'Share this strategy')+'</div>';
   }
   function setupDrawdownCollapse(){
     var dd=document.querySelector('.dd');if(!dd||el('dd-toggle'))return;
