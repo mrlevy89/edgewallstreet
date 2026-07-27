@@ -558,6 +558,78 @@
   .doc-body li{margin:5px 0}
   .doc-body .eff{color:var(--muted);font-size:12px;margin-bottom:14px}
   .doc-body strong{color:#fff}
+
+  /* ===== THE FLOOR ===== */
+  .floor-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:2px 0 6px}
+  .floor-head h2{font-size:24px;letter-spacing:-.02em}
+  .floor-head .fh-sub{color:var(--muted);font-size:13px}
+  .floor-note{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 13px;color:var(--muted);font-size:12.5px;margin:8px 0 14px;line-height:1.5}
+  .floor-note b{color:var(--text)}
+  .floor-nav{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+  .fnav-btn{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+  .fnav-btn:hover{color:var(--text);border-color:#3a3f52}
+  .fnav-btn.active{background:var(--gold);border-color:var(--gold);color:#04120b}
+  .ftick-filter{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:7px 12px;margin:0 0 12px;font-size:13px}
+  .ftick-filter b{color:var(--gold)}
+  .ftick-filter button{margin-left:auto;background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:12px}
+  .floor-compose{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 16px}
+  .floor-compose textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit;font-size:14px;resize:vertical;min-height:62px}
+  .fc-row{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+  .fc-tick{width:120px;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:8px 10px;font:inherit;font-size:13px;text-transform:uppercase}
+  .fc-sent{display:flex;gap:6px}
+  .fc-sent button{background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:8px 12px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .fc-sent button.sel-bull{background:var(--buy-bg);border-color:var(--buy);color:var(--buy)}
+  .fc-sent button.sel-bear{background:var(--avoid-bg);border-color:var(--avoid);color:var(--avoid)}
+  .fc-sent button.sel-neut{background:var(--watch-bg);border-color:var(--watch);color:var(--watch)}
+  .fc-post{margin-left:auto;background:var(--gold);border:none;color:#04120b;font-weight:800;padding:9px 20px;border-radius:9px;cursor:pointer;font-size:13.5px}
+  .fc-post:disabled{opacity:.5;cursor:default}
+  .fc-warn{color:var(--avoid);font-size:12px;margin-top:8px;display:none}
+  .floor-feed{display:flex;flex-direction:column;gap:12px}
+  .fempty{color:var(--muted);font-size:13.5px;padding:24px 4px;text-align:center}
+  .fpost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px}
+  .fpost.brk{border-color:#3a2f14;box-shadow:inset 3px 0 0 var(--watch)}
+  .fp-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+  .fp-tick{background:var(--card2);border:1px solid var(--line);color:var(--gold);font-weight:800;font-size:12.5px;padding:2px 9px;border-radius:7px;cursor:pointer}
+  .fp-sent{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.03em}
+  .fp-sent.bull{background:var(--buy-bg);color:var(--buy)}
+  .fp-sent.bear{background:var(--avoid-bg);color:var(--avoid)}
+  .fp-sent.neutral{background:var(--watch-bg);color:var(--watch)}
+  .fp-brk{font-size:10.5px;font-weight:800;color:var(--watch);background:var(--watch-bg);padding:2px 8px;border-radius:6px;text-transform:uppercase}
+  .fp-user{font-weight:700;font-size:13px}
+  .fp-time{color:var(--muted);font-size:12px}
+  .fp-seed{color:var(--muted);font-size:10.5px;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+  .fp-text{font-size:14.5px;line-height:1.5;margin:2px 0 10px;white-space:pre-wrap}
+  .fp-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .freact{background:var(--card2);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:13px;cursor:pointer;transition:.12s}
+  .freact:hover{border-color:#3a3f52;color:var(--text)}
+  .freact.on{border-color:var(--gold);color:var(--gold)}
+  .fp-cbtn{background:none;border:none;color:var(--muted);font-size:12.5px;cursor:pointer;padding:4px 8px}
+  .fp-cbtn:hover{color:var(--text)}
+  .fp-report{margin-left:auto;background:none;border:none;color:var(--muted);font-size:11.5px;cursor:pointer;opacity:.6}
+  .fp-report:hover{color:var(--avoid);opacity:1}
+  .fp-hidden{color:var(--muted);font-size:13px;padding:6px 2px}
+  .fp-hidden button{background:none;border:1px solid var(--line);color:var(--gold);border-radius:7px;padding:3px 10px;margin-left:8px;cursor:pointer;font-size:12px}
+  .fp-comments{margin-top:11px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+  .fcomment{font-size:13px;line-height:1.45}
+  .fcomment b{font-weight:700}
+  .fcomment .fc-t{color:var(--muted);font-size:11px;margin-left:6px}
+  .fcadd{display:flex;gap:7px;margin-top:2px}
+  .fcadd input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:7px 10px;font:inherit;font-size:13px}
+  .fcadd button{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:7px 13px;cursor:pointer;font-size:12.5px}
+  /* Floor sentiment strip on ticker page */
+  .fl-card{width:100%;background:linear-gradient(180deg,#161320,#0f0d16);border:1px solid #2a2340;border-radius:16px;padding:15px 17px;margin-top:14px}
+  .fl-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:11px}
+  .fl-top .fl-h{font-weight:800;font-size:15px}
+  .fl-top .fl-sub{color:var(--muted);font-size:12px}
+  .fl-n{color:var(--muted);font-size:12px;margin-left:auto}
+  .fl-bar{height:12px;border-radius:999px;overflow:hidden;display:flex;background:var(--avoid)}
+  .fl-bull{background:var(--buy);height:100%}
+  .fl-pcts{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-top:6px}
+  .fl-pcts .b{color:var(--buy)}.fl-pcts .r{color:var(--avoid)}
+  .fl-contrast{font-size:13px;line-height:1.5;color:var(--text);margin-top:11px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .fl-contrast .fl-lab{font-weight:800;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:3px}
+  .fl-open{margin-top:11px;background:none;border:1px solid #2a2340;color:var(--gold);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
+  .fl-none{color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -693,9 +765,38 @@
         <button data-tab="search" onclick="showTab('search')">Search</button>
         <button data-tab="compare" onclick="showTab('compare')">Compare</button>
         <button data-tab="picks" onclick="showTab('picks')">Signals</button>
+        <button data-tab="floor" onclick="showTab('floor')">Floor</button>
         <button data-tab="watchlist" onclick="showTab('watchlist')">Watchlist</button>
         <button data-tab="lab" onclick="showTab('lab')">Lab</button>
         <button data-tab="learn" onclick="showTab('learn')">Learn</button>
+      </div>
+
+      <!-- ===== TAB: FLOOR ===== -->
+      <div class="tabpanel" id="tab-floor">
+        <div class="floor-head"><h2>The Floor</h2><span class="fh-sub">Where retail talks &mdash; energy up top, evidence one tap away.</span></div>
+        <div class="floor-note"><b>Floor preview.</b> These are seeded example posts plus anything you post on this device. The live, multi-user Floor &mdash; real accounts, profiles, following and moderation at scale &mdash; switches on when accounts launch. Community opinion is not analysis: check any thesis against <b>Edge Check</b> on the stock&rsquo;s page.</div>
+        <div id="floor-tickfilter"></div>
+        <div class="floor-compose">
+          <textarea id="fc-text" maxlength="480" placeholder="Say something about a stock. What&rsquo;s your read?"></textarea>
+          <div class="fc-row">
+            <input id="fc-tick" class="fc-tick" placeholder="TICKER" maxlength="6">
+            <div class="fc-sent" id="fc-sent">
+              <button type="button" data-s="bull" onclick="fcSent('bull')">Bullish</button>
+              <button type="button" data-s="bear" onclick="fcSent('bear')">Bearish</button>
+              <button type="button" data-s="neutral" onclick="fcSent('neutral')">Neutral</button>
+            </div>
+            <button class="fc-post" id="fc-post" onclick="floorPost()">Post</button>
+          </div>
+          <div class="fc-warn" id="fc-warn"></div>
+        </div>
+        <div class="floor-nav" id="floor-nav">
+          <button class="fnav-btn active" data-v="trending" onclick="floorView('trending')">Trending</button>
+          <button class="fnav-btn" data-v="discussed" onclick="floorView('discussed')">Most Discussed</button>
+          <button class="fnav-btn" data-v="bull" onclick="floorView('bull')">Bullish</button>
+          <button class="fnav-btn" data-v="bear" onclick="floorView('bear')">Bearish</button>
+          <button class="fnav-btn" data-v="breaking" onclick="floorView('breaking')">Breaking</button>
+        </div>
+        <div class="floor-feed" id="floor-feed"></div>
       </div>
 
       <!-- ===== TAB: TODAY ===== -->
@@ -1364,6 +1465,7 @@
     if(name==='wire')renderWire();
     if(name==='today'){renderMovers();renderBreaking();setupDrawdownCollapse();}
     if(name==='earnings')renderEarningsGrid();
+    if(name==='floor')renderFloor();
     applyClamp();
     window.scrollTo(0, 0);
   }
@@ -1617,7 +1719,7 @@
     var _lb=null;if(eObj){if(eObj.surprisePercent!=null)_lb=+eObj.surprisePercent;else if(eObj.estimate!=null&&eObj.estimate!=0&&eObj.actual!=null)_lb=(eObj.actual-eObj.estimate)/Math.abs(eObj.estimate)*100;}
     var _cf=!!(top&&top.datetime&&(Date.now()/1000-top.datetime)<3*86400);
     var _sig={tick:t,chgp:d.chgp,spyPct:spyPct,pos52:_pos52,ret52:(oneYr!=null?+oneYr:null),pe:_sr.pe,ps:_sr.ps,nm:_sr.nm,revg:_sr.revg,roe:(mm&&mm.roeTTM!=null?+mm.roeTTM:null),beta:_sr.beta,aBuy:(sb+bb),aHold:hh,aSell:ss,aTot:tot,upside:upPct,catFresh:_cf,newsN:(news?news.length:0),nextDays:nextDays,lastBeat:_lb,insBuys:_ib,insSells:_is,insN:insData.length};
-    var _ew=el('edge-wrap');if(_ew)_ew.innerHTML=edgeBlockHTML(_sig,d);
+    var _ew=el('edge-wrap');if(_ew){var _ecx=computeEdgeCheck(_sig);_ew.innerHTML=edgeBlockHTML(_sig,d)+floorTickerCard(_sig.tick,_ecx.verdict);}
     /* ---- templated catalyst-led "why" ---- */
     var mt=(d.chgp!=null&&!isNaN(d.chgp))?((d.tick||'The stock')+' '+movePhrase(d)+'. '):'';
     var whyTxt=mt+(top?('The driver: '+cleanHead(top)+' ('+esc(top.source)+', '+timeAgo(top.datetime)+').')
@@ -1720,6 +1822,132 @@
     h+='</div></div>';
     return h;
   }
+  /* ================= THE FLOOR (Phase 1) ================= */
+  var FLOOR={view:'trending',tickFilter:null,sent:'bull',data:null};
+  var FREACTS=[['fire','🔥'],['rocket','🚀'],['bear','🐻'],['eyes','👀']];
+  function floorLoad(){
+    if(FLOOR.data)return FLOOR.data;
+    var d=null;try{d=JSON.parse(localStorage.getItem('edge_floor')||'null');}catch(e){}
+    if(!d||!d.posts||!d.posts.length){d={handle:'you',posts:floorSeed()};}
+    FLOOR.data=d;return d;
+  }
+  function floorSave(){try{localStorage.setItem('edge_floor',JSON.stringify(FLOOR.data));}catch(e){}}
+  function floorAgo(ts){var s=Math.max(1,Math.floor((Date.now()-ts)/1000));
+    if(s<60)return s+'s ago';var m=Math.floor(s/60);if(m<60)return m+'m ago';
+    var h=Math.floor(m/60);if(h<24)return h+'h ago';var d=Math.floor(h/24);return d+'d ago';}
+  function floorSeed(){var now=Date.now(),M=60000,H=3600000;var id=1;
+    function p(tick,user,text,sent,ago,rx,brk,cm){return {id:'s'+(id++),ticker:tick,user:user,text:text,sentiment:sent,ts:now-ago,reactions:rx,myReacts:[],comments:cm||[],reports:0,hidden:false,seed:true,breaking:!!brk};}
+    return [
+      p('NVDA','chipsahoy','Memory pricing is ripping and the Street is asleep on it. HBM is sold out through next year. This dip is a gift.','bull',22*M,{fire:41,rocket:63,bear:4,eyes:12},true,[{user:'valueVic',text:'Sold out != priced in. Watch the guide.',ts:now-14*M},{user:'nightcrawler',text:'agree, adding here',ts:now-9*M}]),
+      p('NVDA','valueVic','Everyone is pricing in perfection at 31x forward. One soft data-center quarter and this re-rates hard. Trimming.','bear',48*M,{fire:22,rocket:6,bear:38,eyes:9},false,[{user:'chipsahoy',text:'the perfection has shown up 8 quarters running though',ts:now-30*M}]),
+      p('RKLB','launchpad','Neutron cadence plus new government contracts. $60 is not a meme anymore, it is a base case if they execute.','bull',1.5*H,{fire:55,rocket:88,bear:7,eyes:20},true,[{user:'skeptic88',text:'execute is doing a lot of work in that sentence',ts:now-40*M}]),
+      p('PLTR','moatmaker','Commercial bookings are the whole story and nobody talks about them. Gov is the floor, commercial is the ceiling.','bull',3*H,{fire:34,rocket:29,bear:11,eyes:15},false,[]),
+      p('PLTR','shortking','40x sales for a services company wearing an AI costume. I have seen this movie. Puts.','bear',2*H,{fire:18,rocket:3,bear:44,eyes:8},false,[{user:'moatmaker',text:'services company doesnt grow 40% with those margins',ts:now-70*M}]),
+      p('TSLA','fsdfan','Robotaxi day is the only catalyst that matters. Everything else is noise until then.','neutral',4*H,{fire:20,rocket:14,bear:13,eyes:22},false,[]),
+      p('AMD','underdog','MI series is finally landing in real deployments. This is the cheapest AI compute exposure on the board right now.','bull',5*H,{fire:27,rocket:31,bear:9,eyes:11},false,[]),
+      p('AAPL','steadyeddie','No AI story, no unit growth, still 29x. Not a short, not a buy. Dead money until the next cycle.','neutral',6*H,{fire:12,rocket:4,bear:10,eyes:18},false,[]),
+      p('SPY','macrowatch','Yields back near 4.6% and the tape shrugged. Hedges failing again. Watch the 10yr into the close.','bear',35*M,{fire:29,rocket:5,bear:24,eyes:33},true,[]),
+      p('MU','memorymatt','Micron committing $3B to US supply chain mid-drawdown. Management does not spend like that into demand they doubt.','bull',7*H,{fire:19,rocket:16,bear:6,eyes:9},false,[]),
+      p('COIN','degenerate','If BTC holds 60k into the Fed, COIN is the highest-beta way to play it. Risky but that is the point.','bull',8*H,{fire:23,rocket:34,bear:15,eyes:12},false,[]),
+      p('SMCI','burned','Been here before. The bounce is forced covering, not new buyers. Do not catch this knife.','bear',9*H,{fire:14,rocket:5,bear:27,eyes:7},false,[])
+    ];
+  }
+  function fcSent(s){FLOOR.sent=s;var w=el('fc-sent');if(!w)return;var b=w.querySelectorAll('button');
+    for(var i=0;i<b.length;i++){var v=b[i].getAttribute('data-s');b[i].className='';
+      if(v===s)b[i].className=(s==='bull'?'sel-bull':s==='bear'?'sel-bear':'sel-neut');}}
+  function floorPost(){
+    var t=el('fc-text'),tk=el('fc-tick'),w=el('fc-warn');
+    var txt=(t.value||'').trim();var tick=(tk.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+    w.style.display='none';
+    if(txt.length<3){w.textContent='Write a little more first.';w.style.display='block';return;}
+    if(/\b(guaranteed|guarantee|pump|dm me|whats ?app|telegram|join my|signals? group|100% ?win|risk[- ]?free)\b/i.test(txt)){
+      w.textContent='That reads like promo/spam — the Floor blocks guaranteed-return and solicitation posts.';w.style.display='block';return;}
+    var d=floorLoad();
+    d.posts.unshift({id:'u'+Date.now(),ticker:tick||'—',user:d.handle||'you',text:txt,sentiment:FLOOR.sent,ts:Date.now(),reactions:{fire:0,rocket:0,bear:0,eyes:0},myReacts:[],comments:[],reports:0,hidden:false,seed:false,breaking:false});
+    floorSave();t.value='';tk.value='';renderFloor();
+  }
+  function floorView(v){FLOOR.view=v;var b=document.querySelectorAll('#floor-nav .fnav-btn');
+    for(var i=0;i<b.length;i++)b[i].classList.toggle('active',b[i].getAttribute('data-v')===v);renderFloor();}
+  function openFloorTicker(tick){FLOOR.tickFilter=tick;FLOOR.view='trending';showTab('floor');
+    var b=document.querySelectorAll('#floor-nav .fnav-btn');for(var i=0;i<b.length;i++)b[i].classList.toggle('active',b[i].getAttribute('data-v')==='trending');renderFloor();}
+  function floorClearTick(){FLOOR.tickFilter=null;renderFloor();}
+  function fscore(p){var r=p.reactions;var tot=(r.fire||0)+(r.rocket||0)+(r.bear||0)+(r.eyes||0);
+    var h=(Date.now()-p.ts)/3600000;var rec=Math.max(0,48-h);return tot+(p.comments.length*4)+rec;}
+  function renderFloor(){
+    var d=floorLoad();var feed=el('floor-feed');if(!feed)return;
+    var tf=el('floor-tickfilter');
+    if(FLOOR.tickFilter){tf.innerHTML='<div class="ftick-filter">Showing the Floor for <b>$'+esc(FLOOR.tickFilter)+'</b><button onclick="floorClearTick()">Show all</button></div>';}
+    else tf.innerHTML='';
+    var list=d.posts.filter(function(p){return !p.hidden;});
+    if(FLOOR.tickFilter)list=list.filter(function(p){return p.ticker===FLOOR.tickFilter;});
+    var v=FLOOR.view;
+    if(v==='bull')list=list.filter(function(p){return p.sentiment==='bull';});
+    else if(v==='bear')list=list.filter(function(p){return p.sentiment==='bear';});
+    else if(v==='breaking')list=list.filter(function(p){return p.breaking||(Date.now()-p.ts)<6*3600000;});
+    if(v==='discussed')list.sort(function(a,b){return (b.comments.length-a.comments.length)||(fscore(b)-fscore(a));});
+    else if(v==='breaking')list.sort(function(a,b){return b.ts-a.ts;});
+    else list.sort(function(a,b){return fscore(b)-fscore(a);});
+    if(!list.length){feed.innerHTML='<div class="fempty">No posts here yet. Be the first to post.</div>';return;}
+    var h='';for(var i=0;i<list.length;i++)h+=fpostHTML(list[i]);feed.innerHTML=h;
+  }
+  function fpostHTML(p){
+    var slab=p.sentiment==='bull'?'Bullish':p.sentiment==='bear'?'Bearish':'Neutral';
+    var h='<div class="fpost'+(p.breaking?' brk':'')+'" id="fp-'+p.id+'">';
+    h+='<div class="fp-head">';
+    if(p.ticker&&p.ticker!=='—')h+='<span class="fp-tick" onclick="openFloorTicker(\''+esc(p.ticker)+'\')">$'+esc(p.ticker)+'</span>';
+    h+='<span class="fp-sent '+p.sentiment+'">'+slab+'</span>';
+    if(p.breaking)h+='<span class="fp-brk">Breaking</span>';
+    h+='<span class="fp-user">@'+esc(p.user)+'</span><span class="fp-time">'+floorAgo(p.ts)+'</span>';
+    if(p.seed)h+='<span class="fp-seed">sample</span>';
+    h+='</div>';
+    h+='<div class="fp-text">'+esc(p.text)+'</div>';
+    h+='<div class="fp-actions">';
+    for(var k=0;k<FREACTS.length;k++){var key=FREACTS[k][0],emo=FREACTS[k][1];var on=p.myReacts.indexOf(key)>=0;
+      h+='<button class="freact'+(on?' on':'')+'" onclick="freact(\''+p.id+'\',\''+key+'\')">'+emo+' '+(p.reactions[key]||0)+'</button>';}
+    h+='<button class="fp-cbtn" onclick="toggleComments(\''+p.id+'\')">💬 '+p.comments.length+'</button>';
+    h+='<button class="fp-report" onclick="reportPost(\''+p.id+'\')">Report</button>';
+    h+='</div>';
+    h+='<div class="fp-comments" id="fc-wrap-'+p.id+'" style="display:none">';
+    for(var c=0;c<p.comments.length;c++){var cm=p.comments[c];
+      h+='<div class="fcomment"><b>@'+esc(cm.user)+'</b> '+esc(cm.text)+'<span class="fc-t">'+floorAgo(cm.ts)+'</span></div>';}
+    h+='<div class="fcadd"><input id="fcin-'+p.id+'" placeholder="Add a comment…" maxlength="240"><button onclick="addComment(\''+p.id+'\')">Reply</button></div>';
+    h+='</div></div>';
+    return h;
+  }
+  function fFind(id){var d=floorLoad();for(var i=0;i<d.posts.length;i++)if(d.posts[i].id===id)return d.posts[i];return null;}
+  function freact(id,kind){var p=fFind(id);if(!p)return;var i=p.myReacts.indexOf(kind);
+    if(i>=0){p.myReacts.splice(i,1);p.reactions[kind]=Math.max(0,(p.reactions[kind]||0)-1);}
+    else{p.myReacts.push(kind);p.reactions[kind]=(p.reactions[kind]||0)+1;}
+    floorSave();renderFloor();}
+  function toggleComments(id){var w=el('fc-wrap-'+id);if(w)w.style.display=(w.style.display==='none'?'block':'none');}
+  function addComment(id){var p=fFind(id);if(!p)return;var inp=el('fcin-'+id);var t=(inp.value||'').trim();
+    if(t.length<1)return;var d=floorLoad();p.comments.push({user:d.handle||'you',text:t,ts:Date.now()});floorSave();renderFloor();
+    var w=el('fc-wrap-'+id);if(w)w.style.display='block';}
+  function reportPost(id){var p=fFind(id);if(!p)return;p.reports=(p.reports||0)+1;p.hidden=true;floorSave();
+    var node=el('fp-'+id);if(node)node.innerHTML='<div class="fp-hidden">Post hidden and reported for review.<button onclick="unhidePost(\''+id+'\')">Undo</button></div>';}
+  function unhidePost(id){var p=fFind(id);if(!p)return;p.hidden=false;p.reports=Math.max(0,(p.reports||0)-1);floorSave();renderFloor();}
+  /* ---- Floor sentiment strip on the ticker page (the differentiator) ---- */
+  function floorTickerCard(tick,verdict){
+    if(!tick)return '';
+    var d=floorLoad();var bull=0,bear=0,neut=0,n=0;
+    for(var i=0;i<d.posts.length;i++){var p=d.posts[i];if(p.hidden||p.ticker!==tick)continue;n++;
+      if(p.sentiment==='bull')bull++;else if(p.sentiment==='bear')bear++;else neut++;}
+    var h='<div class="fl-card"><div class="fl-top"><span class="fl-h">The Floor</span><span class="fl-sub">what retail is saying</span><span class="fl-n">'+(n?n+' post'+(n>1?'s':''):'no posts yet')+'</span></div>';
+    if(bull+bear===0){
+      h+='<div class="fl-none">No Floor sentiment on $'+esc(tick)+' yet'+(neut?' beyond neutral takes':'')+'. Community energy shows up here once people post a directional read.</div>';
+      h+='<button class="fl-open" onclick="openFloorTicker(\''+esc(tick)+'\')">Start the conversation →</button></div>';
+      return h;
+    }
+    var pb=Math.round(bull/(bull+bear)*100),pr=100-pb;
+    h+='<div class="fl-bar"><div class="fl-bull" style="width:'+pb+'%"></div></div>';
+    h+='<div class="fl-pcts"><span class="b">'+pb+'% Bullish</span><span class="r">'+pr+'% Bearish</span></div>';
+    var vshort=String(verdict||'').split('. ')[0];if(vshort&&vshort.length<String(verdict||'').length)vshort+='.';if(!vshort)vshort=verdict||'';
+    h+='<div class="fl-contrast"><span class="fl-lab">Community vs. Edge</span>The Floor leans '+(pb>=55?'bullish':pb<=45?'bearish':'split')+' at '+pb+'% bull. Edge Check’s evidence read: '+esc(vshort)+' — opinion is energy, the evidence layer is the check.</div>';
+    h+='<button class="fl-open" onclick="openFloorTicker(\''+esc(tick)+'\')">See the Floor on $'+esc(tick)+' →</button></div>';
+    return h;
+  }
+  /* ================= END THE FLOOR ================= */
+
   function renderStock(d){
     var chg=(d.chgp!=null&&!isNaN(d.chgp))?' <span class="s-chg '+(d.chgp>=0?'pos':'neg')+'">'+(d.chgp>=0?'▲ +':'▼ ')+(+d.chgp).toFixed(2)+'%</span>':'';
     var h='<div class="s-head"><div class="s-id"><span class="s-logowrap">'+logoImg(d.logo,d.tick||'?','s')+'</span><span class="nm">'+d.name+'</span></div><span class="px">'+d.price+chg+'<span class="s-mkt">'+d.mkt+'</span></span></div>';
@@ -2305,7 +2533,6 @@
   runSearch();
   runCalcs();
 </script>
+<style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style>
 </body>
 </html>
-
-<style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style>
