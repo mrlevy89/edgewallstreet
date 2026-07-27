@@ -300,6 +300,39 @@
   .s-side::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
   .s-side::-webkit-scrollbar-thumb:hover{background:var(--c-cyan)}
   @media(max-width:820px){.s-cols{flex-direction:column}.s-side{flex-basis:auto;max-width:none;width:100%;order:-1;position:static;max-height:none;overflow:visible}}
+  .edge-wrap{margin:14px 0 4px}
+  .edge-loading{color:var(--muted);font-size:13px;padding:10px 0}
+  .edge-block{display:flex;gap:16px;flex-wrap:wrap;align-items:stretch}
+  .es-card{flex:1 1 240px;background:linear-gradient(180deg,#141b28,#0e1420);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .es-card.es-strong{border-left:3px solid var(--c-green)}
+  .es-card.es-ok{border-left:3px solid var(--c-cyan)}
+  .es-card.es-mid{border-left:3px solid var(--c-amber)}
+  .es-card.es-weak{border-left:3px solid var(--c-pink)}
+  .es-num{font-size:46px;font-weight:800;line-height:1}
+  .es-num .es-up{font-size:15px;color:var(--buy);font-weight:800;vertical-align:middle}
+  .es-num .es-dn{font-size:15px;color:var(--avoid);font-weight:800;vertical-align:middle}
+  .es-num .es-fl{font-size:15px;color:var(--muted);font-weight:800;vertical-align:middle}
+  .es-lab{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .es-comps{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .es-comp{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--card2);color:var(--muted)}
+  .es-comp.pos{color:var(--buy)} .es-comp.neg{color:var(--avoid)}
+  .es-miss{font-size:10.5px;color:var(--muted);margin-top:10px;line-height:1.4}
+  .ec-card{flex:2 1 360px;background:linear-gradient(180deg,#141b28,#0e1420);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .ec-h{font-size:15px;font-weight:800}
+  .ec-h .ec-sub{font-size:12px;font-weight:600;color:var(--muted);margin-left:6px}
+  .ec-rows{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+  .ec-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;border-top:1px solid var(--line)}
+  .ec-dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+  .ec-dot.green{background:var(--c-green)} .ec-dot.yellow{background:var(--c-amber)} .ec-dot.red{background:var(--c-pink)} .ec-dot.grey{background:#4a5163}
+  .ec-l{flex:1;color:#cdd9e5}
+  .ec-v{font-weight:800;font-size:12px}
+  .ec-v.green{color:var(--c-green)} .ec-v.yellow{color:var(--c-amber)} .ec-v.red{color:var(--c-pink)} .ec-v.grey{color:#7a8291}
+  .ec-verdict{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:14px;color:#e7ecf4}
+  .ec-verdict b{color:var(--c-cyan)}
+  .ec-method{font-size:10.5px;color:var(--muted);margin-top:9px;line-height:1.45}
+  .ec-lab-btn{margin-top:12px;background:transparent;border:1px solid var(--c-cyan);color:var(--c-cyan);font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:9px;cursor:pointer}
+  .ec-lab-btn:hover{background:rgba(34,211,238,.08)}
+  @media(max-width:640px){.ec-rows{grid-template-columns:1fr}}
   .eread{background:linear-gradient(180deg,#141b28,#0e1420);border:1px solid var(--line);border-left:3px solid var(--c-cyan);border-radius:14px;padding:16px 18px;margin:16px 0 4px}
   .eread-h{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:6px}
   .eread-b{font-size:14.5px;line-height:1.56;color:#e7ecf4}
@@ -1578,6 +1611,13 @@
       if(mm.revenueGrowthTTMYoy!=null)fb.push('revenue '+(mm.revenueGrowthTTMYoy>=0?'+':'')+(+mm.revenueGrowthTTMYoy).toFixed(0)+'% YoY');
       if(fb.length)finStr=fb.join(' &middot; ')+'.';}
 
+    /* ---- EDGE SCORE + EDGE CHECK (modeled/free data) ---- */
+    var _sr=d.raw||{},_ib=0,_is=0;insData.forEach(function(x){var ch=+x.change||0;if(ch>0)_ib++;else if(ch<0)_is++;});
+    var _pos52=(_sr.c!=null&&_sr.hi!=null&&_sr.lo!=null&&_sr.hi>_sr.lo)?(_sr.c-_sr.lo)/(_sr.hi-_sr.lo):null;
+    var _lb=null;if(eObj){if(eObj.surprisePercent!=null)_lb=+eObj.surprisePercent;else if(eObj.estimate!=null&&eObj.estimate!=0&&eObj.actual!=null)_lb=(eObj.actual-eObj.estimate)/Math.abs(eObj.estimate)*100;}
+    var _cf=!!(top&&top.datetime&&(Date.now()/1000-top.datetime)<3*86400);
+    var _sig={tick:t,chgp:d.chgp,spyPct:spyPct,pos52:_pos52,ret52:(oneYr!=null?+oneYr:null),pe:_sr.pe,ps:_sr.ps,nm:_sr.nm,revg:_sr.revg,roe:(mm&&mm.roeTTM!=null?+mm.roeTTM:null),beta:_sr.beta,aBuy:(sb+bb),aHold:hh,aSell:ss,aTot:tot,upside:upPct,catFresh:_cf,newsN:(news?news.length:0),nextDays:nextDays,lastBeat:_lb,insBuys:_ib,insSells:_is,insN:insData.length};
+    var _ew=el('edge-wrap');if(_ew)_ew.innerHTML=edgeBlockHTML(_sig,d);
     /* ---- templated catalyst-led "why" ---- */
     var mt=(d.chgp!=null&&!isNaN(d.chgp))?((d.tick||'The stock')+' '+movePhrase(d)+'. '):'';
     var whyTxt=mt+(top?('The driver: '+cleanHead(top)+' ('+esc(top.source)+', '+timeAgo(top.datetime)+').')
@@ -1628,9 +1668,62 @@
       var srcs={},order=[];for(i=0;i<news.length&&order.length<6;i++){var sc=news[i].source;if(sc&&!srcs[sc]){srcs[sc]=1;order.push(sc);}}
       var se=el('er-sources');if(se&&order.length)se.innerHTML='<b>Sources:</b> '+order.map(esc).join(' &middot; ');}
   }
+  /* ===== EDGE SCORE + EDGE CHECK — proprietary intelligence layer (modeled/free data; provider-swappable) ===== */
+  function _cl(x,a,b){return Math.max(a,Math.min(b,x));}
+  function computeEdgeScore(sig){
+    var comps=[],base=50;
+    var mom=0;if(sig.ret52!=null)mom+=_cl(sig.ret52*0.25,-10,10);if(sig.pos52!=null)mom+=(sig.pos52>0.7?4:sig.pos52<0.3?-4:0);if(sig.chgp!=null&&sig.spyPct!=null)mom+=_cl((sig.chgp-sig.spyPct)*0.6,-3,3);mom=_cl(Math.round(mom),-15,18);comps.push({n:'Momentum',v:mom});
+    var fun=0;if(sig.nm!=null)fun+=(sig.nm>=20?8:sig.nm>=10?4:sig.nm<0?-6:0);if(sig.revg!=null)fun+=(sig.revg>=15?6:sig.revg>=8?3:sig.revg<0?-6:0);if(sig.roe!=null)fun+=(sig.roe>=15?4:sig.roe<0?-3:0);fun=_cl(fun,-12,18);comps.push({n:'Fundamentals',v:fun});
+    var val=0;if(sig.pe!=null&&sig.pe>0)val=(sig.pe<15?6:sig.pe<25?1:sig.pe<40?-5:-10);else if(sig.ps!=null)val=(sig.ps>15?-6:sig.ps<3?3:0);val=_cl(val,-12,6);comps.push({n:'Valuation',v:val});
+    var an=0;if(sig.aTot>0){var bf=sig.aBuy/sig.aTot,sf=sig.aSell/sig.aTot;an+=(bf>0.6?9:bf>0.4?4:0);an-=(sf>0.25?6:0);}if(sig.upside!=null)an+=_cl(sig.upside*0.12,-4,6);an=_cl(Math.round(an),-10,12);comps.push({n:'Analyst',v:an});
+    var cat=0;if(sig.catFresh)cat+=5;if(sig.newsN>=6)cat+=2;if(sig.nextDays!=null&&sig.nextDays<=14)cat+=2;if(sig.lastBeat!=null)cat+=(sig.lastBeat>=0?3:-3);cat=_cl(cat,-6,10);comps.push({n:'Catalyst',v:cat});
+    var ins=0;if(sig.insN>0)ins=(sig.insBuys>sig.insSells?4:sig.insSells>sig.insBuys*2?-4:0);if(sig.insN>0)comps.push({n:'Insider',v:ins});
+    var score=base,i;for(i=0;i<comps.length;i++)score+=comps[i].v;score=_cl(Math.round(score),5,97);
+    return {score:score,comps:comps,missing:['Options flow','Short interest','Institutional 13F']};
+  }
+  function computeEdgeCheck(sig){
+    var rows=[];function push(l,s,t){rows.push({label:l,status:s,tone:t});}
+    if(sig.catFresh)push('Catalyst','Real — fresh news','green');else if(sig.nextDays!=null&&sig.nextDays<=10)push('Catalyst','Earnings in '+sig.nextDays+'d','green');else push('Catalyst','Quiet','yellow');
+    if(sig.pos52!=null){if(sig.pos52>0.6&&(sig.ret52==null||sig.ret52>0))push('Momentum','Strong','green');else if(sig.pos52<0.35)push('Momentum','Weak','red');else push('Momentum','Mixed','yellow');}else push('Momentum','No data','grey');
+    if(sig.nm!=null||sig.revg!=null){var good=(sig.nm!=null&&sig.nm>=12?1:0)+(sig.revg!=null&&sig.revg>=10?1:0)+(sig.roe!=null&&sig.roe>=15?1:0),bad=(sig.nm!=null&&sig.nm<0?1:0)+(sig.revg!=null&&sig.revg<0?1:0);if(good>=2&&!bad)push('Fundamentals','Solid','green');else if(bad)push('Fundamentals','Weak','red');else push('Fundamentals','Mixed','yellow');}else push('Fundamentals','No data','grey');
+    if(sig.pe!=null&&sig.pe>0)push('Valuation',sig.pe<15?'Cheap':sig.pe<25?'Fair':sig.pe<40?'Rich':'Stretched',sig.pe<15?'green':sig.pe<25?'yellow':'red');else if(sig.ps!=null)push('Valuation',sig.ps<3?'Reasonable':sig.ps>15?'Stretched':'Elevated',sig.ps<3?'green':sig.ps>15?'red':'yellow');else push('Valuation','No data','grey');
+    if(sig.aTot>0){var bf=sig.aBuy/sig.aTot,sf=sig.aSell/sig.aTot;if(bf>0.55)push('Analyst view','Bullish','green');else if(sf>0.3)push('Analyst view','Bearish','red');else push('Analyst view','Mixed','yellow');}else push('Analyst view','No data','grey');
+    if(sig.lastBeat!=null)push('Last earnings',(sig.lastBeat>=0?'Beat +':'Miss ')+Math.round(sig.lastBeat)+'%',sig.lastBeat>=0?'green':'red');
+    if(sig.insN>0)push('Insiders',sig.insBuys>sig.insSells?'Net buying':sig.insSells>sig.insBuys?'Net selling':'Mixed',sig.insBuys>sig.insSells?'green':sig.insSells>sig.insBuys?'red':'yellow');
+    push('Options flow','No data yet','grey');
+    push('Short interest','No data yet','grey');
+    var greens=0,reds=0;rows.forEach(function(r){if(r.tone==='green')greens++;else if(r.tone==='red')reds++;});
+    var hard=greens+reds;push('Evidence',hard>=4?'Strong':hard>=2?'Moderate':'Thin',hard>=4?'green':hard>=2?'yellow':'red');
+    var valRow=rows.filter(function(r){return r.label==='Valuation';})[0],valRisk=(valRow&&(valRow.status==='Stretched'||valRow.status==='Rich'||valRow.status==='Elevated'));
+    var verdict;
+    if(greens>=4&&reds<=1)verdict='The evidence leans supportive'+(valRisk?', though valuation is the main risk.':'.');
+    else if(reds>=3)verdict='The evidence leans cautious — the negatives outweigh the story right now.';
+    else verdict='Mixed signals — not enough hard evidence to lean strongly either way'+(valRisk?', and the valuation is rich.':'.');
+    return {rows:rows,verdict:verdict};
+  }
+  function edgeScoreDelta(tick,score){try{var H=JSON.parse(localStorage.getItem('edge_score_hist')||'{}');var prev=H[tick];var delta=(prev&&prev.s!=null)?score-prev.s:null;H[tick]={s:score,t:Date.now()};localStorage.setItem('edge_score_hist',JSON.stringify(H));return delta;}catch(e){return null;}}
+  function edgeToLab(t){var i=el('lab-tick');if(i)i.value=t;showTab('lab');if(typeof labLoad==='function')labLoad();}
+  function edgeBlockHTML(sig,d){
+    var es=computeEdgeScore(sig),ec=computeEdgeCheck(sig),i;
+    var delta=edgeScoreDelta(sig.tick,es.score);
+    var arrow=delta==null?'':(delta>0?' <span class="es-up">&#9650; +'+delta+'</span>':delta<0?' <span class="es-dn">&#9660; '+delta+'</span>':' <span class="es-fl">&#9679; 0</span>');
+    var tier=es.score>=75?'strong':es.score>=55?'ok':es.score>=40?'mid':'weak';
+    var h='<div class="edge-block">';
+    h+='<div class="es-card es-'+tier+'"><div class="es-num">'+es.score+arrow+'</div><div class="es-lab">Edge Score'+(delta!=null?' &middot; change since you last checked':'')+'</div><div class="es-comps">';
+    for(i=0;i<es.comps.length;i++){var c=es.comps[i];h+='<span class="es-comp '+(c.v>0?'pos':c.v<0?'neg':'')+'">'+c.n+' '+(c.v>0?'+':'')+c.v+'</span>';}
+    h+='</div><div class="es-miss">Not included (no data yet): '+es.missing.join(', ')+'.</div></div>';
+    h+='<div class="ec-card"><div class="ec-h">Edge Check <span class="ec-sub">is the story backed by evidence?</span></div><div class="ec-rows">';
+    for(i=0;i<ec.rows.length;i++){var r=ec.rows[i];h+='<div class="ec-row"><span class="ec-dot '+r.tone+'"></span><span class="ec-l">'+r.label+'</span><span class="ec-v '+r.tone+'">'+r.status+'</span></div>';}
+    h+='</div><div class="ec-verdict"><b>Edge Verdict:</b> '+ec.verdict+'</div>';
+    h+='<div class="ec-method">Scored from price action, valuation, fundamentals, analyst ratings, catalysts, earnings and insider activity — modeled &amp; free data. Options flow, short interest and institutional positioning are not connected yet, so they are excluded rather than guessed.</div>';
+    h+='<button class="ec-lab-btn" onclick="edgeToLab(\''+esc(sig.tick)+'\')">Model this trade in the Options Lab &rarr;</button>';
+    h+='</div></div>';
+    return h;
+  }
   function renderStock(d){
     var chg=(d.chgp!=null&&!isNaN(d.chgp))?' <span class="s-chg '+(d.chgp>=0?'pos':'neg')+'">'+(d.chgp>=0?'▲ +':'▼ ')+(+d.chgp).toFixed(2)+'%</span>':'';
     var h='<div class="s-head"><div class="s-id"><span class="s-logowrap">'+logoImg(d.logo,d.tick||'?','s')+'</span><span class="nm">'+d.name+'</span></div><span class="px">'+d.price+chg+'<span class="s-mkt">'+d.mkt+'</span></span></div>';
+    h+='<div id="edge-wrap" class="edge-wrap"><div class="edge-loading">Computing Edge Score &amp; Edge Check&hellip;</div></div>';
     h+='<div class="s-cols"><div class="s-main"><div class="sg-title">Price & trading</div><div class="sg">';
     h+=sRow('Previous close',d.prevC);
     h+=sRow('Open',d.open);
