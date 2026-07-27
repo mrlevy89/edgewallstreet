@@ -354,6 +354,10 @@
   .lab-iv label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
   .lab-iv input[type=range]{flex:1;accent-color:var(--c-cyan)}
   .lab-read{margin-top:12px;padding:12px 14px;background:var(--card2);border:1px solid var(--line);border-radius:10px;font-size:13.5px;color:#dfe5ef}
+  .lab-cat{width:100%;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--c-cyan);margin:9px 0 -1px}
+  .lab-struct{font-size:13px;color:var(--muted);margin:2px 0 12px;font-weight:600}
+  .lab-greeks{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:12.5px;color:#cdd9e5}
+  .lab-greeks b{color:var(--c-cyan);font-weight:800}
   .heat td.cell:hover{outline:2px solid #fff;cursor:crosshair}
   .lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
   .lab-f{display:flex;flex-direction:column;gap:5px}
@@ -1120,7 +1124,7 @@
       <!-- ===== TAB: LEARN ===== -->
       <div class="tabpanel" id="tab-lab">
         <div class="section-title">The Lab — see the trade before you make it</div>
-        <div class="section-sub">Type a ticker. Tap a strategy, an expiry, a strike. Then hover anywhere on the grid to see exactly what you make or lose at that price, on that date.</div>
+        <div class="section-sub">Type a ticker, pick a strategy (spreads, condors, straddles &amp; more), then set the strike, expiry and volatility. See the full payoff, breakevens, max profit/loss, Greeks and probability of profit — and hover the grid for any price and date.</div>
         <div class="card">
           <div class="lab-top">
             <input id="lab-tick" type="text" placeholder="Type a ticker — AAPL, NVDA, MU" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')labLoad()">
@@ -1938,137 +1942,141 @@
   function moverTile(m){var up=m.dp>=0;
     return '<div class="mv-tile" onclick="searchWatch(\''+m.t+'\')"><div class="mv-top"><span class="mv-tk">'+m.t+'</span><span class="mv-ch '+(up?'up':'down')+'">'+(up?'▲ +':'▼ ')+(+m.dp).toFixed(2)+'%</span></div><div class="mv-px">$'+((m.c!=null&&!isNaN(m.c))?(+m.c).toFixed(2):'—')+'</div></div>';}
   var BRK_KEYS=/(acqui|merger|buyout|takeover|to buy|in talks|\bdeal\b|tariff|trump|white house|\bfed\b|fomc|rate cut|rate hike|powell|warsh|\bsec\b|halt|bankrupt|lawsuit|recall|guidance|plunge|surge|downgrade|upgrade|layoff|sanction)/i;
-  var LAB={tick:'',S:0,strat:'sell-put',ei:0,ki:-1,exps:[],strikes:[]};
+  var LAB={tick:'',S:0,strat:'long-call',ei:1,ci:-1,exps:[],strikes:[]};
   var LABG={p:[],d:[],pl:[],cap:1,tick:''};
   function labMoney(x){return (x<0?'-':'')+'$'+Math.abs(Math.round(x)).toLocaleString();}
   function ncdf(x){var a1=0.319381530,a2=-0.356563782,a3=1.781477937,a4=-1.821255978,a5=1.330274429;var L=Math.abs(x),k=1/(1+0.2316419*L);var w=1-1/Math.sqrt(2*Math.PI)*Math.exp(-L*L/2)*(a1*k+a2*k*k+a3*Math.pow(k,3)+a4*Math.pow(k,4)+a5*Math.pow(k,5));return x<0?1-w:w;}
+  function npdf(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);}
   function bsVal(type,S,K,T,r,v){if(T<=0||v<=0)return type==='call'?Math.max(0,S-K):Math.max(0,K-S);var sq=v*Math.sqrt(T),d1=(Math.log(S/K)+(r+v*v/2)*T)/sq,d2=d1-sq;return type==='call'?(S*ncdf(d1)-K*Math.exp(-r*T)*ncdf(d2)):(K*Math.exp(-r*T)*ncdf(-d2)-S*ncdf(-d1));}
-  function probAbove(S,K,T,r,v){if(T<=0)return S>K?1:0;var d2=(Math.log(S/K)+(r-v*v/2)*T)/(v*Math.sqrt(T));return ncdf(d2);}
-  function labPL(strat,Sf,K,Trem,r,v,prem,S0){
-    if(strat==='sell-put')return (prem-bsVal('put',Sf,K,Trem,r,v))*100;
-    if(strat==='sell-call')return (Sf-S0)*100+(prem-bsVal('call',Sf,K,Trem,r,v))*100;
-    if(strat==='long-call')return (bsVal('call',Sf,K,Trem,r,v)-prem)*100;
-    return (bsVal('put',Sf,K,Trem,r,v)-prem)*100;
-  }
   function thirdFriday(y,m){var d=new Date(y,m,1),day=d.getDay(),off=(5-day+7)%7;return new Date(y,m,1+off+14);}
-  function buildExpiries(){var out=[],now=new Date(),y=now.getFullYear(),m=now.getMonth();for(var i=0;i<10&&out.length<4;i++){var d=thirdFriday(y,m+i),days=Math.round((d-now)/86400000);if(days>=7)out.push({d:d,days:days});}return out;}
-  function strikeStep(S){if(S<25)return 1;if(S<100)return 2.5;if(S<250)return 5;if(S<500)return 10;return 20;}
+  function buildExpiries(){var out=[],now=new Date(),y=now.getFullYear(),m=now.getMonth();for(var i=0;i<12&&out.length<5;i++){var d=thirdFriday(y,m+i),days=Math.round((d-now)/86400000);if(days>=7)out.push({d:d,days:days});}return out;}
+  function strikeStep(S){if(S<25)return 1;if(S<100)return 2.5;if(S<250)return 5;if(S<500)return 10;return 25;}
   function buildStrikes(S){var st=strikeStep(S),atm=Math.round(S/st)*st,out=[],i;for(i=-4;i<=4;i++){var k=+(atm+i*st).toFixed(2);if(k>0)out.push(k);}return out;}
-  function labDefaultK(){var S=LAB.S,ks=LAB.strikes,i,best=Math.floor(ks.length/2);
-    if(LAB.strat==='sell-put'||LAB.strat==='long-put'){for(i=ks.length-1;i>=0;i--){if(ks[i]<S){best=i;break;}}}
-    else{for(i=0;i<ks.length;i++){if(ks[i]>S){best=i;break;}}}
-    return best;}
-  var LAB_STRATS=[{k:'sell-put',n:'Sell a put'},{k:'sell-call',n:'Covered call'},{k:'long-call',n:'Buy a call'},{k:'long-put',n:'Buy a put'}];
   function lchip(label,on,click,sub){return '<button class="lchip'+(on?' on':'')+'" onclick="'+click+'">'+label+(sub?'<span>'+sub+'</span>':'')+'</button>';}
+  var STRATS=[
+    {k:'long-call',n:'Buy call',cat:'Bullish',legs:[{t:'call',s:1,k:0}]},
+    {k:'bull-call',n:'Bull call spread',cat:'Bullish',legs:[{t:'call',s:1,k:0},{t:'call',s:-1,k:2}]},
+    {k:'bull-put',n:'Bull put spread',cat:'Bullish',legs:[{t:'put',s:-1,k:0},{t:'put',s:1,k:-2}]},
+    {k:'csp',n:'Cash-secured put',cat:'Bullish',legs:[{t:'put',s:-1,k:0}]},
+    {k:'covered-call',n:'Covered call',cat:'Bullish',legs:[{t:'stock',s:1,k:0},{t:'call',s:-1,k:1}]},
+    {k:'long-put',n:'Buy put',cat:'Bearish',legs:[{t:'put',s:1,k:0}]},
+    {k:'bear-put',n:'Bear put spread',cat:'Bearish',legs:[{t:'put',s:1,k:0},{t:'put',s:-1,k:-2}]},
+    {k:'bear-call',n:'Bear call spread',cat:'Bearish',legs:[{t:'call',s:-1,k:0},{t:'call',s:1,k:2}]},
+    {k:'iron-condor',n:'Iron condor',cat:'Neutral',legs:[{t:'put',s:1,k:-3},{t:'put',s:-1,k:-1},{t:'call',s:-1,k:1},{t:'call',s:1,k:3}]},
+    {k:'iron-fly',n:'Iron butterfly',cat:'Neutral',legs:[{t:'put',s:1,k:-2},{t:'put',s:-1,k:0},{t:'call',s:-1,k:0},{t:'call',s:1,k:2}]},
+    {k:'short-strangle',n:'Short strangle',cat:'Neutral',legs:[{t:'call',s:-1,k:1},{t:'put',s:-1,k:-1}]},
+    {k:'long-straddle',n:'Long straddle',cat:'Volatility',legs:[{t:'call',s:1,k:0},{t:'put',s:1,k:0}]},
+    {k:'long-strangle',n:'Long strangle',cat:'Volatility',legs:[{t:'call',s:1,k:1},{t:'put',s:1,k:-1}]},
+    {k:'call-fly',n:'Call butterfly',cat:'Volatility',legs:[{t:'call',s:1,k:-2},{t:'call',s:-1,k:0,q:2},{t:'call',s:1,k:2}]},
+    {k:'put-fly',n:'Put butterfly',cat:'Volatility',legs:[{t:'put',s:1,k:2},{t:'put',s:-1,k:0,q:2},{t:'put',s:1,k:-2}]}
+  ];
+  function stratOf(k){for(var i=0;i<STRATS.length;i++)if(STRATS[i].k===k)return STRATS[i];return STRATS[0];}
+  function legK(leg){return Math.max(0.01,+(LAB.strikes[LAB.ci]+leg.k*strikeStep(LAB.S)).toFixed(2));}
+  function labEntryPrems(S,T,r,v){var legs=stratOf(LAB.strat).legs,out=[],i;for(i=0;i<legs.length;i++){var L=legs[i];out.push(L.t==='stock'?0:Math.max(0.01,bsVal(L.t,S,legK(L),T,r,v)));}return out;}
+  function posPL(Sf,Trem,r,v,S0,prems){var legs=stratOf(LAB.strat).legs,pl=0,i;for(i=0;i<legs.length;i++){var L=legs[i],q=(L.q||1);if(L.t==='stock'){pl+=L.s*(Sf-S0)*100*q;continue;}var val=bsVal(L.t,Sf,legK(L),Trem,r,v);pl+=L.s*(val-prems[i])*100*q;}return pl;}
+  function labStats(S,r,v,prems){
+    var lo=Math.max(0.01,S*0.2),hi=S*3,n=600,i,mn=1e15,mx=-1e15,prev=null,prevSf=null,be=[],zones=[],inProf=false,zStart=null;
+    for(i=0;i<=n;i++){var Sf=lo+(hi-lo)*i/n,pl=posPL(Sf,0,r,v,S,prems);if(pl<mn)mn=pl;if(pl>mx)mx=pl;
+      if(prev!==null&&((prev<0&&pl>=0)||(prev>0&&pl<=0))){var tt=prev/(prev-pl);be.push(+(prevSf+(Sf-prevSf)*tt).toFixed(2));}
+      var p=pl>0;if(p&&!inProf){inProf=true;zStart=Sf;}if(!p&&inProf){inProf=false;zones.push([zStart,Sf]);}
+      prev=pl;prevSf=Sf;}
+    if(inProf)zones.push([zStart,hi]);
+    var top=posPL(hi,0,r,v,S,prems),near=posPL(hi*0.97,0,r,v,S,prems);
+    var upP=(top>near+1&&Math.abs(top-mx)<1),upL=(top<near-1&&Math.abs(top-mn)<1);
+    return {maxP:upP?null:mx,maxL:upL?null:mn,be:be,zones:zones};
+  }
+  function popCalc(S,T,r,v,prems){var n=500,lo=Math.max(0.01,S*0.15),hi=S*3.2,mu=Math.log(S)+(r-v*v/2)*T,sd=v*Math.sqrt(T),tot=0,win=0,i;if(sd<=0)return 0;for(i=0;i<n;i++){var Sf=lo+(hi-lo)*(i+0.5)/n,z=(Math.log(Sf)-mu)/sd,pdf=Math.exp(-z*z/2)/(Sf*sd*Math.sqrt(2*Math.PI));tot+=pdf;if(posPL(Sf,0,r,v,S,prems)>0)win+=pdf;}return tot>0?win/tot:0;}
+  function netGreeks(S,T,r,v){var legs=stratOf(LAB.strat).legs,g={delta:0,gamma:0,theta:0,vega:0},i;for(i=0;i<legs.length;i++){var L=legs[i],q=(L.q||1)*L.s*100;if(L.t==='stock'){g.delta+=q;continue;}var K=legK(L),sq=v*Math.sqrt(T),d1=(Math.log(S/K)+(r+v*v/2)*T)/sq,d2=d1-sq;g.delta+=q*(L.t==='call'?ncdf(d1):ncdf(d1)-1);g.gamma+=q*npdf(d1)/(S*sq);g.vega+=q*S*npdf(d1)*Math.sqrt(T)/100;g.theta+=q*((-(S*npdf(d1)*v)/(2*Math.sqrt(T)))+(L.t==='call'?-r*K*Math.exp(-r*T)*ncdf(d2):r*K*Math.exp(-r*T)*ncdf(-d2)))/365;}return g;}
+  function labDefaultCenter(){var S=LAB.S,ks=LAB.strikes,best=0,bd=1e15,i;for(i=0;i<ks.length;i++){var d=Math.abs(ks[i]-S);if(d<bd){bd=d;best=i;}}return best;}
   async function labLoad(){
     var raw=(el('lab-tick').value||'').trim();var t=raw.toUpperCase();if(!t)return;
     var meta=el('lab-meta'),key=getKey();
-    if(meta)meta.innerHTML='<span class="er-load">Loading '+esc(t)+'\u2026</span>';
+    if(meta)meta.innerHTML='<span class="er-load">Loading '+esc(t)+'…</span>';
     if(!/^[A-Z]{1,5}$/.test(t)){var rs=await resolveSymbol(raw,key);if(rs){t=rs;el('lab-tick').value=t;}}
     var q=await cachedGet('https://finnhub.io/api/v1/quote?symbol='+t+'&token='+key,60000);
-    if(q===null){
-      if(meta)meta.innerHTML='<span class="er-load">Still loading '+esc(t)+'\u2026</span>';
-      await wait(1400);
-      q=await fhGet('https://finnhub.io/api/v1/quote?symbol='+t+'&token='+key,5);
-    }
-    if(q===null){if(meta)meta.innerHTML='<span class="er-load">The live feed is busy \u2014 tap Load again in a second.</span>';return;}
-    if(!q.c){
-      var rs2=await resolveSymbol(raw,key);
-      if(rs2&&rs2!==t){el('lab-tick').value=rs2;return labLoad();}
-      if(meta)meta.innerHTML='<span class="er-load">No US-listed stock called \u201c'+esc(raw)+'\u201d. Try AAPL, NVDA or MU.</span>';return;
-    }
-    LAB.tick=t;LAB.S=+q.c;LAB.exps=buildExpiries();LAB.strikes=buildStrikes(LAB.S);LAB.ei=(LAB.exps.length>1?1:0);LAB.ki=labDefaultK();
+    if(q===null){if(meta)meta.innerHTML='<span class="er-load">Still loading '+esc(t)+'…</span>';await wait(1400);q=await fhGet('https://finnhub.io/api/v1/quote?symbol='+t+'&token='+key,5);}
+    if(q===null){if(meta)meta.innerHTML='<span class="er-load">The live feed is busy — tap Load again in a second.</span>';return;}
+    if(!q.c){var rs2=await resolveSymbol(raw,key);if(rs2&&rs2!==t){el('lab-tick').value=rs2;return labLoad();}if(meta)meta.innerHTML='<span class="er-load">No US-listed stock called “'+esc(raw)+'”. Try AAPL, NVDA or MU.</span>';return;}
+    LAB.tick=t;LAB.S=+q.c;LAB.exps=buildExpiries();LAB.strikes=buildStrikes(LAB.S);LAB.ei=(LAB.exps.length>1?1:0);LAB.ci=labDefaultCenter();
     labChips();labRender();
   }
   function labChips(){
     var m=el('lab-meta');if(m)m.innerHTML='<b>'+esc(LAB.tick)+'</b> trading at <b>$'+LAB.S.toFixed(2)+'</b>';
-    var i,h;
-    var ss=el('lab-strats');if(ss){h='<div class="lab-lbl">Strategy</div>';for(i=0;i<LAB_STRATS.length;i++)h+=lchip(LAB_STRATS[i].n,LAB.strat===LAB_STRATS[i].k,"labSet('strat','"+LAB_STRATS[i].k+"')",'');ss.innerHTML=h;}
+    var i,h,cats=['Bullish','Bearish','Neutral','Volatility'],c;
+    var ss=el('lab-strats');
+    if(ss){h='<div class="lab-lbl">Strategy</div>';for(c=0;c<cats.length;c++){h+='<div class="lab-cat">'+cats[c]+'</div>';for(i=0;i<STRATS.length;i++){if(STRATS[i].cat!==cats[c])continue;h+=lchip(STRATS[i].n,LAB.strat===STRATS[i].k,"labSet('strat','"+STRATS[i].k+"')",'');}}ss.innerHTML=h;}
     var ee=el('lab-exps');if(ee){h='<div class="lab-lbl">Expiry</div>';for(i=0;i<LAB.exps.length;i++){var e=LAB.exps[i];h+=lchip(e.d.toLocaleDateString([],{month:'short',day:'numeric'}),LAB.ei===i,"labSet('ei',"+i+")",e.days+' days');}ee.innerHTML=h;}
-    var kk=el('lab-strikes');if(kk){h='<div class="lab-lbl">Strike</div>';for(i=0;i<LAB.strikes.length;i++){var K=LAB.strikes[i];var pctOff=((K-LAB.S)/LAB.S*100);var sub=(pctOff>=0?'+':'')+pctOff.toFixed(0)+'%';h+=lchip('$'+K,LAB.ki===i,"labSet('ki',"+i+")",sub);}kk.innerHTML=h;}
+    var kk=el('lab-strikes');if(kk){h='<div class="lab-lbl">Center strike</div>';for(i=0;i<LAB.strikes.length;i++){var K=LAB.strikes[i];var pctOff=((K-LAB.S)/LAB.S*100);var sub=(pctOff>=0?'+':'')+pctOff.toFixed(0)+'%';h+=lchip('$'+K,LAB.ci===i,"labSet('ci',"+i+")",sub);}kk.innerHTML=h;}
     var iw=el('lab-ivwrap');if(iw)iw.style.display='flex';
   }
-  function labSet(f,v){LAB[f]=v;if(f==='strat')LAB.ki=labDefaultK();labChips();labRender();}
+  function labSet(f,v){LAB[f]=v;if(f==='strat')LAB.ci=labDefaultCenter();labChips();labRender();}
   function labHover(i,j){var g=LABG,rd=el('lab-read');if(!rd||!g.pl[i])return;var pl=g.pl[i][j],pr=g.cap?(pl/g.cap*100):0;
-    rd.innerHTML='If <b>'+esc(g.tick)+'</b> is at <b>$'+g.p[i].toFixed(2)+'</b> on <b>'+g.d[j]+'</b> &rarr; '+(pl>=0?'<b style="color:var(--buy)">+'+labMoney(pl)+'</b>':'<b style="color:var(--avoid)">'+labMoney(pl)+'</b>')+' <span style="color:var(--muted)">('+(pr>=0?'+':'')+pr.toFixed(1)+'% on the '+labMoney(g.cap)+' you have at risk)</span>';}
-  function labChart(strat,S,K,r,v,prem){
-    var lo=S*0.55,hi=S*1.45,W=720,H=210,pad=30,i,pts=[],mn=1e12,mx=-1e12;
-    for(i=0;i<=72;i++){var Sf=lo+(hi-lo)*i/72,pl=labPL(strat,Sf,K,0,r,v,prem,S);pts.push([Sf,pl]);if(pl<mn)mn=pl;if(pl>mx)mx=pl;}
+    rd.innerHTML='If <b>'+esc(g.tick)+'</b> is at <b>$'+g.p[i].toFixed(2)+'</b> on <b>'+g.d[j]+'</b> &rarr; '+(pl>=0?'<b style="color:var(--buy)">+'+labMoney(pl)+'</b>':'<b style="color:var(--avoid)">'+labMoney(pl)+'</b>')+' <span style="color:var(--muted)">('+(pr>=0?'+':'')+pr.toFixed(1)+'% on the '+labMoney(g.cap)+' at risk)</span>';}
+  function labZoneText(zones,S){
+    function f(x){return '$'+x.toFixed(2);}
+    if(!zones.length)return 'nowhere in the tested range (check your inputs)';
+    if(zones.length===1){var z=zones[0],lowS=z[0]<=S*0.25,hiE=z[1]>=S*2.9;if(lowS&&hiE)return 'almost anywhere';if(lowS)return 'below '+f(z[1]);if(hiE)return 'above '+f(z[0]);return 'between '+f(z[0])+' and '+f(z[1]);}
+    return 'below '+f(zones[0][1])+' or above '+f(zones[zones.length-1][0]);
+  }
+  function labChart(prems,S,r,v,mm){
+    var lo=Math.max(1,Math.min(S*0.5,mm[0]*0.85)),hi=Math.max(S*1.5,mm[1]*1.15),W=720,H=210,pad=30,i,pts=[],mn=1e12,mx=-1e12;
+    for(i=0;i<=90;i++){var Sf=lo+(hi-lo)*i/90,pl=posPL(Sf,0,r,v,S,prems);pts.push([Sf,pl]);if(pl<mn)mn=pl;if(pl>mx)mx=pl;}
     if(mx<=mn)mx=mn+1;var padv=(mx-mn)*0.12;mn-=padv;mx+=padv;
     var X=function(p){return pad+(p-lo)/(hi-lo)*(W-pad*2);},Y=function(p){return H-pad-(p-mn)/(mx-mn)*(H-pad*2);};
-    var dPos='',dNeg='',dLine='';
-    for(i=0;i<pts.length;i++){dLine+=(i?'L':'M')+X(pts[i][0]).toFixed(1)+' '+Y(pts[i][1]).toFixed(1)+' ';}
+    var dLine='';for(i=0;i<pts.length;i++){dLine+=(i?'L':'M')+X(pts[i][0]).toFixed(1)+' '+Y(pts[i][1]).toFixed(1)+' ';}
     var zy=Y(0);
     var g='<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="210" preserveAspectRatio="none" style="display:block">';
-    g+='<defs><linearGradient id="gz" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00e28a" stop-opacity=".25"/><stop offset="100%" stop-color="#00e28a" stop-opacity="0"/></linearGradient></defs>';
-    g+='<rect x="'+pad+'" y="'+pad+'" width="'+(W-pad*2)+'" height="'+Math.max(0,zy-pad).toFixed(1)+'" fill="url(#gz)"/>';
+    g+='<rect x="'+pad+'" y="'+pad+'" width="'+(W-pad*2)+'" height="'+Math.max(0,zy-pad).toFixed(1)+'" fill="rgba(0,226,138,.13)"/>';
     g+='<rect x="'+pad+'" y="'+zy.toFixed(1)+'" width="'+(W-pad*2)+'" height="'+Math.max(0,(H-pad)-zy).toFixed(1)+'" fill="rgba(255,77,109,.10)"/>';
     g+='<line x1="'+pad+'" y1="'+zy.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+zy.toFixed(1)+'" stroke="#5a6274" stroke-dasharray="5 5"/>';
     g+='<path d="'+dLine+'" fill="none" stroke="#4f9bff" stroke-width="2.6"/>';
     g+='<line x1="'+X(S).toFixed(1)+'" y1="'+pad+'" x2="'+X(S).toFixed(1)+'" y2="'+(H-pad)+'" stroke="#8b90a3" stroke-width="1" stroke-dasharray="3 3"/>';
     g+='<text x="'+X(S).toFixed(1)+'" y="'+(pad-8)+'" fill="#8b90a3" font-size="11" text-anchor="middle">now $'+S.toFixed(0)+'</text>';
-    g+='<text x="'+(pad+4)+'" y="'+(zy-6).toFixed(1)+'" fill="#5a6274" font-size="10">break even</text>';
     g+='<text x="'+(pad+4)+'" y="'+(pad+12)+'" fill="#00e28a" font-size="11" font-weight="700">profit</text>';
     g+='<text x="'+(pad+4)+'" y="'+(H-pad-6)+'" fill="#ff4d6d" font-size="11" font-weight="700">loss</text>';
-    g+='</svg>';
-    return g;
+    g+='</svg>';return g;
   }
   function labRender(){
     var out=el('lab-out');if(!out)return;
-    if(!LAB.S||LAB.ki<0||!LAB.exps.length){out.innerHTML='';return;}
-    var S=LAB.S,K=LAB.strikes[LAB.ki],exp=LAB.exps[LAB.ei],D=exp.days,T=D/365,r=0.045,strat=LAB.strat;
+    if(!LAB.S||LAB.ci<0||!LAB.exps.length){out.innerHTML='';return;}
+    var S=LAB.S,exp=LAB.exps[LAB.ei],D=exp.days,T=D/365,r=0.045,i,j;
     var v=(+el('lab-iv').value)/100;var ivv=el('lab-ivval');if(ivv)ivv.textContent=(v*100).toFixed(0)+'%';
-    var prem=(strat==='sell-put'||strat==='long-put')?bsVal('put',S,K,T,r,v):bsVal('call',S,K,T,r,v);
-    prem=Math.max(0.01,prem);
-    var maxP,maxL,be,cap,pWin,title,story;
-    if(strat==='sell-put'){
-      maxP=prem*100;maxL=(K-prem)*100;be=K-prem;cap=K*100;pWin=probAbove(S,K,T,r,v);
-      title='Selling the $'+K+' put &middot; '+D+' days';
-      story='<b>What you could lose:</b> worst case the stock goes to zero and it costs you '+labMoney(maxL)+'. You must set aside <b>'+labMoney(cap)+'</b> in cash to back the promise to buy 100 shares at $'+K+'.<br><br><b>What you collect:</b> about '+labMoney(maxP)+' today. If '+esc(LAB.tick)+' stays above $'+K+', you keep every cent and buy nothing &mdash; <b>'+((maxP/cap)*100).toFixed(2)+'%</b> on your cash in '+D+' days, roughly <b>'+(((maxP/cap)*100)*(365/D)).toFixed(1)+'% a year</b>.<br><br><b>If it drops below $'+K+':</b> you own 100 shares at an effective <b>$'+be.toFixed(2)+'</b> each &mdash; '+(((be-S)/S)*100).toFixed(1)+'% versus today. Roughly a <b>'+(pWin*100).toFixed(0)+'%</b> chance you keep the full premium. You can buy the contract back any time to exit.';
-    } else if(strat==='sell-call'){
-      maxP=(K-S+prem)*100;maxL=(S-prem)*100;be=S-prem;cap=S*100;pWin=1-probAbove(S,K,T,r,v);
-      title='Covered call at $'+K+' &middot; '+D+' days';
-      story='<b>What you could lose:</b> you own the 100 shares, so a collapse to zero costs you '+labMoney(maxL)+'. Selling the call does <i>not</i> protect you from a drop &mdash; it only cushions it.<br><br><b>What you collect:</b> about '+labMoney(prem*100)+' today. If '+esc(LAB.tick)+' stays below $'+K+', it expires worthless, you keep the cash <i>and</i> the shares, and you can do it again.<br><br><b>Your upside is capped:</b> above $'+K+' your shares get sold at $'+K+'. Best case is '+labMoney(maxP)+' &mdash; you give up everything above that. Roughly a <b>'+(pWin*100).toFixed(0)+'%</b> chance you keep your shares.';
-    } else if(strat==='long-call'){
-      maxP=null;maxL=prem*100;be=K+prem;cap=prem*100;pWin=probAbove(S,K,T,r,v);
-      title='Buying the $'+K+' call &middot; '+D+' days';
-      story='<b>What you could lose:</b> all '+labMoney(maxL)+' of it. If '+esc(LAB.tick)+' is below $'+K+' at expiry the contract is worthless &mdash; a 100% loss. Time decay works against you every single day.<br><br><b>What you could make:</b> unlimited in theory, but the stock must clear <b>$'+be.toFixed(2)+'</b> just to break even &mdash; '+(((be-S)/S)*100).toFixed(1)+'% above today.<br><br><b>Rough odds:</b> only about <b>'+(pWin*100).toFixed(0)+'%</b> that it even finishes above $'+K+'. This is the most common way beginners lose money on options.';
-    } else {
-      maxP=(K-prem)*100;maxL=prem*100;be=K-prem;cap=prem*100;pWin=1-probAbove(S,K,T,r,v);
-      title='Buying the $'+K+' put &middot; '+D+' days';
-      story='<b>What you could lose:</b> all '+labMoney(maxL)+' if '+esc(LAB.tick)+' stays above $'+K+'. Time decay eats it daily.<br><br><b>What you could make:</b> up to '+labMoney(maxP)+' if the stock went to zero. You need it below <b>$'+be.toFixed(2)+'</b> to break even &mdash; '+(((be-S)/S)*100).toFixed(1)+'% from here.<br><br><b>Rough odds:</b> about <b>'+(pWin*100).toFixed(0)+'%</b> it finishes below $'+K+'. This is a hedge or a bearish bet.';
-    }
-    var h='<div class="eread" style="border-left-color:var(--c-amber)"><div class="eread-h">'+title+'</div>';
+    var strat=stratOf(LAB.strat),legs=strat.legs,prems=labEntryPrems(S,T,r,v);
+    var net=0,smin=1e15,smax=-1e15;
+    for(i=0;i<legs.length;i++){var L=legs[i],q=(L.q||1);if(L.t!=='stock'){net+=L.s*prems[i]*100*q;var K=legK(L);if(K<smin)smin=K;if(K>smax)smax=K;}}
+    if(smin>smax){smin=S*0.9;smax=S*1.1;}
+    var stt=labStats(S,r,v,prems),g=netGreeks(S,T,r,v),pop=popCalc(S,T,r,v,prems);
+    var maxP=stt.maxP,maxL=stt.maxL,cap=(maxL!=null&&maxL<0)?Math.abs(maxL):(net>0?Math.abs(net):Math.abs(LAB.strikes[LAB.ci]*100));
+    var struct=[];for(i=0;i<legs.length;i++){var L2=legs[i],q2=(L2.q||1);if(L2.t==='stock'){struct.push('Buy 100 shares');continue;}struct.push((L2.s>0?'Buy':'Sell')+' '+q2+' &times; $'+legK(L2)+' '+L2.t);}
+    var netTxt=net>0?('you pay a net <b>'+labMoney(net)+'</b> debit'):('you collect a net <b>'+labMoney(-net)+'</b> credit');
+    var h='<div class="eread" style="border-left-color:var(--c-amber)"><div class="eread-h">'+esc(LAB.tick)+' &mdash; '+strat.n+' &middot; '+D+' days</div>';
+    h+='<div class="lab-struct">'+struct.join(' &nbsp;&middot;&nbsp; ')+'</div>';
     h+='<div class="lab-sum">';
-    h+='<div class="lab-c bad"><div class="l">Worst case</div><div class="v">'+labMoney(-Math.abs(maxL))+'</div></div>';
-    h+='<div class="lab-c good"><div class="l">Best case</div><div class="v">'+(maxP===null?'Unlimited':labMoney(maxP))+'</div></div>';
-    h+='<div class="lab-c"><div class="l">Premium</div><div class="v">'+labMoney(prem*100)+'</div></div>';
-    h+='<div class="lab-c"><div class="l">Breakeven</div><div class="v">$'+be.toFixed(2)+'</div></div>';
-    h+='<div class="lab-c"><div class="l">Odds it works</div><div class="v">'+(pWin*100).toFixed(0)+'%</div></div>';
+    h+='<div class="lab-c bad"><div class="l">Max loss</div><div class="v">'+(maxL==null?'Unlimited':labMoney(maxL))+'</div></div>';
+    h+='<div class="lab-c good"><div class="l">Max profit</div><div class="v">'+(maxP==null?'Unlimited':labMoney(maxP))+'</div></div>';
+    h+='<div class="lab-c"><div class="l">Net '+(net>0?'debit':'credit')+'</div><div class="v">'+labMoney(Math.abs(net))+'</div></div>';
+    h+='<div class="lab-c"><div class="l">Breakeven</div><div class="v">'+(stt.be.length?stt.be.map(function(b){return '$'+b;}).join(' / '):'—')+'</div></div>';
+    h+='<div class="lab-c"><div class="l">Prob. of profit</div><div class="v">'+(pop*100).toFixed(0)+'%</div></div>';
     h+='</div>';
-    h+='<div style="margin-top:14px">'+labChart(strat,S,K,r,v,prem)+'</div>';
-    h+='<div class="eread-b" style="margin-top:12px">'+story+'</div></div>';
-    // grid
-    var moves=[-0.30,-0.20,-0.15,-0.10,-0.05,0,0.05,0.10,0.15,0.20,0.30],fracs=[0,0.25,0.5,0.75,1],i,j,mxa=0;
-    var prices=[],dates=[],grid=[];
+    h+='<div style="margin-top:14px">'+labChart(prems,S,r,v,[smin,smax])+'</div>';
+    h+='<div class="lab-greeks"><span><b>Delta</b> '+g.delta.toFixed(0)+'</span><span><b>Gamma</b> '+g.gamma.toFixed(1)+'</span><span><b>Theta</b> '+labMoney(g.theta)+'/day</span><span><b>Vega</b> '+labMoney(g.vega)+' / 1% IV</span></div>';
+    var desc='This is a <b>'+strat.n.toLowerCase()+'</b> — '+netTxt+'. At expiration you profit if '+esc(LAB.tick)+' finishes <b>'+labZoneText(stt.zones,S)+'</b>. The most you can lose is <b>'+(maxL==null?'unlimited':labMoney(maxL))+'</b>; the most you can make is <b>'+(maxP==null?'unlimited':labMoney(maxP))+'</b>. By the model, roughly a <b>'+(pop*100).toFixed(0)+'%</b> chance it finishes profitable.';
+    h+='<div class="eread-b" style="margin-top:12px">'+desc+'</div></div>';
+    var moves=[-0.30,-0.20,-0.15,-0.10,-0.05,0,0.05,0.10,0.15,0.20,0.30],fracs=[0,0.25,0.5,0.75,1],mxa=0,prices=[],dates=[],grid=[];
     for(j=0;j<fracs.length;j++){var dt=new Date(Date.now()+D*fracs[j]*86400000);dates.push(j===fracs.length-1?'expiry':dt.toLocaleDateString([],{month:'short',day:'numeric'}));}
-    for(i=0;i<moves.length;i++){prices.push(S*(1+moves[i]));var row=[];for(j=0;j<fracs.length;j++){var pl=labPL(strat,S*(1+moves[i]),K,T*(1-fracs[j]),r,v,prem,S);row.push(pl);if(Math.abs(pl)>mxa)mxa=Math.abs(pl);}grid.push(row);}
+    for(i=0;i<moves.length;i++){prices.push(S*(1+moves[i]));var row=[];for(j=0;j<fracs.length;j++){var pl=posPL(S*(1+moves[i]),T*(1-fracs[j]),r,v,S,prems);row.push(pl);if(Math.abs(pl)>mxa)mxa=Math.abs(pl);}grid.push(row);}
     LABG={p:prices,d:dates,pl:grid,cap:cap,tick:LAB.tick};
-    var hh='<div class="section-title" style="margin-top:26px">Hover the grid &mdash; profit and loss at every price and date</div>';
-    hh+='<div class="section-sub">Each square is what this position is worth if '+esc(LAB.tick)+' is at that price on that date. Green is profit, red is loss.</div>';
+    var hh='<div class="section-title" style="margin-top:26px">Hover the grid — profit and loss at every price and date</div>';
+    hh+='<div class="section-sub">Each square is what the whole position is worth if '+esc(LAB.tick)+' is at that price on that date. Green is profit, red is loss.</div>';
     hh+='<div class="card"><div id="lab-read" class="lab-read" style="margin-top:0;margin-bottom:12px">Hover or tap any square below.</div><div class="heat-wrap"><table class="heat"><thead><tr><th>'+esc(LAB.tick)+' price</th>';
     for(j=0;j<dates.length;j++)hh+='<th>'+dates[j]+'</th>';
     hh+='</tr></thead><tbody>';
     for(i=moves.length-1;i>=0;i--){
       hh+='<tr><td class="px">'+(moves[i]===0?'<b>$'+prices[i].toFixed(2)+' (now)</b>':'$'+prices[i].toFixed(2)+' <span style="color:var(--muted)">('+(moves[i]>0?'+':'')+(moves[i]*100).toFixed(0)+'%)</span>')+'</td>';
-      for(j=0;j<fracs.length;j++){
-        var pl2=grid[i][j],a=mxa?Math.min(1,Math.abs(pl2)/mxa):0;
-        var bg=pl2>=0?('rgba(0,226,138,'+(0.10+a*0.55).toFixed(2)+')'):('rgba(255,77,109,'+(0.10+a*0.55).toFixed(2)+')');
-        hh+='<td class="cell" style="background:'+bg+';color:#fff;font-weight:700" onmouseover="labHover('+i+','+j+')" onclick="labHover('+i+','+j+')">'+labMoney(pl2)+'</td>';
-      }
+      for(j=0;j<fracs.length;j++){var pl2=grid[i][j],a=mxa?Math.min(1,Math.abs(pl2)/mxa):0;var bg=pl2>=0?('rgba(0,226,138,'+(0.10+a*0.55).toFixed(2)+')'):('rgba(255,77,109,'+(0.10+a*0.55).toFixed(2)+')');hh+='<td class="cell" style="background:'+bg+';color:#fff;font-weight:700" onmouseover="labHover('+i+','+j+')" onclick="labHover('+i+','+j+')">'+labMoney(pl2)+'</td>';}
       hh+='</tr>';
     }
-    hh+='</tbody></table></div><div class="s-note" style="margin-top:12px">Premiums are modelled with Black-Scholes at the volatility above, not live bid/ask. Real prices differ &mdash; especially around earnings. Educational tool, not a recommendation.</div></div>';
+    hh+='</tbody></table></div><div class="s-note" style="margin-top:12px">Premiums are modelled with Black-Scholes at the volatility above — not live bid/ask. Real option prices differ, especially around earnings. Educational tool, not a recommendation.</div></div>';
     out.innerHTML=h+hh;
   }
   function setupDrawdownCollapse(){
