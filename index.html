@@ -2716,7 +2716,7 @@
     var l=lessonById(id);if(!l)return;LEARN.view='lesson';LEARN.lesson=l;
     var pr=learnProg();if(pr.viewed.indexOf(id)<0){pr.viewed.push(id);learnProgSave(pr);}
     if(typeof edgeTrack==='function')edgeTrack('lesson_view',{id:id});
-    showTab('learn');renderLearn();
+    renderLearn();
   }
   function lessonViewHTML(l){
     var sec=function(lab,txt){return txt?'<div class="lv-sec"><div class="lv-sec-l">'+lab+'</div><div class="lv-sec-t">'+esc(txt)+'</div></div>':'';};
