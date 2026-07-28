@@ -891,6 +891,20 @@
   .lc-atm .lc-k{color:var(--gold)}
   .lc-atm td{background:rgba(245,196,81,.06)}
   @media(max-width:560px){.lc-table{font-size:11px}.lc-row td{padding:5px 5px}}
+
+  /* ===== Lab beginner controls (volatility presets + price range) ===== */
+  #lab-ivwrap.lab-iv,#lab-rangewrap.lab-iv{flex-direction:column;align-items:stretch;gap:7px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-top:10px}
+  .lab-ctrl-l{font-size:12.5px;font-weight:700;color:var(--text)}
+  .lab-ctrl-l #lab-ivword{color:var(--gold)}.lab-ctrl-l b{color:var(--muted);font-weight:600}
+  .lab-preset{display:flex;gap:6px;flex-wrap:wrap}
+  .lab-preset button{background:var(--card);border:1px solid var(--line);color:var(--text);padding:7px 13px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .lab-preset button:hover{border-color:var(--gold)}
+  .lab-hint{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .lab-adv{margin-top:2px}
+  .lab-adv summary{font-size:11.5px;color:var(--muted);cursor:pointer}
+  .lab-adv input[type=range]{width:100%;margin-top:8px}
+  .lab-rng-custom{font-size:12.5px;color:var(--muted)}
+  .lab-rng-custom input{width:62px;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 7px;font:inherit;font-size:12.5px;margin:0 2px}
 </style>
 </head>
 <body>
@@ -1530,8 +1544,26 @@
           <div id="lab-exps" class="lab-chips"></div>
           <div id="lab-strikes" class="lab-chips"></div>
           <div id="lab-ivwrap" class="lab-iv" style="display:none">
-            <label>Volatility <b id="lab-ivval">30%</b></label>
-            <input id="lab-iv" type="range" min="10" max="90" value="30" oninput="labRender()">
+            <div class="lab-ctrl-l">Expected swing <span id="lab-ivword">Normal</span> &middot; <b id="lab-ivval">35%</b></div>
+            <div class="lab-preset">
+              <button type="button" onclick="labIV(20,'Calm')">Calm</button>
+              <button type="button" onclick="labIV(35,'Normal')">Normal</button>
+              <button type="button" onclick="labIV(55,'Active')">Active</button>
+              <button type="button" onclick="labIV(85,'Wild')">Wild</button>
+            </div>
+            <div class="lab-hint">How big a swing the market expects. &ldquo;Normal&rdquo; fits most stocks &mdash; pick higher around earnings.</div>
+            <details class="lab-adv"><summary>Set exact %</summary><input id="lab-iv" type="range" min="10" max="150" value="35" oninput="labRender()"></details>
+          </div>
+          <div id="lab-rangewrap" class="lab-iv" style="display:none">
+            <div class="lab-ctrl-l">Price range on the grid &amp; chart</div>
+            <div class="lab-preset">
+              <button type="button" onclick="labRange(30)">&plusmn;30%</button>
+              <button type="button" onclick="labRange(50)">&plusmn;50%</button>
+              <button type="button" onclick="labRange(100)">&plusmn;100%</button>
+              <button type="button" onclick="labRange(200)">&plusmn;200%</button>
+            </div>
+            <div class="lab-rng-custom">Downside &minus;<input id="lab-lo" type="number" min="5" max="95" value="30" oninput="labRangeCustom()">%  &middot;  Upside +<input id="lab-hi" type="number" min="5" max="500" value="30" oninput="labRangeCustom()">%</div>
+            <div class="lab-hint">Push the upside higher to watch an unlimited-profit trade explode.</div>
           </div>
         </div>
         <div id="lab-out"></div>
@@ -3724,9 +3756,13 @@
     if(ss){h='<div class="lab-lbl">Strategy</div>';for(c=0;c<cats.length;c++){h+='<div class="lab-cat">'+cats[c]+'</div>';for(i=0;i<STRATS.length;i++){if(STRATS[i].cat!==cats[c])continue;h+=lchip(STRATS[i].n,LAB.strat===STRATS[i].k,"labSet('strat','"+STRATS[i].k+"')",'');}}ss.innerHTML=h;}
     var ee=el('lab-exps');if(ee){h='<div class="lab-lbl">Expiry</div>';for(i=0;i<LAB.exps.length;i++){var e=LAB.exps[i];h+=lchip(e.d.toLocaleDateString([],{month:'short',day:'numeric'}),LAB.ei===i,"labSet('ei',"+i+")",e.days+' days');}ee.innerHTML=h;}
     var kk=el('lab-strikes');if(kk){h='<div class="lab-lbl">Center strike</div>';for(i=0;i<LAB.strikes.length;i++){var K=LAB.strikes[i];var pctOff=((K-LAB.S)/LAB.S*100);var sub=(pctOff>=0?'+':'')+pctOff.toFixed(0)+'%';h+=lchip('$'+K,LAB.ci===i,"labSet('ci',"+i+")",sub);}kk.innerHTML=h;}
-    var iw=el('lab-ivwrap');if(iw)iw.style.display='flex';
+    var iw=el('lab-ivwrap');if(iw)iw.style.display='flex';var rw=el('lab-rangewrap');if(rw)rw.style.display='flex';
   }
   function labSet(f,v){LAB[f]=v;if(f==='strat')LAB.ci=labDefaultCenter();labChips();labRender();}
+  function labMoves(lo,hi){var out=[],i,n=5;for(i=n;i>=1;i--)out.push(+(lo*i/n).toFixed(4));out.push(0);for(i=1;i<=n;i++)out.push(+(hi*i/n).toFixed(4));return out;}
+  function labIV(v,word){var s=el('lab-iv');if(s)s.value=v;var w=el('lab-ivword');if(w)w.textContent=word;labRender();}
+  function labRange(p){LAB.loPct=-p/100;LAB.hiPct=p/100;var lo=el('lab-lo'),hi=el('lab-hi');if(lo)lo.value=p;if(hi)hi.value=p;labRender();}
+  function labRangeCustom(){var lo=Math.abs(+el('lab-lo').value||30),hi=Math.abs(+el('lab-hi').value||30);LAB.loPct=-Math.min(95,Math.max(5,lo))/100;LAB.hiPct=Math.min(500,Math.max(5,hi))/100;labRender();}
   function labHover(i,j){var g=LABG,rd=el('lab-read');if(!rd||!g.pl[i])return;var pl=g.pl[i][j],pr=g.cap?(pl/g.cap*100):0;
     rd.innerHTML='If <b>'+esc(g.tick)+'</b> is at <b>$'+g.p[i].toFixed(2)+'</b> on <b>'+g.d[j]+'</b> &rarr; '+(pl>=0?'<b style="color:var(--buy)">+'+labMoney(pl)+'</b>':'<b style="color:var(--avoid)">'+labMoney(pl)+'</b>')+' <span style="color:var(--muted)">('+(pr>=0?'+':'')+pr.toFixed(1)+'% on the '+labMoney(g.cap)+' at risk)</span>';}
   function labZoneText(zones,S){
@@ -3736,7 +3772,7 @@
     return 'below '+f(zones[0][1])+' or above '+f(zones[zones.length-1][0]);
   }
   function labChart(prems,S,r,v,mm){
-    var lo=Math.max(1,Math.min(S*0.5,mm[0]*0.85)),hi=Math.max(S*1.5,mm[1]*1.15),W=720,H=210,pad=30,i,pts=[],mn=1e12,mx=-1e12;
+    var _lp=(LAB.loPct!=null?LAB.loPct:-0.3),_hp=(LAB.hiPct!=null?LAB.hiPct:0.3);var lo=Math.max(1,Math.min(S*(1+_lp),mm[0]*0.85)),hi=Math.max(S*(1+_hp),mm[1]*1.15),W=720,H=210,pad=30,i,pts=[],mn=1e12,mx=-1e12;
     for(i=0;i<=90;i++){var Sf=lo+(hi-lo)*i/90,pl=posPL(Sf,0,r,v,S,prems);pts.push([Sf,pl]);if(pl<mn)mn=pl;if(pl>mx)mx=pl;}
     if(mx<=mn)mx=mn+1;var padv=(mx-mn)*0.12;mn-=padv;mx+=padv;
     var X=function(p){return pad+(p-lo)/(hi-lo)*(W-pad*2);},Y=function(p){return H-pad-(p-mn)/(mx-mn)*(H-pad*2);};
@@ -3757,7 +3793,7 @@
     var out=el('lab-out');if(!out)return;
     if(!LAB.S||LAB.ci<0||!LAB.exps.length){out.innerHTML='';return;}
     var S=LAB.S,exp=LAB.exps[LAB.ei],D=exp.days,T=D/365,r=0.045,i,j;
-    var v=(+el('lab-iv').value)/100;var ivv=el('lab-ivval');if(ivv)ivv.textContent=(v*100).toFixed(0)+'%';
+    var v=(+el('lab-iv').value)/100;var ivv=el('lab-ivval');if(ivv)ivv.textContent=(v*100).toFixed(0)+'%';var _iw=el('lab-ivword');if(_iw)_iw.textContent=(v<0.28?'Calm':v<0.45?'Normal':v<0.68?'Active':'Wild');
     var strat=stratOf(LAB.strat),legs=strat.legs,prems=labEntryPrems(S,T,r,v);
     var net=0,smin=1e15,smax=-1e15;
     for(i=0;i<legs.length;i++){var L=legs[i],q=(L.q||1);if(L.t!=='stock'){net+=L.s*prems[i]*100*q;var K=legK(L);if(K<smin)smin=K;if(K>smax)smax=K;}}
@@ -3780,7 +3816,7 @@
     h+='<div class="lab-greeks"><span><b>Delta</b> '+g.delta.toFixed(0)+'</span><span><b>Gamma</b> '+g.gamma.toFixed(1)+'</span><span><b>Theta</b> '+labMoney(g.theta)+'/day</span><span><b>Vega</b> '+labMoney(g.vega)+' / 1% IV</span></div>';
     var desc='This is a <b>'+strat.n.toLowerCase()+'</b> — '+netTxt+'. At expiration you profit if '+esc(LAB.tick)+' finishes <b>'+labZoneText(stt.zones,S)+'</b>. The most you can lose is <b>'+(maxL==null?'unlimited':labMoney(maxL))+'</b>; the most you can make is <b>'+(maxP==null?'unlimited':labMoney(maxP))+'</b>. By the model, roughly a <b>'+(pop*100).toFixed(0)+'%</b> chance it finishes profitable.';
     h+='<div class="eread-b" style="margin-top:12px">'+desc+'</div></div>';
-    var moves=[-0.30,-0.20,-0.15,-0.10,-0.05,0,0.05,0.10,0.15,0.20,0.30],fracs=[0,0.25,0.5,0.75,1],mxa=0,prices=[],dates=[],grid=[];
+    var _lo=(LAB.loPct!=null?LAB.loPct:-0.30),_hi=(LAB.hiPct!=null?LAB.hiPct:0.30);var moves=labMoves(_lo,_hi),fracs=[0,0.25,0.5,0.75,1],mxa=0,prices=[],dates=[],grid=[];
     for(j=0;j<fracs.length;j++){var dt=new Date(Date.now()+D*fracs[j]*86400000);dates.push(j===fracs.length-1?'expiry':dt.toLocaleDateString([],{month:'short',day:'numeric'}));}
     for(i=0;i<moves.length;i++){prices.push(S*(1+moves[i]));var row=[];for(j=0;j<fracs.length;j++){var pl=posPL(S*(1+moves[i]),T*(1-fracs[j]),r,v,S,prems);row.push(pl);if(Math.abs(pl)>mxa)mxa=Math.abs(pl);}grid.push(row);}
     LABG={p:prices,d:dates,pl:grid,cap:cap,tick:LAB.tick};
