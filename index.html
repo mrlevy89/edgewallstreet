@@ -3986,10 +3986,18 @@
   async function renderEarningsGrid(){
     var box=el('ec-week');if(!box)return;var key=getKey();
     try{
-      var from=new Date(),to=new Date(Date.now()+14*864e5);
       function f(d){return d.toISOString().slice(0,10);}
-      var r=await fetch('https://finnhub.io/api/v1/calendar/earnings?from='+f(from)+'&to='+f(to)+'&token='+key).then(function(x){return x.json();});
-      var arr=(r&&r.earningsCalendar)||[];
+      // Finnhub's /calendar/earnings caps each response at ~1500 rows and truncates from the
+      // front, so a single 14-day request during peak earnings season drops the current week.
+      // Fetch in 7-day chunks and merge (deduped) so the near dates always appear.
+      var chunks=[[0,7],[7,14]],all=[],seen={},ci;
+      for(ci=0;ci<chunks.length;ci++){
+        var from=new Date(Date.now()+chunks[ci][0]*864e5),to=new Date(Date.now()+chunks[ci][1]*864e5);
+        var r=await fetch('https://finnhub.io/api/v1/calendar/earnings?from='+f(from)+'&to='+f(to)+'&token='+key).then(function(x){return x.json();}).catch(function(){return null;});
+        var a=(r&&r.earningsCalendar)||[];
+        for(var k=0;k<a.length;k++){var e=a[k];if(!e.symbol||!e.date)continue;var ek=e.symbol+'|'+e.date;if(seen[ek])continue;seen[ek]=1;all.push(e);}
+      }
+      var arr=all;
       if(!arr.length){box.innerHTML='<div class="wire-loading">No earnings scheduled in the next two weeks.</div>';return;}
       var days={};
       arr.forEach(function(e){if(!e.symbol||!e.date)return;if(!days[e.date])days[e.date]={bmo:[],amc:[]};(e.hour==='amc'?days[e.date].amc:days[e.date].bmo).push(e);});
