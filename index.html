@@ -178,8 +178,18 @@
   .mbar .mspace{flex:1}
   .mbar .mlogout{background:none;border:1px solid var(--line);color:var(--muted);font-size:12px;padding:6px 12px;border-radius:18px;cursor:pointer}
   /* global ticker search */
-  .gsearch{display:flex;gap:8px;margin:0 0 6px}
+  .gsearch{display:flex;gap:8px;margin:0 0 6px;position:relative}
   .gsearch input{flex:1;background:#0d1117;border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;font-size:16px}
+  .g-ac{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:30;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.32);overflow-y:auto;max-height:340px}
+  body.light .g-ac{box-shadow:0 14px 34px rgba(20,30,50,.16)}
+  .gac-row{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--line)}
+  .gac-row:last-child{border-bottom:none}
+  .gac-row:hover,.gac-row.on{background:var(--card2)}
+  .gac-sym{font-weight:800;font-size:14px;color:var(--text);min-width:62px}
+  .gac-desc{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gac-type{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-left:auto;flex:none}
+  .gac-news .gac-ico{min-width:62px;text-align:center;font-size:14px}
+  .gac-news,.gac-news .gac-desc{color:var(--gold);font-weight:600}
   .gsearch button{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#0b0a1f;border:none;padding:0 22px;border-radius:8px;font-weight:800;cursor:pointer;font-size:14px}
   .gsearch button.gs-rand{background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0 16px;font-weight:700}
   .gsearch button.gs-rand:hover{background:rgba(255,215,120,.08)}
@@ -1103,7 +1113,8 @@
     <!-- MEMBER DASHBOARD -->
     <div id="member">
       <div class="gsearch">
-        <input id="g-ticker" type="text" placeholder="Search for news, tickers or companies" autocomplete="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')gSearch()">
+        <input id="g-ticker" type="text" placeholder="Search a company, ticker, or news topic" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="gTypeahead(this.value)" onkeydown="gacKey(event)" onblur="setTimeout(gacHide,160)">
+        <div id="g-ac" class="g-ac" role="listbox" style="display:none"></div>
         <button class="gs-rand" onclick="surprise()" title="Surprise me with a random stock">Random</button>
         <button onclick="gSearch()">Search</button>
       </div>
@@ -1846,6 +1857,39 @@
     window.scrollTo(0, 0);
   }
   function gSearch(){ showTab('search'); runSearch(); }
+  var GAC={items:[],sel:-1,timer:null,seq:0};
+  function gTypeahead(q){q=(q||'').trim();clearTimeout(GAC.timer);if(q.length<1){gacHide();return;}GAC.timer=setTimeout(function(){gacFetch(q);},170);}
+  async function gacFetch(q){
+    var key=(typeof getKey==='function')?getKey():'';if(!key){return;}
+    var my=++GAC.seq;
+    try{
+      var r=await fhGet('https://finnhub.io/api/v1/search?q='+encodeURIComponent(q)+'&token='+key);
+      if(my!==GAC.seq)return;
+      var res=(r&&r.result)||[],out=[],seen={},i;
+      for(i=0;i<res.length;i++){var it=res[i],sym=(it.symbol||'').toUpperCase();
+        if(!sym||seen[sym]||sym.indexOf('.')>=0||!/^[A-Z]{1,6}$/.test(sym))continue;
+        seen[sym]=1;out.push({sym:sym,desc:it.description||'',type:(it.type||'').replace('Common Stock','Stock')});
+        if(out.length>=7)break;}
+      GAC.items=out;GAC.sel=-1;gacRender(q);
+    }catch(e){}
+  }
+  function gacRender(q){
+    var box=el('g-ac');if(!box)return;var h='',i;
+    for(i=0;i<GAC.items.length;i++){var it=GAC.items[i];
+      h+='<div class="gac-row'+(i===GAC.sel?' on':'')+'" role="option" onmousedown="event.preventDefault();gacPick('+i+')"><span class="gac-sym">'+esc(it.sym)+'</span><span class="gac-desc">'+esc(it.desc)+'</span>'+(it.type?'<span class="gac-type">'+esc(it.type)+'</span>':'')+'</div>';}
+    h+='<div class="gac-row gac-news" onmousedown="event.preventDefault();gacNews()"><span class="gac-ico">&#128269;</span><span class="gac-desc">Search news for &ldquo;'+esc(q)+'&rdquo;</span></div>';
+    box.innerHTML=h;box.style.display='block';
+  }
+  function gacHide(){var b=el('g-ac');if(b){b.style.display='none';b.innerHTML='';}GAC.items=[];GAC.sel=-1;}
+  function gacPick(i){var it=GAC.items[i];if(!it)return;var inp=el('g-ticker');if(inp)inp.value=it.sym;gacHide();gSearch();}
+  function gacNews(){var inp=el('g-ticker');var q=inp?inp.value.trim():'';gacHide();if(!q)return;showTab('search');++SEARCH_SEQ;renderNewsSearch(q,SEARCH_SEQ);}
+  function gacKey(e){
+    var b=el('g-ac'),open=(b&&b.style.display!=='none'&&(GAC.items.length||true));
+    if(e.key==='ArrowDown'&&open){e.preventDefault();GAC.sel=Math.min(GAC.items.length-1,GAC.sel+1);gacRender((el('g-ticker').value||'').trim());}
+    else if(e.key==='ArrowUp'&&open){e.preventDefault();GAC.sel=Math.max(-1,GAC.sel-1);gacRender((el('g-ticker').value||'').trim());}
+    else if(e.key==='Enter'){if(open&&GAC.sel>=0){e.preventDefault();gacPick(GAC.sel);}else{gacHide();gSearch();}}
+    else if(e.key==='Escape'){gacHide();}
+  }
   function goHome(){ showTab('today'); window.scrollTo(0,0); }
   function viewBrief(){ var m=document.getElementById('member'); if(m) m.scrollIntoView({behavior:'smooth',block:'start'}); }
   function isSub(){try{return localStorage.getItem('wse_sub')==='1';}catch(e){return false;}}
@@ -3775,12 +3819,12 @@
     var box=el('s-news');if(!box)return;var key=getKey();
     box.innerHTML='<div class="wire-sub">Latest on '+t+'</div><div class="wire-loading">Loading news…</div>';
     try{
-      var to=new Date(),from=new Date(Date.now()-7*864e5);
+      var to=new Date(),from=new Date(Date.now()-365*864e5);
       function f(d){return d.toISOString().slice(0,10);}
       var r=await cachedGet('https://finnhub.io/api/v1/company-news?symbol='+t+'&from='+f(from)+'&to='+f(to)+'&token='+key,300000);
       if(!r||!r.length){box.innerHTML='<div class="wire-sub">Latest on '+t+'</div><div class="wire-loading">No recent news.</div>';return;}
-      var erl=el('er-latest');if(erl){if(r[0]){erl.innerHTML='<b>Latest:</b> '+cleanHead(r[0])+' <a href="'+(r[0].url||'#')+'" target="_blank" rel="noopener">'+esc(r[0].source||'')+' &rarr;</a>';}else{erl.textContent='';}}var seen={},h='<div class="wire-sub">Latest on '+t+'</div>',c=0;
-      for(var i=0;i<r.length&&c<6;i++){var k=(r[i].headline||'').slice(0,55).toLowerCase();if(!k||seen[k])continue;seen[k]=1;h+=newsItem(r[i]);c++;}
+      var erl=el('er-latest');if(erl){if(r[0]){erl.innerHTML='<b>Latest:</b> '+cleanHead(r[0])+' <a href="'+(r[0].url||'#')+'" target="_blank" rel="noopener">'+esc(r[0].source||'')+' &rarr;</a>';}else{erl.textContent='';}}var seen={},h='<div class="wire-sub">News on '+t+' &middot; past 12 months</div>',c=0;
+      for(var i=0;i<r.length&&c<12;i++){var k=(r[i].headline||'').slice(0,55).toLowerCase();if(!k||seen[k])continue;seen[k]=1;h+=newsItem(r[i]);c++;}
       box.innerHTML=h;
     }catch(e){box.innerHTML='';}
   }
