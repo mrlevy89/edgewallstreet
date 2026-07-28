@@ -860,6 +860,37 @@
   .ea-teaser-s{color:var(--muted);font-size:12.5px;line-height:1.45}
   .ea-teaser-cta{color:var(--gold);font-size:12.5px;font-weight:700;margin-top:7px}
   @media(max-width:560px){.ea-price-row{flex-direction:column}.ea-up-acts{flex-direction:column}.ea-matrix{font-size:11px}}
+
+  /* ===== OPTION CHAIN PICKER (OPC-style, modeled) ===== */
+  .lc-open{background:var(--gold);border:none;color:#04120b;font-weight:800;font-size:12px;padding:5px 11px;border-radius:8px;cursor:pointer;margin-left:8px;white-space:nowrap}
+  .lc-open:hover{filter:brightness(1.08)}
+  .lc-modal{position:fixed;inset:0;z-index:10001;display:none}
+  .lc-modal.on{display:block}
+  .lc-back{position:absolute;inset:0;background:rgba(4,6,12,.74);backdrop-filter:blur(3px)}
+  .lc-sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(680px,96vw);max-height:90vh;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+  .lc-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .lc-hd span{font-size:16px;font-weight:800}
+  .lc-x{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer}
+  .lc-note{font-size:11.5px;color:var(--muted);line-height:1.5;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:8px 11px;margin-bottom:10px}
+  .lc-note b{color:var(--watch)}
+  .lc-dates{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+  .lc-date{background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:5px 10px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer}
+  .lc-date.on{background:var(--gold);border-color:var(--gold);color:#04120b}
+  .lc-tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+  .lc-table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .lc-table thead th{position:sticky;top:0;background:var(--card2);padding:6px 8px;font-size:11px;font-weight:800;border-bottom:1px solid var(--line);z-index:1}
+  .lc-callh{color:var(--buy);text-align:center;letter-spacing:.05em}
+  .lc-puth{color:var(--avoid);text-align:center;letter-spacing:.05em}
+  .lc-strkh{color:var(--text);text-align:center}
+  .lc-sub th{font-size:10px;color:var(--muted);font-weight:700;text-align:right;padding:4px 8px}
+  .lc-row td{padding:5px 8px;text-align:right;border-bottom:1px solid #1c2030;cursor:pointer}
+  .lc-c{color:#cfe9db}.lc-p{color:#f0cdd6}
+  .lc-c:hover,.lc-p:hover{background:var(--card2);color:#fff}
+  .lc-mid{color:var(--muted);font-weight:700}
+  .lc-k{text-align:center;font-weight:800;color:var(--text);background:var(--bg);cursor:default}
+  .lc-atm .lc-k{color:var(--gold)}
+  .lc-atm td{background:rgba(245,196,81,.06)}
+  @media(max-width:560px){.lc-table{font-size:11px}.lc-row td{padding:5px 5px}}
 </style>
 </head>
 <body>
@@ -2992,6 +3023,93 @@
     return '<div class="ea-teaser" onclick="openUpgrade(\''+cap+'\')"><span class="ea-badge '+c.tier+'">'+(c.tier==='elite'?'ELITE':'PRO')+'</span><div class="ea-teaser-t">'+esc(title)+'</div><div class="ea-teaser-s">'+esc(line||c.b)+'</div><div class="ea-teaser-cta">Get the full Edge →</div></div>';}
   /* ================= END PAID UI ================= */
 
+  /* ============ OPC-STYLE OPTION CHAIN (modeled, swap-ready) ============
+   Get price → Select option → Bid/Mid/Ask by strike & expiry, like
+   optionsprofitcalculator.com. Uses the SAME bsVal() the Lab uses, so
+   the chain and the payoff never disagree. Prices are MODELED today;
+   the exact same UI shows real 15-min-delayed quotes the moment a live
+   options feed (marketdata.app / Tradier) is routed through EdgeData. */
+  var CHAIN={ei:0,exps:[],S:0};
+  var CH_MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function chFmtExp(d){var y=new Date().getFullYear();return d.getDate()+' '+CH_MO[d.getMonth()]+(d.getFullYear()!==y?(" '"+String(d.getFullYear()).slice(2)):'');}
+  function chPush(out,seen,dd,now){var days=Math.round((dd-now)/86400000);if(days<0)return;var key=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate();if(seen[key])return;seen[key]=1;out.push({d:dd,days:Math.max(1,days),label:chFmtExp(dd)});}
+  function chainExps(){
+    var out=[],seen={},now=new Date();
+    var d=new Date(now);var add=(5-d.getDay()+7)%7;d.setDate(d.getDate()+(add===0?7:add)); // upcoming Friday
+    for(var i=0;i<8;i++){var w=new Date(d);w.setDate(d.getDate()+i*7);chPush(out,seen,w,now);}   // weeklies
+    var y=now.getFullYear(),m=now.getMonth();
+    for(var k=0;k<18;k++){chPush(out,seen,thirdFriday(y,m+k),now);}                                // monthlies
+    out.sort(function(a,b){return a.days-b.days;});
+    return out.slice(0,16);
+  }
+  function chainStrikes(S){var st=strikeStep(S),lo=Math.max(st,Math.floor(S*0.6/st)*st),hi=Math.ceil(S*1.4/st)*st,out=[],k;for(k=lo;k<=hi+0.001;k+=st)out.push(+k.toFixed(2));return out;}
+  function chainQuote(type,S,K,T,r,v){var mid=Math.max(0,bsVal(type,S,K,T,r,v));var hs=Math.max(0.02,mid*0.03);var bid=mid-hs;bid=bid<0.01?null:+bid.toFixed(2);var ask=+Math.max(0.01,mid+hs).toFixed(2);return {bid:bid,mid:+mid.toFixed(2),ask:ask};}
+  function chIV(){var el2=el('lab-iv');var v=el2?(+el2.value)/100:0.3;return (v>0?v:0.3);}
+  function ensureChainModal(){
+    if(el('lab-chain'))return;
+    var d=document.createElement('div');d.id='lab-chain';d.className='lc-modal';
+    d.innerHTML='<div class="lc-back" onclick="chainClose()"></div><div class="lc-sheet"><div class="lc-hd"><span id="lc-title">Choose an option</span><button class="lc-x" onclick="chainClose()">✕</button></div><div class="lc-note" id="lc-note"></div><div class="lc-dates" id="lc-dates"></div><div class="lc-tablewrap"><div id="lc-table"></div></div></div>';
+    document.body.appendChild(d);
+  }
+  function openChain(){
+    if(!LAB.S){if(typeof toast==='function')toast('Load a ticker first (Get price).');return;}
+    ensureChainModal();CHAIN.S=LAB.S;CHAIN.exps=chainExps();
+    // default to the currently selected Lab expiry if it maps, else first
+    CHAIN.ei=0;var labDays=(LAB.exps&&LAB.exps[LAB.ei])?LAB.exps[LAB.ei].days:null;
+    if(labDays!=null){var best=1e9,bi=0;for(var i=0;i<CHAIN.exps.length;i++){var dd=Math.abs(CHAIN.exps[i].days-labDays);if(dd<best){best=dd;bi=i;}}CHAIN.ei=bi;}
+    el('lab-chain').classList.add('on');document.body.style.overflow='hidden';
+    if(typeof edgeTrack==='function')edgeTrack('lab_chain_open',{tick:LAB.tick});
+    renderChain();
+  }
+  function chainClose(){var m=el('lab-chain');if(m)m.classList.remove('on');document.body.style.overflow='';}
+  function chainPickExp(i){CHAIN.ei=i;renderChain();}
+  function renderChain(){
+    var t=el('lc-title');if(t)t.textContent='Choose an option — $'+esc(LAB.tick)+' · $'+LAB.S.toFixed(2);
+    var v=chIV();
+    el('lc-note').innerHTML='Modeled prices (Black-Scholes, IV '+Math.round(v*100)+'%). These become <b>real 15-minute-delayed quotes</b> once a live options feed is connected. Not live pricing.';
+    var exps=CHAIN.exps,ei=CHAIN.ei;
+    var dh='';for(var i=0;i<exps.length;i++)dh+='<button class="lc-date'+(i===ei?' on':'')+'" onclick="chainPickExp('+i+')">'+esc(exps[i].label)+'</button>';
+    el('lc-dates').innerHTML=dh;
+    var S=LAB.S,r=0.045,exp=exps[ei],T=exp.days/365;
+    var ks=chainStrikes(S);
+    var atmK=ks[0],bd=1e15;for(i=0;i<ks.length;i++){var dd=Math.abs(ks[i]-S);if(dd<bd){bd=dd;atmK=ks[i];}}
+    var h='<table class="lc-table"><thead><tr><th colspan="3" class="lc-callh">Calls</th><th class="lc-strkh">Strike</th><th colspan="3" class="lc-puth">Puts</th></tr>'+
+      '<tr class="lc-sub"><th>Bid</th><th>Mid</th><th>Ask</th><th></th><th>Bid</th><th>Mid</th><th>Ask</th></tr></thead><tbody>';
+    for(i=0;i<ks.length;i++){var K=ks[i];
+      var c=chainQuote('call',S,K,T,r,v),p=chainQuote('put',S,K,T,r,v);
+      var atm=(K===atmK)?' lc-atm':'';
+      var cb=c.bid==null?'&ndash;':c.bid.toFixed(2),pb=p.bid==null?'&ndash;':p.bid.toFixed(2);
+      h+='<tr class="lc-row'+atm+'">'
+        +'<td class="lc-c" onclick="chainPick(\'call\','+K+','+i+')">'+cb+'</td>'
+        +'<td class="lc-c lc-mid" onclick="chainPick(\'call\','+K+','+i+')">'+c.mid.toFixed(2)+'</td>'
+        +'<td class="lc-c" onclick="chainPick(\'call\','+K+','+i+')">'+c.ask.toFixed(2)+'</td>'
+        +'<td class="lc-k">'+K.toFixed(2)+'</td>'
+        +'<td class="lc-p" onclick="chainPick(\'put\','+K+','+i+')">'+pb+'</td>'
+        +'<td class="lc-p lc-mid" onclick="chainPick(\'put\','+K+','+i+')">'+p.mid.toFixed(2)+'</td>'
+        +'<td class="lc-p" onclick="chainPick(\'put\','+K+','+i+')">'+p.ask.toFixed(2)+'</td></tr>';
+    }
+    h+='</tbody></table>';
+    el('lc-table').innerHTML=h;
+  }
+  /* Click a contract → load that strike + expiry into the calculator (same bsVal engine). */
+  function chainPick(type,K,rowIdx){
+    var exp=CHAIN.exps[CHAIN.ei];if(!exp)return;
+    // ensure this expiry exists in LAB.exps, select it
+    var found=-1;for(var i=0;i<LAB.exps.length;i++){if(Math.abs(LAB.exps[i].days-exp.days)<=1){found=i;break;}}
+    if(found<0){LAB.exps.push({d:exp.d,days:exp.days});found=LAB.exps.length-1;}
+    LAB.ei=found;
+    // recenter strikes on the picked strike, set center index
+    LAB.strikes=buildStrikes(K);LAB.ci=labDefaultCenter();
+    // if a single-leg makes sense, orient the strategy to what they clicked
+    if(LAB.strat==='long-call'||LAB.strat==='long-put'){LAB.strat=(type==='call'?'long-call':'long-put');}
+    chainClose();
+    if(typeof labChips==='function')labChips();
+    if(typeof labRender==='function')labRender();
+    if(typeof edgeTrack==='function')edgeTrack('lab_chain_pick',{tick:LAB.tick,type:type,strike:K,days:exp.days});
+    if(typeof toast==='function')toast('Loaded $'+K.toFixed(2)+' '+(type==='call'?'call':'put')+' · '+exp.label+' into the calculator');
+  }
+  /* ============ END OPTION CHAIN ============ */
+
   function renderStock(d){
     var chg=(d.chgp!=null&&!isNaN(d.chgp))?' <span class="s-chg '+(d.chgp>=0?'pos':'neg')+'">'+(d.chgp>=0?'▲ +':'▼ ')+(+d.chgp).toFixed(2)+'%</span>':'';
     var h='<div class="s-head"><div class="s-id"><span class="s-logowrap">'+logoImg(d.logo,d.tick||'?','s')+'</span><span class="nm">'+d.name+'</span></div><span class="px">'+d.price+chg+'<span class="s-mkt">'+d.mkt+'</span></span></div>';
@@ -3586,7 +3704,7 @@
     labChips();labRender();
   }
   function labChips(){
-    var m=el('lab-meta');if(m)m.innerHTML='<b>'+esc(LAB.tick)+'</b> trading at <b>$'+LAB.S.toFixed(2)+'</b>';
+    var m=el('lab-meta');if(m)m.innerHTML='<b>'+esc(LAB.tick)+'</b> trading at <b>$'+LAB.S.toFixed(2)+'</b> <button class="lc-open" onclick="openChain()">▤ Option chain</button>';
     var i,h,cats=['Bullish','Bearish','Neutral','Volatility'],c;
     var ss=el('lab-strats');
     if(ss){h='<div class="lab-lbl">Strategy</div>';for(c=0;c<cats.length;c++){h+='<div class="lab-cat">'+cats[c]+'</div>';for(i=0;i<STRATS.length;i++){if(STRATS[i].cat!==cats[c])continue;h+=lchip(STRATS[i].n,LAB.strat===STRATS[i].k,"labSet('strat','"+STRATS[i].k+"')",'');}}ss.innerHTML=h;}
