@@ -938,11 +938,47 @@
   .ec-why{margin-top:10px;padding:9px 12px;background:var(--card2);border:1px solid var(--line);border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--muted)}
   .tick,.er-t,.dd-tick{cursor:pointer}
   .tick:hover,.er-t:hover,.dd-tick:hover{text-decoration:underline;filter:brightness(1.12)}
+
+  /* ===== Theme toggle + LIGHT MODE ===== */
+  .theme-tgl{position:absolute;top:14px;left:2px;background:transparent;border:1px solid var(--line);color:var(--muted);width:30px;height:30px;border-radius:50%;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;z-index:5}
+  .theme-tgl:hover{border-color:var(--gold);color:var(--gold)}
+  body.light{
+    --bg:#f4f6fb; --card:#ffffff; --card2:#eef1f7; --line:#dbe1ec;
+    --text:#0e1422; --muted:#5c6373; --accent:#3a5bd0;
+    --gold:#00a86b; --gold2:#00b877;
+    --buy:#00a86b; --buy-bg:#dcf5e9; --avoid:#d61f42; --avoid-bg:#fbe2e8;
+    --watch:#a9750a; --watch-bg:#f7edcf; --in:#00a86b; --out:#d61f42;
+    --c-green:#00a86b; --c-blue:#2f6fe0; --c-violet:#8b3ff0; --c-pink:#d63f78; --c-cyan:#0e8ba8; --c-amber:#a9750a;
+    background:#f4f6fb;
+  }
+  body.light{background-image:radial-gradient(620px 420px at 12% -80px,rgba(0,168,107,.06),transparent)}
+  /* hardcoded dark card/gradient surfaces -> white card */
+  body.light .mood,body.light .card,body.light .vital,body.light .hero,body.light .gate-card,body.light .login,body.light .paywall,body.light .mv-tile,body.light .vmodal,body.light .es-card,body.light .ec-card,body.light .eread,body.light .brk-item,body.light .lab-c,body.light .ec-day,body.light .cmp-table,body.light .signal,body.light .rgate,body.light .fl-card,body.light .wl-summary,body.light .ea-plan,body.light .lz-path{background:var(--card)}
+  body.light .ea-teaser{background:var(--card2)}
+  /* dark inputs -> light */
+  body.light .login input,body.light .gsearch input,body.light .calc input,body.light .search-bar input,body.light .search-key input,body.light .lab-top input,body.light .lab-f input,body.light .lab-f select,body.light .cmp-inputs input{background:#fff;color:var(--text)}
+  body.light .compare thead th{background:var(--card2)}
+  /* tracks / bars */
+  body.light .dd-track,body.light .bar,body.light .conf-bar{background:#e3e8f1}
+  /* tinted badges */
+  body.light .r-low{background:var(--buy-bg)}
+  body.light .r-med{background:var(--watch-bg)}
+  body.light .r-high{background:var(--avoid-bg)}
+  body.light .disclaimer{background:var(--watch-bg)}
+  body.light .lz-diff.ad{background:#f7dfea}
+  body.light .ec-dot.grey{background:#b9c0cf}
+  body.light .rgate-buy.dark{background:#e3e8f1;color:var(--text)}
+  /* hardcoded LIGHT text -> dark, for light mode */
+  body.light .mood p,body.light .row .v,body.light .gloss,body.light .regime p,body.light .hero-item .ht,body.light .pw-tagline,body.light .pw-list div,body.light .tagline,body.light .calc .out,body.light .vmodal-b,body.light .ec-l,body.light .ec-verdict,body.light .eread-b,body.light .eread-sum,body.light .ept,body.light .lab-read,body.light .lab-greeks,body.light .wire-sum,body.light .s-note,body.light .signal-body,body.light .rgate-bullets li,body.light .doc-body,body.light .share-cap-t,body.light .lv-sec-t,body.light .lv-deep-t,body.light .cmp-table .c2,body.light .disclaimer{color:var(--text)}
+  body.light .eread-b b,body.light .eread-sum b,body.light .ept b,body.light .doc-body strong,body.light .brand-mid{color:var(--text)}
+  body.light .lc-c{color:var(--buy)}
+  body.light .lc-p{color:var(--avoid)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
+    <button class="theme-tgl" id="themeTgl" onclick="toggleTheme()" title="Light / dark mode" aria-label="Toggle light or dark mode">☾</button>
     <button class="sub-pill" id="subBtn" onclick="openMembership()">Sign in</button>
     <a href="#" class="logo-link" onclick="goHome();return false;" title="Home">
     <div class="lockup">
@@ -3424,6 +3460,10 @@
     if(typeof edgeTrack==='function')edgeTrack('ticker_click',{tick:m[1]});
   }
   try{document.addEventListener('click',edgeTickerClick,false);}catch(e){}
+  function edgeTheme(){try{return localStorage.getItem('edge_theme')||'dark';}catch(e){return 'dark';}}
+  function applyTheme(t){var b=document.body;if(!b)return;if(t==='light')b.classList.add('light');else b.classList.remove('light');var btn=document.getElementById('themeTgl');if(btn)btn.textContent=(t==='light'?'☀':'☾');var mt=document.querySelector('meta[name=\'theme-color\']');if(mt)mt.setAttribute('content',t==='light'?'#f4f6fb':'#0b0c12');}
+  function toggleTheme(){var t=(edgeTheme()==='light')?'dark':'light';try{localStorage.setItem('edge_theme',t);}catch(e){}applyTheme(t);if(typeof edgeTrack==='function')edgeTrack('theme_toggle',{theme:t});}
+  try{applyTheme(edgeTheme());}catch(e){}
   function wlRow(t){
     var e=DB[t];
     var name=e?e.name:'';
