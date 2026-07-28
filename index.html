@@ -2925,10 +2925,8 @@
     h+=sec('How Edge uses it',l.edge);
     if(l.tryAction)h+='<div class="lv-try"><button class="lv-try-btn" onclick="tryIt(\''+l.tryAction+'\')">'+esc(l.tryLabel||'Try it in Edge')+' →</button></div>';
     h+=sec('Common mistake',l.mistake);
-    if(l.deeper)h+='<details class="lv-deep"><summary>Go deeper</summary><div class="lv-deep-t">'+esc(l.deeper)+'</div></details>';
     h+='<div class="lv-notice">Educational only — not financial advice. Options examples in the Lab use <b>modeled premiums</b>, not live pricing.</div>';
     if(l.related&&l.related.length){h+='<div class="lv-rel-l">Keep learning</div><div class="lz-grid">'+l.related.map(function(id){var r=lessonById(id);return r?learnCard(r):'';}).join('')+'</div>';}
-    h+='<div class="lv-share"><button class="lv-share-btn" onclick="learnCopyLink(\''+l.id+'\')">Copy lesson link</button></div>';
     h+='</div>';return h;
   }
   function learnCopyLink(id){var url=(typeof EDGE_URL!=='undefined'?EDGE_URL:'https://edgewallstreet.com')+'/#/learn/'+id;if(typeof copyText==='function')copyText(url,'Lesson link copied');if(typeof edgeTrack==='function')edgeTrack('learn_copylink',{id:id});}
