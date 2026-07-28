@@ -926,6 +926,18 @@
   .lab-ack-body .lab-ack-terms a{color:var(--gold);text-decoration:none}
   .lab-ack-actions{display:flex;justify-content:flex-end;padding:8px 4px 2px}
   .lab-ack-actions .cmp-btn{width:auto;margin:0;padding:0 26px}
+  /* Merged Edge Check: angle + score justification */
+  .ec-angle{margin:12px 0 4px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:7px}
+  .eca-row{display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:1.45}
+  .eca-k{flex:0 0 128px;font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+  .eca-k.bull{color:var(--buy)}
+  .eca-k.bear{color:var(--avoid)}
+  .eca-k.drive{color:#5b9bd5}
+  .eca-k.brk{color:#d4a13a}
+  .eca-v{color:var(--text)}
+  .ec-why{margin-top:10px;padding:9px 12px;background:var(--card2);border:1px solid var(--line);border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--muted)}
+  .tick,.er-t{cursor:pointer}
+  .tick:hover,.er-t:hover{text-decoration:underline;filter:brightness(1.12)}
 </style>
 </head>
 <body>
@@ -2137,10 +2149,30 @@
     h+='<div class="es-card es-'+tier+'"><div class="es-num">'+es.score+arrow+'</div><div class="es-lab">Edge Score'+(delta!=null?' &middot; change since you last checked':'')+'</div><div class="es-comps">';
     for(i=0;i<es.comps.length;i++){var c=es.comps[i];h+='<span class="es-comp '+(c.v>0?'pos':c.v<0?'neg':'')+'">'+c.n+' '+(c.v>0?'+':'')+c.v+'</span>';}
     h+='</div><div class="es-miss">Not included (no data yet): '+es.missing.join(', ')+'.</div><div class="edge-learnlink" onclick="openLearn(\'edge-score\')">What is Edge Score? &rarr;</div></div>';
-    h+='<div class="ec-card"><div class="ec-h">Edge Check <span class="ec-sub">is the story backed by evidence?</span></div><div class="ec-rows">';
+    var _grn=ec.rows.filter(function(r){return r.tone==='green';}),_red=ec.rows.filter(function(r){return r.tone==='red';});
+    var _bull=_grn.length?(_grn[0].label+' \u2014 '+_grn[0].status):'Evidence thin on the upside';
+    var _bear=_red.length?(_red[0].label+' \u2014 '+_red[0].status):'No hard negative in the data';
+    var _drive=sig.catFresh?'A fresh catalyst the tape has not fully digested':((sig.nextDays!=null&&sig.nextDays<=14)?('Earnings in '+sig.nextDays+' days \u2014 a near-term repricing event'):'No single driver \u2014 the move looks stock-specific');
+    var _valR=null;for(i=0;i<ec.rows.length;i++){if(ec.rows[i].label==='Valuation')_valR=ec.rows[i];}
+    var _break=(_valR&&_valR.tone==='red')?'Multiple compression on any growth wobble':(_red.length?(_red[0].label+' turning decisive'):'A momentum break or a guide cut');
+    h+='<div class="ec-card"><div class="ec-h">Edge Check <span class="ec-sub">does the case hold up?</span></div><div class="ec-rows">';
     for(i=0;i<ec.rows.length;i++){var r=ec.rows[i];h+='<div class="ec-row"><span class="ec-dot '+r.tone+'"></span><span class="ec-l">'+r.label+'</span><span class="ec-v '+r.tone+'">'+r.status+'</span></div>';}
-    h+='</div><div class="ec-verdict"><b>Edge Verdict:</b> '+ec.verdict+'</div>';
-    h+='<div class="ec-method">Scored from price action, valuation, fundamentals, analyst ratings, catalysts, earnings and insider activity — modeled &amp; free data. Options flow, short interest and institutional positioning are not connected yet, so they are excluded rather than guessed.</div>';
+    h+='</div>';
+    h+='<div class="ec-angle">'
+      +'<div class="eca-row"><span class="eca-k bull">Bull case</span><span class="eca-v">'+_bull+'</span></div>'
+      +'<div class="eca-row"><span class="eca-k bear">Bear case</span><span class="eca-v">'+_bear+'</span></div>'
+      +'<div class="eca-row"><span class="eca-k drive">Driving it now</span><span class="eca-v">'+_drive+'</span></div>'
+      +'<div class="eca-row"><span class="eca-k brk">What could break it</span><span class="eca-v">'+_break+'</span></div>'
+      +'</div>';
+    h+='<div class="ec-verdict"><b>Bottom line:</b> '+ec.verdict+'</div>';
+    var _pos=es.comps.filter(function(c){return c.v>0;}).sort(function(a,b){return b.v-a.v;});
+    var _neg=es.comps.filter(function(c){return c.v<0;}).sort(function(a,b){return a.v-b.v;});
+    var _why='';
+    if(_pos.length)_why+='lifted by '+_pos.slice(0,2).map(function(c){return c.n;}).join(' & ');
+    if(_neg.length)_why+=(_why?'; held back by ':'held back by ')+_neg.slice(0,2).map(function(c){return c.n;}).join(' & ');
+    if(!_why)_why='not enough connected data to separate the drivers yet';
+    h+='<div class="ec-why">Why the score is '+es.score+': '+_why+'. Options flow, short interest and 13F positioning aren\'t in yet — they could move it.</div>';
+    h+='<div class="ec-method">Built from price action, valuation, fundamentals, analysts, catalysts and earnings — modeled &amp; free data. Options flow, short interest and institutional positioning aren&rsquo;t connected yet, so they&rsquo;re excluded, not guessed.</div>';
     h+='<div class="edge-learnlink" onclick="openLearn(\'edge-check\')">How Edge Check works &rarr;</div>';
     h+='<button class="ec-lab-btn" onclick="edgeToLab(\''+esc(sig.tick)+'\')">Model this trade in the Options Lab &rarr;</button>';
     h+='</div></div>';
@@ -2437,7 +2469,7 @@
   /* ---- X / social caption generator (per card, honest, curiosity-led) ---- */
   function captionFor(card,tick,spec){
     var link=cardDeepLink(card,tick);var lines=[];
-    if(card==='check'){lines.push('$'+tick+' — Edge Check');lines.push('Is the story backed by evidence? '+spec.focal+'.');var g=(spec.rows||[]).slice(0,3).map(function(r){return toneIcon(r.tone)+' '+r.text;});lines=lines.concat(g);lines.push('Edge Verdict: '+spec.verdict);}
+    if(card==='check'){lines.push('$'+tick+' — Edge Check');lines.push('Does the case hold up? '+spec.focal+'.');var g=(spec.rows||[]).slice(0,3).map(function(r){return toneIcon(r.tone)+' '+r.text;});lines=lines.concat(g);lines.push('Edge Verdict: '+spec.verdict);}
     else if(card==='score'){lines.push('$'+tick+' just scored '+spec.focal+' on Edge Score.');(spec.rows||[]).slice(0,3).forEach(function(r){lines.push(r.text);});lines.push('But is the story actually backed by evidence? Edge Check inside ↓');}
     else if(card==='changed'){lines.push('What changed in $'+tick+'?');(spec.rows||[]).slice(0,4).forEach(function(r){lines.push('• '+r.text);});lines.push('Edge tracks it so you don’t have to ↓');}
     else if(card==='bull'){lines.push('$'+tick+' — the bull case vs the bear case, weighted by the evidence.');lines.push(spec.verdict);}
@@ -3381,6 +3413,18 @@
   function addWatch(){var i=el('w-ticker');if(!i)return;var t=i.value.trim().toUpperCase();if(!t)return;var a=getWatch();if(a.indexOf(t)===-1){a.push(t);setWatch(a);}i.value='';renderWatch();}
   function removeWatch(t){setWatch(getWatch().filter(function(x){return x!==t;}));renderWatch();}
   function searchWatch(t){if(el('g-ticker'))el('g-ticker').value=t;showTab('search');runSearch();}
+  function edgeTickerClick(ev){
+    var tg=ev.target;if(!tg||!tg.closest)return;
+    var n=tg.closest('.tick,.er-t,[data-tk]');if(!n)return;
+    if(n.getAttribute('onclick'))return;               // element handles its own click
+    if(n.closest('a,button'))return;                    // inside an actionable control
+    var raw=(n.getAttribute('data-tk')||n.textContent||'').trim().toUpperCase();
+    var m=raw.match(/^\$?([A-Z][A-Z.\-]{0,5})$/);if(!m)return;
+    ev.preventDefault();ev.stopPropagation();
+    searchWatch(m[1]);
+    if(typeof edgeTrack==='function')edgeTrack('ticker_click',{tick:m[1]});
+  }
+  try{document.addEventListener('click',edgeTickerClick,false);}catch(e){}
   function wlRow(t){
     var e=DB[t];
     var name=e?e.name:'';
