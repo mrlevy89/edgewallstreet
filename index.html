@@ -905,6 +905,27 @@
   .lab-adv input[type=range]{width:100%;margin-top:8px}
   .lab-rng-custom{font-size:12.5px;color:var(--muted)}
   .lab-rng-custom input{width:62px;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 7px;font:inherit;font-size:12.5px;margin:0 2px}
+  .lab-legal{font-size:11.5px;color:var(--muted);line-height:1.5;margin:8px 0 2px}
+  .lab-legal a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,175,55,.4)}
+  .lab-adv-wrap{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--card2);overflow:hidden}
+  .lab-adv-wrap>summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:12.5px;font-weight:700;color:var(--text)}
+  .lab-adv-wrap>summary::-webkit-details-marker{display:none}
+  .lab-adv-wrap>summary::before{content:"+ ";color:var(--gold);font-weight:700}
+  .lab-adv-wrap[open]>summary::before{content:"\2212 "}
+  .lab-adv-wrap[open]>summary{border-bottom:1px solid var(--line)}
+  .lab-adv-wrap #lab-ivwrap,.lab-adv-wrap #lab-rangewrap{margin:11px 13px;border:none;background:transparent;padding:0}
+  .lab-adv-wrap #lab-rangewrap{margin-top:0}
+  /* Terms & acknowledgment modals reuse .lc-modal / .lc-sheet */
+  .terms-sheet,.lab-ack-sheet{max-width:560px}
+  .terms-body{padding:4px 4px 8px;max-height:64vh;overflow:auto;font-size:13.5px;line-height:1.6;color:var(--text)}
+  .terms-body h4{margin:14px 0 4px;font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em}
+  .terms-body p{margin:0 0 8px;color:var(--muted)}
+  .terms-body .terms-foot{margin-top:12px;font-style:italic;color:var(--text)}
+  .lab-ack-body{padding:6px 4px 4px;font-size:13.5px;line-height:1.6;color:var(--muted)}
+  .lab-ack-body b{color:var(--text)}
+  .lab-ack-body .lab-ack-terms a{color:var(--gold);text-decoration:none}
+  .lab-ack-actions{display:flex;justify-content:flex-end;padding:8px 4px 2px}
+  .lab-ack-actions .cmp-btn{width:auto;margin:0;padding:0 26px}
 </style>
 </head>
 <body>
@@ -1533,16 +1554,19 @@
       <!-- ===== TAB: LEARN ===== -->
       <div class="tabpanel" id="tab-lab">
         <div class="section-title">The Lab — see the trade before you make it</div>
-        <div class="section-sub">Type a ticker, pick a strategy (spreads, condors, straddles &amp; more), then set the strike, expiry and volatility. See the full payoff, breakevens, max profit/loss, Greeks and probability of profit — and hover the grid for any price and date.</div>
+        <div class="section-sub">Type a ticker, pick a strategy, choose a strike and expiry. See the payoff, breakevens, max profit/loss and probability of profit — hover the grid for any price and date.</div>
         <div class="card">
           <div class="lab-top">
             <input id="lab-tick" type="text" placeholder="Type a ticker — AAPL, NVDA, MU" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')labLoad()">
             <button class="cmp-btn" style="width:auto;margin:0;padding:0 26px" onclick="labLoad()">Load</button>
           </div>
           <div id="lab-meta" class="lab-meta"></div>
+          <div class="lab-legal">Educational tool. Prices are <b>modeled estimates</b> (Black-Scholes), not live quotes or financial advice. <a href="#" onclick="openTerms();return false">Terms &amp; disclaimer</a></div>
           <div id="lab-strats" class="lab-chips"></div>
           <div id="lab-exps" class="lab-chips"></div>
           <div id="lab-strikes" class="lab-chips"></div>
+          <details id="lab-advanced" class="lab-adv-wrap" style="display:none">
+            <summary>Fine-tune &mdash; expected swing &amp; price range</summary>
           <div id="lab-ivwrap" class="lab-iv" style="display:none">
             <div class="lab-ctrl-l">Expected swing <span id="lab-ivword">Normal</span> &middot; <b id="lab-ivval">35%</b></div>
             <div class="lab-preset">
@@ -1565,6 +1589,7 @@
             <div class="lab-rng-custom">Downside &minus;<input id="lab-lo" type="number" min="5" max="95" value="30" oninput="labRangeCustom()">%  &middot;  Upside +<input id="lab-hi" type="number" min="5" max="500" value="30" oninput="labRangeCustom()">%</div>
             <div class="lab-hint">Push the upside higher to watch an unlimited-profit trade explode.</div>
           </div>
+          </details>
         </div>
         <div id="lab-out"></div>
       </div>
@@ -1595,7 +1620,8 @@
 
   <footer>
     <b>The Wall Street Edge</b> · Independent market research · Live data via Finnhub<br>
-    Educational use only — not financial advice. Do your own research and never invest more than you can afford to lose.
+    Educational use only — not financial advice. Do your own research and never invest more than you can afford to lose.<br>
+    <a href="#" onclick="openTerms();return false" style="color:var(--gold);text-decoration:none">Terms &amp; disclaimer</a>
   </footer>
 </div>
 <div id="rgate-bg" class="rgate-bg" onclick="if(event.target===this)closeSubGate()">
@@ -2531,6 +2557,7 @@
   /* ---- deep-link router (hash-based; does not break existing URLs) ---- */
   function edgeRoute(){
     var h=location.hash||'';var m;
+    if(/^#\/terms\/?$/.test(h)){openTerms();return true;}
     if(m=h.match(/^#\/(?:stock|edge-check|edge-score)\/([A-Za-z.\-]+)/)){var t=m[1].toUpperCase();if(el('g-ticker'))el('g-ticker').value=t;showTab('search');if(typeof runSearch==='function')runSearch();edgeTrack('landing',{route:'stock',tick:t});return true;}
     if(m=h.match(/^#\/floor\/([A-Za-z.\-]+)/)){openFloorTicker(m[1].toUpperCase());edgeTrack('landing',{route:'floor',tick:m[1].toUpperCase()});return true;}
     if(/^#\/floor\/?$/.test(h)){showTab('floor');edgeTrack('landing',{route:'floor'});return true;}
@@ -3739,6 +3766,7 @@
   function labDefaultCenter(){var S=LAB.S,ks=LAB.strikes,best=0,bd=1e15,i;for(i=0;i<ks.length;i++){var d=Math.abs(ks[i]-S);if(d<bd){bd=d;best=i;}}return best;}
   async function labLoad(){
     var raw=(el('lab-tick').value||'').trim();var t=raw.toUpperCase();if(!t)return;
+    if(!edgeLabAck())return;
     var meta=el('lab-meta'),key=getKey();
     if(meta)meta.innerHTML='<span class="er-load">Loading '+esc(t)+'…</span>';
     if(!/^[A-Z]{1,5}$/.test(t)){var rs=await resolveSymbol(raw,key);if(rs){t=rs;el('lab-tick').value=t;}}
@@ -3756,13 +3784,57 @@
     if(ss){h='<div class="lab-lbl">Strategy</div>';for(c=0;c<cats.length;c++){h+='<div class="lab-cat">'+cats[c]+'</div>';for(i=0;i<STRATS.length;i++){if(STRATS[i].cat!==cats[c])continue;h+=lchip(STRATS[i].n,LAB.strat===STRATS[i].k,"labSet('strat','"+STRATS[i].k+"')",'');}}ss.innerHTML=h;}
     var ee=el('lab-exps');if(ee){h='<div class="lab-lbl">Expiry</div>';for(i=0;i<LAB.exps.length;i++){var e=LAB.exps[i];h+=lchip(e.d.toLocaleDateString([],{month:'short',day:'numeric'}),LAB.ei===i,"labSet('ei',"+i+")",e.days+' days');}ee.innerHTML=h;}
     var kk=el('lab-strikes');if(kk){h='<div class="lab-lbl">Center strike</div>';for(i=0;i<LAB.strikes.length;i++){var K=LAB.strikes[i];var pctOff=((K-LAB.S)/LAB.S*100);var sub=(pctOff>=0?'+':'')+pctOff.toFixed(0)+'%';h+=lchip('$'+K,LAB.ci===i,"labSet('ci',"+i+")",sub);}kk.innerHTML=h;}
-    var iw=el('lab-ivwrap');if(iw)iw.style.display='flex';var rw=el('lab-rangewrap');if(rw)rw.style.display='flex';
+    var iw=el('lab-ivwrap');if(iw)iw.style.display='flex';var rw=el('lab-rangewrap');if(rw)rw.style.display='flex';var adv=el('lab-advanced');if(adv)adv.style.display='block';
   }
   function labSet(f,v){LAB[f]=v;if(f==='strat')LAB.ci=labDefaultCenter();labChips();labRender();}
   function labMoves(lo,hi){var out=[],i,n=5;for(i=n;i>=1;i--)out.push(+(lo*i/n).toFixed(4));out.push(0);for(i=1;i<=n;i++)out.push(+(hi*i/n).toFixed(4));return out;}
   function labIV(v,word){var s=el('lab-iv');if(s)s.value=v;var w=el('lab-ivword');if(w)w.textContent=word;labRender();}
   function labRange(p){LAB.loPct=-p/100;LAB.hiPct=p/100;var lo=el('lab-lo'),hi=el('lab-hi');if(lo)lo.value=p;if(hi)hi.value=p;labRender();}
   function labRangeCustom(){var lo=Math.abs(+el('lab-lo').value||30),hi=Math.abs(+el('lab-hi').value||30);LAB.loPct=-Math.min(95,Math.max(5,lo))/100;LAB.hiPct=Math.min(500,Math.max(5,hi))/100;labRender();}
+  var EDGE_TERMS_HTML=[
+    '<h4>Educational use only</h4>',
+    '<p>The Edge (edgewallstreet.com) and all of its tools &mdash; including The Lab, Edge Score, Edge Check, The Angle, watchlist intelligence and any cards, briefs or signals &mdash; are provided for <b>informational and educational purposes only</b>. Nothing on this site is investment, legal, tax or financial advice, an offer or solicitation to buy or sell any security, or a recommendation of any strategy for any specific person.</p>',
+    '<h4>Modeled prices, not live quotes</h4>',
+    '<p>Option values, payoffs, breakevens, max profit and loss, Greeks and probability of profit shown in The Lab are <b>modeled estimates</b> generated with the Black-Scholes formula from the inputs you provide. They are not live market quotes, not guaranteed, and will differ from real fills. Actual results are affected by implied-volatility changes, bid/ask spreads and slippage, early assignment, dividends, commissions and fees, none of which are fully reflected here.</p>',
+    '<h4>Options carry substantial risk</h4>',
+    '<p>Trading options involves a high degree of risk and is not suitable for every investor. You can lose more than your initial investment. Before trading options you should read the standardized options disclosure document, <i>Characteristics and Risks of Standardized Options</i>, available from your broker or the Options Clearing Corporation.</p>',
+    '<h4>No warranty</h4>',
+    '<p>All content is provided &ldquo;as is&rdquo; without warranty of any kind, express or implied. We do not warrant that data is accurate, complete, current or uninterrupted. Third-party and market data may be delayed or contain errors.</p>',
+    '<h4>Your responsibility</h4>',
+    '<p>You are solely responsible for your own investment decisions and for evaluating the merits and risks of any transaction. Consider consulting a licensed financial professional. To the fullest extent permitted by law, The Edge and its operators are not liable for any loss or damage arising from your use of, or reliance on, this site.</p>',
+    '<p class="terms-foot">By using The Lab you acknowledge that you have read and agree to this disclaimer.</p>'
+  ].join('');
+  function edgeLabAck(){try{if(localStorage.getItem('edge_lab_ack')==='1')return true;}catch(e){return true;}openLabAck();return false;}
+  function openLabAck(){
+    var m=el('lab-ack');
+    if(!m){m=document.createElement('div');m.id='lab-ack';m.className='lc-modal';
+      m.innerHTML='<div class="lc-back"></div><div class="lc-sheet lab-ack-sheet">'
+        +'<div class="lc-hd"><span>Before you use The Lab</span></div>'
+        +'<div class="lab-ack-body">'
+        +'<p>The Lab is an <b>educational tool</b>. Everything it shows &mdash; payoffs, max profit and loss, Greeks, probability of profit &mdash; is a <b>modeled estimate</b> (Black-Scholes), not a live market quote.</p>'
+        +'<p>It is <b>not financial advice</b> and not a recommendation to buy or sell any security. Options carry substantial risk and are not suitable for every investor. Your decisions are your own.</p>'
+        +'<p class="lab-ack-terms">Read the full <a href="#" onclick="openTerms();return false">Terms &amp; disclaimer</a>.</p>'
+        +'</div>'
+        +'<div class="lab-ack-actions"><button class="cmp-btn" onclick="labAckOk()">I understand</button></div>'
+        +'</div>';
+      document.body.appendChild(m);
+    }
+    m.classList.add('on');document.body.style.overflow='hidden';
+  }
+  function labAckOk(){try{localStorage.setItem('edge_lab_ack','1');}catch(e){}var m=el('lab-ack');if(m)m.classList.remove('on');document.body.style.overflow='';if(typeof edgeTrack==='function')edgeTrack('lab_ack',{});if(typeof labLoad==='function')labLoad();}
+  function openTerms(){
+    var m=el('edge-terms');
+    if(!m){m=document.createElement('div');m.id='edge-terms';m.className='lc-modal';
+      m.innerHTML='<div class="lc-back" onclick="closeTerms()"></div><div class="lc-sheet terms-sheet">'
+        +'<div class="lc-hd"><span>Terms &amp; Disclaimer</span><button class="lc-x" onclick="closeTerms()">✕</button></div>'
+        +'<div class="terms-body">'+EDGE_TERMS_HTML+'</div>'
+        +'</div>';
+      document.body.appendChild(m);
+    }
+    m.classList.add('on');document.body.style.overflow='hidden';
+    if(typeof edgeTrack==='function')edgeTrack('terms_open',{});
+  }
+  function closeTerms(){var m=el('edge-terms');if(m)m.classList.remove('on');document.body.style.overflow='';}
   function labHover(i,j){var g=LABG,rd=el('lab-read');if(!rd||!g.pl[i])return;var pl=g.pl[i][j],pr=g.cap?(pl/g.cap*100):0;
     rd.innerHTML='If <b>'+esc(g.tick)+'</b> is at <b>$'+g.p[i].toFixed(2)+'</b> on <b>'+g.d[j]+'</b> &rarr; '+(pl>=0?'<b style="color:var(--buy)">+'+labMoney(pl)+'</b>':'<b style="color:var(--avoid)">'+labMoney(pl)+'</b>')+' <span style="color:var(--muted)">('+(pr>=0?'+':'')+pr.toFixed(1)+'% on the '+labMoney(g.cap)+' at risk)</span>';}
   function labZoneText(zones,S){
