@@ -936,8 +936,8 @@
   .eca-k.brk{color:#d4a13a}
   .eca-v{color:var(--text)}
   .ec-why{margin-top:10px;padding:9px 12px;background:var(--card2);border:1px solid var(--line);border-radius:10px;font-size:12.5px;line-height:1.5;color:var(--muted)}
-  .tick,.er-t{cursor:pointer}
-  .tick:hover,.er-t:hover{text-decoration:underline;filter:brightness(1.12)}
+  .tick,.er-t,.dd-tick{cursor:pointer}
+  .tick:hover,.er-t:hover,.dd-tick:hover{text-decoration:underline;filter:brightness(1.12)}
 </style>
 </head>
 <body>
@@ -3416,7 +3416,7 @@
   function searchWatch(t){if(el('g-ticker'))el('g-ticker').value=t;showTab('search');runSearch();}
   function edgeTickerClick(ev){
     var tg=ev.target;if(!tg||!tg.closest)return;
-    var n=tg.closest('.tick,.er-t,[data-tk]');if(!n)return;
+    var n=tg.closest('.tick,.er-t,.dd-tick,[data-tk]');if(!n)return;
     if(n.getAttribute('onclick'))return;               // element handles its own click
     if(n.closest('a,button'))return;                    // inside an actionable control
     var raw=(n.getAttribute('data-tk')||n.textContent||'').trim().toUpperCase();
