@@ -2222,11 +2222,12 @@
   function toneIcon(t){return t==='green'?'✓':t==='red'?'⚠':t==='amber'?'↔':t==='blue'?'↑':'—';}
   function wrapLines(str,max){var w=String(str||'').split(' '),lines=[],cur='';for(var i=0;i<w.length;i++){if((cur+' '+w[i]).trim().length>max){if(cur)lines.push(cur);cur=w[i];}else cur=(cur?cur+' ':'')+w[i];}if(cur)lines.push(cur);return lines;}
   /* ---- generic card renderer: spec -> SVG string ---- */
+  function edgeLogoURI(){try{var l=document.querySelector('.logo-svg');return (l&&l.src&&l.src.indexOf('data:')===0)?l.src:'';}catch(e){return '';}}
   function renderCard(spec,fmt){
     var F=CARDFMT[fmt]||CARDFMT.square,W=F.w,H=F.h,pad=Math.round(W*0.075);
     var sc=(fmt==='x')?0.66:(fmt==='story'?1.06:1);
     var acc=spec.accent||CTONE.gold;
-    var s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" font-family="Inter, Helvetica, Arial, sans-serif">';
+    var s='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" font-family="Inter, Helvetica, Arial, sans-serif">';
     s+='<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12141d"/><stop offset="1" stop-color="#0a0b11"/></linearGradient>';
     s+='<radialGradient id="glow" cx="0.15" cy="0" r="1"><stop offset="0" stop-color="'+acc+'" stop-opacity="0.10"/><stop offset="0.5" stop-color="'+acc+'" stop-opacity="0"/></radialGradient></defs>';
     s+='<rect width="'+W+'" height="'+H+'" fill="url(#bg)"/><rect width="'+W+'" height="'+H+'" fill="url(#glow)"/>';
@@ -2264,7 +2265,9 @@
     }
     // footer watermark
     var fy=H-pad+Math.round(6*sc);
-    s+='<text x="'+pad+'" y="'+fy+'" font-size="'+Math.round(30*sc)+'" font-weight="800" fill="#ffffff">THE <tspan fill="'+acc+'">EDGE</tspan></text>';
+    var _lg=(typeof edgeLogoURI==='function')?edgeLogoURI():'';
+    if(_lg){var _lh=Math.round(46*sc),_lw=Math.round(_lh*6.53);s+='<image xlink:href="'+_lg+'" x="'+pad+'" y="'+(H-pad-_lh+Math.round(8*sc))+'" width="'+_lw+'" height="'+_lh+'"/>';}
+    else{s+='<text x="'+pad+'" y="'+fy+'" font-size="'+Math.round(30*sc)+'" font-weight="800" fill="#ffffff">THE <tspan fill="'+acc+'">EDGE</tspan></text>';}
     s+='<text x="'+(W-pad)+'" y="'+fy+'" text-anchor="end" font-size="'+Math.round(22*sc)+'" fill="#8b90a3">edgewallstreet.com</text>';
     s+='</svg>';return s;
   }
@@ -2467,13 +2470,24 @@
     var r=shareCurrentSVG();if(!r)return;
     var cap=captionFor(SHARE.card,SHARE.tick,r.spec);var link=cardDeepLink(SHARE.card,SHARE.tick);
     var capNoLink=cap.replace('\n'+link,'').replace(link,'').trim();
-    var title='$'+SHARE.tick+' — '+(SHARE_LABELS[SHARE.card]||'Edge')+' · Edge Wall Street';
+    var title='$'+SHARE.tick+' \u2014 '+(SHARE_LABELS[SHARE.card]||'Edge')+' \u00b7 Edge Wall Street';
+    var F=CARDFMT[SHARE.fmt];
     edgeTrack('share_platform',{platform:p,tick:SHARE.tick,card:SHARE.card,fmt:SHARE.fmt});
-    if(p==='x')shareOpen('https://x.com/intent/tweet?text='+encodeURIComponent(cap));
-    else if(p==='whatsapp')shareOpen('https://wa.me/?text='+encodeURIComponent(cap));
-    else if(p==='telegram')shareOpen('https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(capNoLink));
-    else if(p==='reddit')shareOpen('https://www.reddit.com/submit?url='+encodeURIComponent(link)+'&title='+encodeURIComponent(title));
-    else if(p==='instagram')shareInstagram(cap);
+    var composer=p==='x'?('https://x.com/intent/tweet?text='+encodeURIComponent(cap))
+      :p==='whatsapp'?('https://wa.me/?text='+encodeURIComponent(cap))
+      :p==='telegram'?('https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(capNoLink))
+      :p==='reddit'?('https://www.reddit.com/submit?url='+encodeURIComponent(link)+'&title='+encodeURIComponent(title))
+      :p==='instagram'?'https://www.instagram.com/':'';
+    svgToPng(r.svg,F.w,F.h,function(b){
+      /* Best case: native share sheet attaches the actual IMAGE (mobile + supported desktop) */
+      if(b&&navigator.canShare){try{var file=new File([b],shareFileName(),{type:'image/png'});
+        if(navigator.canShare({files:[file]})){navigator.share({files:[file],text:cap,title:title}).then(function(){edgeTrack('share_native',{platform:p});}).catch(function(){});return;}
+      }catch(e){}}
+      /* Desktop fallback: download the image + copy caption + open the composer so the user attaches it */
+      if(b){try{var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=shareFileName();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},1500);}catch(e){}}
+      copyText(cap,'Image saved + caption copied \u2014 attach the image in your '+(p||'post'));
+      if(composer)shareOpen(composer);
+    });
   }
   function shareInstagram(cap){
     /* Instagram has no web post/compose link — save the image + copy the caption, then hand off */
