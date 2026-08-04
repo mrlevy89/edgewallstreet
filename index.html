@@ -3803,7 +3803,7 @@
   async function renderEarnings(box,key){
     try{
       var from=new Date(),to=new Date(Date.now()+7*864e5);
-      function f(d){return d.toISOString().slice(0,10);}
+      function f(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10);}
       var r=await fetch('https://finnhub.io/api/v1/calendar/earnings?from='+f(from)+'&to='+f(to)+'&token='+key).then(function(x){return x.json();});
       var arr=(r&&r.earningsCalendar)||[];
       if(!arr.length){box.innerHTML='<div class="wire-loading">No earnings scheduled this week.</div>';return;}
@@ -3818,7 +3818,7 @@
     box.innerHTML='<div class="wire-sub">Latest on '+t+'</div><div class="wire-loading">Loading news…</div>';
     try{
       var to=new Date(),from=new Date(Date.now()-365*864e5);
-      function f(d){return d.toISOString().slice(0,10);}
+      function f(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10);}
       var r=await cachedGet('https://finnhub.io/api/v1/company-news?symbol='+t+'&from='+f(from)+'&to='+f(to)+'&token='+key,300000);
       if(!r||!r.length){box.innerHTML='<div class="wire-sub">Latest on '+t+'</div><div class="wire-loading">No recent news.</div>';return;}
       var erl=el('er-latest');if(erl){if(r[0]){erl.innerHTML='<b>Latest:</b> '+cleanHead(r[0])+' <a href="'+(r[0].url||'#')+'" target="_blank" rel="noopener">'+esc(r[0].source||'')+' &rarr;</a>';}else{erl.textContent='';}}var seen={},h='<div class="wire-sub">News on '+t+' &middot; past 12 months</div>',c=0;
@@ -4116,11 +4116,11 @@
   async function renderEarningsGrid(){
     var box=el('ec-week');if(!box)return;var key=getKey();
     try{
-      function f(d){return d.toISOString().slice(0,10);}
+      function f(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10);}
       // Finnhub's /calendar/earnings caps each response at ~1500 rows and truncates from the
       // front, so a single 14-day request during peak earnings season drops the current week.
       // Fetch in 7-day chunks and merge (deduped) so the near dates always appear.
-      var chunks=[[0,7],[7,14]],all=[],seen={},ci;
+      var chunks=[[0,0],[0,7],[7,14]],all=[],seen={},ci;
       for(ci=0;ci<chunks.length;ci++){
         var from=new Date(Date.now()+chunks[ci][0]*864e5),to=new Date(Date.now()+chunks[ci][1]*864e5);
         var r=await fetch('https://finnhub.io/api/v1/calendar/earnings?from='+f(from)+'&to='+f(to)+'&token='+key).then(function(x){return x.json();}).catch(function(){return null;});
@@ -4177,6 +4177,5 @@
   runSearch();
   runCalcs();
 </script>
-<style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style>
-</body>
+<style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style></body>
 </html>
