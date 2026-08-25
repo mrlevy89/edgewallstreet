@@ -534,7 +534,7 @@
   .btn-gold{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#0b0a1f;border:none;padding:14px 30px;border-radius:8px;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
   .btn-ghost{background:none;border:1px solid var(--line);color:var(--text);padding:14px 28px;border-radius:8px;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.15s}
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-  .signal-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px;text-align:left}
+  .signal-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px;text-align:left;align-items:start}
   /* ===== SIGNAL CARDS ===== */
   .signal{background:linear-gradient(180deg,#141b2a,#0d1320);border:1px solid var(--line);border-radius:12px;padding:18px;transition:.15s}
   .signal:hover{border-color:#3a3420}
@@ -543,6 +543,13 @@
   .signal-conf{color:var(--text);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
   .signal-conf b{font-size:10px;color:var(--muted);font-weight:600;display:block;letter-spacing:1px;text-transform:uppercase;text-align:right;margin-top:3px}
   .signal-body{color:#c4cbd6;font-size:13.5px;line-height:1.5;margin:13px 0 14px}
+  .signal-body{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}
+  .signal.is-open .signal-body{-webkit-line-clamp:unset;overflow:visible}
+  .signal-more{display:inline-flex;align-items:center;gap:5px;background:none;border:0;padding:0;margin:-6px 0 2px;cursor:pointer;font:inherit;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--gold);opacity:.85}
+  .signal-more:hover{opacity:1;text-decoration:underline}
+  .signal-more::after{content:"\203A";font-size:15px;line-height:1;transform:rotate(90deg);transition:transform .15s}
+  .signal.is-open .signal-more::after{transform:rotate(-90deg)}
+  body.light .signal-body{color:#41505f}
   .conf-bar{height:4px;background:#232d40;border-radius:2px;overflow:hidden}
   .conf-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
   .signal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
@@ -4202,4 +4209,33 @@
 <style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style>
 
 
+<script>
+(function(){
+  function initSignalClamp(){
+    document.querySelectorAll('.signal').forEach(function(sig){
+      if (sig.querySelector('.signal-more')) return;
+      var body = sig.querySelector('.signal-body');
+      if (!body) return;
+      if (body.scrollHeight <= body.clientHeight + 4) return;   // short enough already
+      var btn = document.createElement('button');
+      btn.className = 'signal-more';
+      btn.type = 'button';
+      btn.textContent = 'Read more';
+      btn.setAttribute('aria-expanded','false');
+      btn.addEventListener('click', function(){
+        var open = sig.classList.toggle('is-open');
+        btn.textContent = open ? 'Show less' : 'Read more';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      body.insertAdjacentElement('afterend', btn);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSignalClamp);
+  else initSignalClamp();
+  window.addEventListener('resize', function(){
+    clearTimeout(window.__sigT);
+    window.__sigT = setTimeout(initSignalClamp, 200);
+  });
+})();
+</script>
 </body></html>
