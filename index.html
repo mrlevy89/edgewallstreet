@@ -1127,18 +1127,18 @@
         <div class="pw-lock">🔒</div>
         <div class="pw-h">The Wall Street Edge</div>
         <div class="pw-tagline">The ultimate platform for mastering the stock market.</div>
-        <div class="pw-price">$99 <span style="font-size:14px;color:var(--muted)">/ month</span></div>
-        <div class="pw-annual">or $999/year, <span class="save">save $189</span></div>
+        <div class="pw-price">$29 <span style="font-size:14px;color:var(--muted)">/ month</span></div>
+        <div class="pw-annual">or $249/year, <span class="save">save $99</span></div>
         <div class="pw-list">
           <div><span class="ck">✓</span> Live stock search: real-time fundamentals on any ticker</div>
           <div><span class="ck">✓</span> The full watchlist with conviction scores (0–10) on every name</div>
           <div><span class="ck">✓</span> "Quality on sale" vs "value trap" calls: which dips to buy, which to skip</div>
           <div><span class="ck">✓</span> Smart-money signals: insider buys, buybacks, analyst upgrades/downgrades</div>
           <div><span class="ck">✓</span> Market vitals, risk regime & breadth, and investing tools</div>
-          <div><span class="ck">✓</span> Refreshed 3× a day: 7am preview, 8:45am pre-open, 4:30pm wrap</div>
+          <div><span class="ck">✓</span> Refreshed 3× a day: pre-market, midday and after the close</div>
         </div>
         <button class="pw-cta" onclick="alert('Demo only, payments aren\'t wired up yet. This is where checkout would open.')">Get Access Today →</button>
-        <div class="pw-trial">7-day free trial · then $99/month · cancel anytime</div>
+        <div class="pw-trial">7-day free trial · then $29/month · cancel anytime</div>
         <button class="pw-demo" onclick="login()">Just let me preview it (demo)</button>
       </div>
 
@@ -1248,8 +1248,8 @@
           <div class="gate-card">
             <div class="gate-eyebrow">The Wall Street Edge Pro</div>
             <div class="gate-h">Subscribe to keep reading</div>
-            <div class="gate-p">You're reading a free preview of The Wall Street Edge. Unlock the full brief, every stock pick with conviction scores, and updates twice a day.</div>
-            <div class="gate-price">$5<span>/wk</span> &nbsp;<span style="font-size:14px;font-weight:600">for year one · or $149/yr</span></div>
+            <div class="gate-p">You're reading a free preview of The Wall Street Edge. Unlock the full brief, every stock pick with conviction scores, and updates three times a day.</div>
+            <div class="gate-price">$29<span>/mo</span> &nbsp;<span style="font-size:14px;font-weight:600">or $249/yr · founding price, locked in</span></div>
             <button class="gate-cta" onclick="openSubGate()">Start 7-day free trial →</button>
             <div class="gate-note">Cancel anytime · Educational, not financial advice</div>
           </div>
@@ -1373,7 +1373,7 @@
             <div class="gate-eyebrow">The Wall Street Edge Pro</div>
             <div class="gate-h">Subscribe to unlock the picks</div>
             <div class="gate-p">Every "quality on sale" vs "value trap" call with conviction scores, the heart of The Wall Street Edge, for subscribers.</div>
-            <div class="gate-price">$5<span>/wk</span> &nbsp;<span style="font-size:14px;font-weight:600">for year one &middot; or $149/yr</span></div>
+            <div class="gate-price">$29<span>/mo</span> &nbsp;<span style="font-size:14px;font-weight:600">or $249/yr &middot; founding price, locked in</span></div>
             <button class="gate-cta" onclick="openSubGate()">Start 7-day free trial →</button>
             <div class="gate-note">Cancel anytime · Educational, not financial advice</div>
           </div>
@@ -1447,6 +1447,7 @@
 </div>
 <!-- /premium -->
       </div>
+      </div><!-- /tab-picks -->
 
       <!-- ===== TAB: TOOLS ===== -->
       <div class="tabpanel" id="tab-tools">
@@ -1490,45 +1491,57 @@
 
       <!-- ===== TAB: LEARN ===== -->
       <div class="tabpanel" id="tab-lab">
-        <div class="section-title">The Lab, see the trade before you make it</div>
-        <div class="section-sub">Type a ticker, pick a strategy, choose a strike and expiry. See the payoff, breakevens, max profit/loss and probability of profit, hover the grid for any price and date.</div>
-        <div class="card">
-          <div class="lab-top">
-            <input id="lab-tick" type="text" placeholder="Type a ticker, AAPL, NVDA, MU" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')labLoad()">
-            <button class="cmp-btn" style="width:auto;margin:0;padding:0 26px" onclick="labLoad()">Load</button>
-          </div>
-          <div id="lab-meta" class="lab-meta"></div>
-          <div class="lab-legal">Educational tool. Prices are <b>modeled estimates</b> (Black-Scholes), not live quotes or financial advice. <a href="#" onclick="openTerms();return false">Terms &amp; disclaimer</a></div>
-          <div id="lab-strats" class="lab-chips"></div>
-          <div id="lab-exps" class="lab-chips"></div>
-          <div id="lab-strikes" class="lab-chips"></div>
-          <details id="lab-advanced" class="lab-adv-wrap" style="display:none">
-            <summary>Fine-tune: expected swing &amp; price range</summary>
-          <div id="lab-ivwrap" class="lab-iv" style="display:none">
-            <div class="lab-ctrl-l">Expected swing <span id="lab-ivword">Normal</span> &middot; <b id="lab-ivval">35%</b></div>
-            <div class="lab-preset">
-              <button type="button" onclick="labIV(20,'Calm')">Calm</button>
-              <button type="button" onclick="labIV(35,'Normal')">Normal</button>
-              <button type="button" onclick="labIV(55,'Active')">Active</button>
-              <button type="button" onclick="labIV(85,'Wild')">Wild</button>
+        <div class="ox">
+          <div class="ox-head">
+            <div>
+              <div class="section-title" style="margin:0">Options Calculator</div>
+              <div class="section-sub" style="margin:4px 0 0">Build any trade, see profit and loss at every price and date before you place it.</div>
             </div>
-            <div class="lab-hint">How big a swing the market expects. &ldquo;Normal&rdquo; fits most stocks, pick higher around earnings.</div>
-            <details class="lab-adv"><summary>Set exact %</summary><input id="lab-iv" type="range" min="10" max="150" value="35" oninput="labRender()"></details>
           </div>
-          <div id="lab-rangewrap" class="lab-iv" style="display:none">
-            <div class="lab-ctrl-l">Price range on the grid &amp; chart</div>
-            <div class="lab-preset">
-              <button type="button" onclick="labRange(30)">&plusmn;30%</button>
-              <button type="button" onclick="labRange(50)">&plusmn;50%</button>
-              <button type="button" onclick="labRange(100)">&plusmn;100%</button>
-              <button type="button" onclick="labRange(200)">&plusmn;200%</button>
+
+          <div class="ox-card ox-bar">
+            <div class="ox-field ox-f-tick"><label>Ticker</label>
+              <div class="ox-tickrow"><input id="lab-tick" type="text" placeholder="NVDA, AAPL, SPY" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')labLoad()"><button type="button" class="ox-btn" onclick="labLoad()">Load</button></div>
             </div>
-            <div class="lab-rng-custom">Downside &minus;<input id="lab-lo" type="number" min="5" max="95" value="30" oninput="labRangeCustom()">%  &middot;  Upside +<input id="lab-hi" type="number" min="5" max="500" value="30" oninput="labRangeCustom()">%</div>
-            <div class="lab-hint">Push the upside higher to watch an unlimited-profit trade explode.</div>
+            <div class="ox-field"><label>Stock price</label><div class="ox-pre"><span>$</span><input id="ox-spot" type="number" step="0.01" min="0.01" value="100" oninput="OX.setSpot(this.value)"></div></div>
+            <div class="ox-field"><label>Implied volatility</label><div class="ox-pre ox-suf"><input id="ox-iv" type="number" step="1" min="1" max="400" value="35" oninput="OX.setIV(this.value)"><span>%</span></div></div>
+            <div class="ox-field"><label>Interest rate</label><div class="ox-pre ox-suf"><input id="ox-rate" type="number" step="0.1" min="0" max="20" value="4.5" oninput="OX.setRate(this.value)"><span>%</span></div></div>
+            <div id="ox-meta" class="ox-meta">Sample stock at $100. Load a ticker for its live price.</div>
           </div>
-          </details>
+
+          <div class="ox-card">
+            <div class="ox-lbl">Strategy</div>
+            <div id="ox-strats" class="ox-strats"></div>
+          </div>
+
+          <div class="ox-card">
+            <div class="ox-legs-h"><div class="ox-lbl" style="margin:0">Legs</div><div class="ox-legs-act"><button type="button" class="ox-ghost" onclick="OX.addLeg('call')">+ Call</button><button type="button" class="ox-ghost" onclick="OX.addLeg('put')">+ Put</button><button type="button" class="ox-ghost" onclick="OX.addLeg('stock')">+ Stock</button></div></div>
+            <div id="ox-legs"></div>
+            <div class="ox-note">Option prices are filled in from a pricing model. Type over any price to use the fill you actually got.</div>
+          </div>
+
+          <div id="ox-sum" class="ox-sum"></div>
+
+          <div class="ox-card">
+            <div class="ox-chart-h">
+              <div class="ox-lbl" style="margin:0">Profit and loss</div>
+              <div class="ox-seg" id="ox-rng"><button type="button" data-r="15">&plusmn;15%</button><button type="button" data-r="30" class="on">&plusmn;30%</button><button type="button" data-r="60">&plusmn;60%</button><button type="button" data-r="100">&plusmn;100%</button></div>
+            </div>
+            <div class="ox-legend"><span class="ox-k ox-k-exp"></span>At expiration <span class="ox-k ox-k-now"></span><span id="ox-onlbl">Today</span></div>
+            <div class="ox-chartwrap"><svg id="ox-svg" viewBox="0 0 800 340" preserveAspectRatio="none"></svg><div id="ox-tip" class="ox-tip"></div></div>
+            <div class="ox-slide"><label for="ox-day">Value on</label><input id="ox-day" type="range" min="0" max="30" value="0" oninput="OX.setDay(this.value)"><span id="ox-daylbl"></span></div>
+          </div>
+
+          <div class="ox-card">
+            <div class="ox-chart-h">
+              <div class="ox-lbl" style="margin:0">Price and date grid</div>
+              <div class="ox-seg" id="ox-unit"><button type="button" data-u="usd" class="on">$</button><button type="button" data-u="pct">% of risk</button></div>
+            </div>
+            <div class="ox-gridwrap"><table id="ox-grid" class="ox-grid"></table></div>
+          </div>
+
+          <div class="ox-legal">Educational tool. Option prices are <b>modeled estimates</b> (Black-Scholes), not live quotes, and nothing here is financial advice. Options carry substantial risk. <a href="#" onclick="openTerms();return false">Terms &amp; disclaimer</a></div>
         </div>
-        <div id="lab-out"></div>
       </div>
 
       <div class="tabpanel" id="tab-learn">
@@ -1550,7 +1563,6 @@
         <details><summary>Selling a put (“cash-secured put”), getting paid to maybe buy</summary><div class="gloss"><p>You <b>promise to buy 100 shares</b> of a stock at a strike price you choose, and you <b>collect a premium</b> up front for the promise. “Cash-secured” just means you set aside enough cash to actually buy those shares if you have to.</p><p><b>If the stock stays above your strike</b> at expiration: the option expires worthless, you buy nothing, and you <b>keep the premium</b> as pure profit.</p><p><b>If the stock drops below your strike</b>: you <b>must buy the 100 shares</b> at the strike, even though the market price is now lower. The premium softens the cost, but a big crash is a real loss.</p><p><b>Why beginners like it:</b> it pays you to wait to buy a stock you already wanted at a lower price. <b>Example:</b> a stock trades at $95. You sell a $90 put and collect $2/share ($200 total). Above $90 at expiry → keep the $200. Below $90 → you buy 100 shares at $90, but your real cost is about $88 after the premium.</p></div></details>
         <details><summary>Selling a call (“covered call”), getting paid on stock you own</summary><div class="gloss"><p>You <b>already own 100 shares</b>, and you <b>promise to sell them</b> at a higher strike price if the stock climbs there, and you <b>collect a premium</b> up front for the promise. “Covered” means you own the shares, so you can always deliver them.</p><p><b>If the stock stays below your strike:</b> the option expires worthless, you <b>keep the premium</b> and keep your shares. You can do it again next month.</p><p><b>If the stock rises above your strike:</b> your shares get <b>sold (“called away”)</b> at the strike. You keep the premium plus the gain up to the strike, but you <b>miss any upside beyond it</b>.</p><p><b>Why beginners like it:</b> extra income on stocks you already hold and would be happy to sell at your target. The trade-off is a <b>capped upside</b>. <b>Example:</b> you own a $100 stock and sell a $110 call for $3/share ($300). Below $110 → keep the $300 and your shares. Above $110 → you sell at $110 and still keep the $300, but you give up gains above $110.</p></div></details>
         <details><summary>Selling options, the risks a beginner must know</summary><div class="gloss"><p><b>This is not free money.</b> A cash-secured put can force you to buy a falling stock; a covered call caps your gains and still loses if the stock drops (the premium only cushions the fall). Only sell options on cash or shares you can genuinely afford to commit.</p><p><b>Never sell “naked.”</b> Selling a call <i>without</i> owning the stock exposes you to <b>theoretically unlimited losses</b> if the stock soars. Beginners should stick to <b>covered</b> calls and <b>cash-secured</b> puts only.</p><p>Understand <b>assignment</b> (being forced to buy or sell) and <b>expiration</b> before you start. This is education, not advice, do your own research and never risk money you can’t afford to lose.</p></div></details>
-      </div>
 
     </div><!-- /member -->
   </div><!-- /detail -->
@@ -1566,15 +1578,15 @@
     <button class="rgate-x" onclick="closeSubGate()" aria-label="Close">&#10005;</button>
     <div class="rgate-title">Subscribe to The Wall Street Edge to continue reading.</div>
     <div class="rgate-tier featured">
-      <div class="rgate-price"><span class="rgate-was">$13.75/week</span>$5 <small>/week for 1 year</small></div>
-      <div class="rgate-terms">Billed as $20 every 4 weeks</div>
+      <div class="rgate-price">$29 <small>/month</small></div>
+      <div class="rgate-terms">Founding member price, locked in for as long as you stay subscribed</div>
       <button class="rgate-buy" onclick="goStripe('weekly')">Subscribe Now</button>
       <div class="rgate-cancel">You can cancel anytime.</div>
     </div>
     <div class="rgate-tier">
       <div class="rgate-badge">Best value</div>
-      <div class="rgate-price">$149 <small>for 1 year</small></div>
-      <div class="rgate-terms">Billed annually, then $54.99 every 4 weeks thereafter</div>
+      <div class="rgate-price">$249 <small>/year</small></div>
+      <div class="rgate-terms">Billed annually. Two months free, founding price locked in</div>
       <button class="rgate-buy dark" onclick="goStripe('annual')">Subscribe Now</button>
       <div class="rgate-cancel">You can cancel anytime.</div>
     </div>
@@ -1601,16 +1613,17 @@
 <p>This page explains how paid subscriptions to The Wall Street Edge work. It is incorporated into, and should be read together with, our <strong>Terms &amp; Conditions</strong> and <strong>Privacy Statement</strong>.</p>
 <h4>Plans and pricing</h4>
 <ul>
-<li><strong>Weekly (introductory), $5 per week for your first year</strong> (a discount from the standard $13.75 per week), billed as $20 (plus applicable taxes) every 4 weeks (billed monthly). <strong>After 12 months, the price automatically increases to the standard rate of $54.99 (plus applicable taxes) every 4 weeks</strong> and continues at that rate until you cancel.</li>
-<li><strong>Annual (Best value), $149 for your first year, billed annually as a single upfront charge.</strong> <strong>After the first year, the price automatically increases to the standard rate of $54.99 (plus applicable taxes) every 4 weeks</strong> and continues at that rate until you cancel.</li>
+<li><strong>Monthly, $29 per month</strong> (plus applicable taxes), billed monthly until you cancel.</li>
+<li><strong>Annual (Best value), $249 per year</strong> (plus applicable taxes), billed annually as a single upfront charge and renewing each year until you cancel.</li>
 </ul>
 <p>All prices are in U.S. dollars unless stated otherwise. Applicable sales tax or VAT is calculated and added at checkout based on your location.</p>
-<h4>Introductory pricing and automatic price increase</h4>
-<p>The first-year rates above are limited-time <strong>introductory (promotional) prices</strong>. When your introductory period ends after 12 months, <strong>your subscription automatically continues and the price increases to the standard rate of $54.99 (plus applicable taxes) every 4 weeks</strong>, charged to your payment method on file, until you cancel. No additional action is required for the increase to take effect. Where advance notice of the change is required by applicable law, we will provide it. You may cancel at any time before the increase, effective at the end of your then-current billing period, and you must cancel at least 2 days before the renewal date to avoid the next charge. Standard rates are subject to change on notice as described below.</p>
+<h4>Founding member pricing</h4>
+<p>Members who subscribe during our founding period keep the price they signed up at <strong>for as long as their subscription stays active</strong>, even if our standard prices go up later. If you cancel and later resubscribe, the then-current price applies. Prices for new subscribers may change on notice as described below.</p>
+
 <h4>Payment</h4>
 <p>Payments are processed securely by our payment provider, <strong>Stripe</strong>. We do not receive or store your full card number. By subscribing, you authorize us and Stripe to charge your chosen payment method on a recurring basis for the plan you selected, including applicable taxes.</p>
 <h4>Automatic renewal</h4>
-<p><strong>Your subscription renews automatically</strong> at the end of each billing period (every 4 weeks) at the then-current rate, the introductory rate during your first year and the standard rate of $54.99 (plus applicable taxes) every 4 weeks thereafter, until you cancel. Where required by law, we will notify you before a renewal.</p>
+<p><strong>Your subscription renews automatically</strong> at the end of each billing period (monthly or annually, depending on your plan) at your current rate, until you cancel. Where required by law, we will notify you before a renewal.</p>
 <h4>Cancellation</h4>
 <p>You can cancel at any time through your account or billing portal, or by contacting us at [SUPPORT EMAIL]. <strong>Cancellations take effect at the end of your then-current billing period</strong>, you keep access until that date. To avoid being charged for the next period, you must cancel <strong>at least 2 days before the renewal date</strong>.</p>
 <h4>Refunds</h4>
@@ -1634,7 +1647,7 @@
 <h4>4. Market data and third-party content</h4>
 <p>Some information is obtained from third-party sources and is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. It may be delayed, incomplete, or inaccurate. We do not guarantee the accuracy, completeness, timeliness, or reliability of any data or content and are not liable for any errors, omissions, or for any reliance placed on it.</p>
 <h4>5. Subscriptions, billing, and cancellation</h4>
-<p>Paid plans, pricing, automatic renewal, and cancellation are described on the &ldquo;Learn more about subscriptions&rdquo; page, which is incorporated into these Terms by reference. You authorize recurring charges through our payment processor (Stripe). You may cancel as described there; <strong>cancellations take effect at the end of the then-current billing period, and you must cancel at least 2 days before the renewal date to avoid the next charge.</strong> Introductory or promotional rates apply only for the stated period; unless you cancel, your subscription automatically continues and the price increases to the then-current standard rate (currently $54.99 plus applicable taxes every 4 weeks) without further action by you, subject to any advance notice required by law. Except where required by law, all fees are non-refundable.</p>
+<p>Paid plans, pricing, automatic renewal, and cancellation are described on the &ldquo;Learn more about subscriptions&rdquo; page, which is incorporated into these Terms by reference. You authorize recurring charges through our payment processor (Stripe). You may cancel as described there; <strong>cancellations take effect at the end of the then-current billing period, and you must cancel at least 2 days before the renewal date to avoid the next charge.</strong> Founding member pricing stays in effect while your subscription remains active; unless you cancel, your subscription automatically renews at your current rate, subject to any advance notice required by law. Except where required by law, all fees are non-refundable.</p>
 <h4>6. Acceptable use</h4>
 <p>You agree not to: (a) copy, share, resell, redistribute, republish, or publicly display the content; (b) scrape, harvest, or use automated means to access the Service; (c) reverse engineer or attempt to derive source code; (d) circumvent the paywall or share account access or login credentials; or (e) use the Service for any unlawful purpose or in any way that infringes the rights of others.</p>
 <h4>7. Intellectual property</h4>
@@ -1771,8 +1784,8 @@
   function toggleSub(){if(isSub()){try{localStorage.removeItem('wse_sub');}catch(e){}applySub();}else{openSubGate();}}
   /* --- Stripe Payment Links: create these in dashboard.stripe.com > Payment Links, then paste the URLs below. Set each link's success/after-payment URL to this app's URL with ?subscribed=1 appended so members unlock automatically. --- */
   var STRIPE_LINKS={
-    weekly:'REPLACE_WITH_STRIPE_WEEKLY_PAYMENT_LINK', /* $1/week, billed $4 every 4 weeks */
-    annual:'REPLACE_WITH_STRIPE_ANNUAL_PAYMENT_LINK'  /* $45/year */
+    weekly:'REPLACE_WITH_STRIPE_WEEKLY_PAYMENT_LINK', /* Monthly plan: $29/month (key name kept for compatibility) */
+    annual:'REPLACE_WITH_STRIPE_ANNUAL_PAYMENT_LINK'  /* Annual plan: $249/year */
   };
   function openSubGate(){var g=el('rgate-bg');if(g){g.classList.add('open');document.body.style.overflow='hidden';}}
   function closeSubGate(){var g=el('rgate-bg');if(g){g.classList.remove('open');document.body.style.overflow='';}}
@@ -2906,7 +2919,7 @@
     trialEnabled:false, trialDays:7,
     foundingEnabled:false, foundingCap:1000,
     referralEnabled:false,
-    prices:{ pro:{amount:49,label:'$49/mo',id:''}, elite:{amount:99,label:'$99/mo',id:''} }
+    prices:{ pro:{amount:29,label:'$29/mo',id:''}, elite:{amount:99,label:'$99/mo',id:''} }
   };
   var TIER_RANK={free:0,pro:1,elite:2};
   /* Capability -> minimum tier. Anything not listed defaults to FREE (so nothing shipped ever locks). */
@@ -4332,5 +4345,238 @@ body.light .logo-svg.logo-light{display:block}
 })();
 </script>
 <!-- /EDGE FAQ -->
+<!-- EDGE OPTIONS CALCULATOR: self-contained appended block. -->
+<style id="edge-ox-css">
+.ox{--ox-up:var(--buy,#2fd58a);--ox-dn:var(--avoid,#ff4d6d)}
+.ox-head{display:flex;justify-content:space-between;align-items:flex-end;margin:6px 0 14px}
+.ox-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+.ox-bar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px;align-items:end}
+.ox-field label,.ox-lbl{display:block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.ox-tickrow{display:flex;gap:8px}
+.ox input[type=text],.ox input[type=number],.ox select{width:100%;min-width:0;background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 12px;font:600 15px/1.2 inherit;font-family:inherit;outline:none;-moz-appearance:textfield}
+.ox input:focus,.ox select:focus{border-color:var(--gold)}
+.ox input::-webkit-outer-spin-button,.ox input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#lab-tick{text-transform:uppercase}
+.ox-pre{display:flex;align-items:center;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding-left:12px}
+.ox-pre:focus-within{border-color:var(--gold)}
+.ox-pre span{color:var(--muted);font-weight:600}
+.ox-pre input{border:0!important;background:transparent!important;padding-left:6px!important}
+.ox-suf{padding-left:0;padding-right:12px}.ox-suf input{padding-left:12px!important}
+.ox-btn{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#06110c;border:0;border-radius:10px;padding:0 20px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit}
+.ox-meta{grid-column:1/-1;font-size:13.5px;color:var(--muted)}
+.ox-meta b{color:var(--text)}
+.ox-strats{display:flex;flex-direction:column;gap:12px}
+.ox-grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ox-grp-n{width:92px;flex:0 0 92px;font-size:12px;font-weight:700;color:var(--muted)}
+.ox-chip{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:999px;padding:8px 14px;font:600 13px/1 inherit;font-family:inherit;cursor:pointer;transition:.15s}
+.ox-chip:hover{border-color:var(--gold)}
+.ox-chip.on{background:var(--gold);border-color:var(--gold);color:#06110c}
+.ox-legs-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.ox-legs-act{display:flex;gap:6px}
+.ox-ghost{background:transparent;border:1px solid var(--line);color:var(--gold);border-radius:8px;padding:7px 11px;font:700 12.5px/1 inherit;font-family:inherit;cursor:pointer}
+.ox-ghost:hover{border-color:var(--gold)}
+.ox-leg{display:grid;grid-template-columns:96px 96px 70px 1fr 1.25fr 1fr 34px;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.ox-leg:first-child{border-top:0}
+.ox-leg-hd{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:0 0 4px;border:0}
+.ox-leg select,.ox-leg input{padding:9px 10px!important;font-size:14px!important}
+.ox-leg .buy{color:var(--ox-up)}.ox-leg .sell{color:var(--ox-dn)}
+.ox-x{background:transparent;border:0;color:var(--muted);font-size:18px;cursor:pointer;border-radius:8px;height:34px}
+.ox-x:hover{color:var(--ox-dn)}
+.ox-note{font-size:12px;color:var(--muted);margin-top:10px}
+.ox-sum{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+.ox-s{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.ox-s .l{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.ox-s .v{font-size:20px;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums;line-height:1.15}
+.ox-s .d{font-size:11.5px;color:var(--muted);margin-top:4px}
+.ox-up{color:var(--ox-up)}.ox-dn{color:var(--ox-dn)}
+.ox-chart-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.ox-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ox-seg button{background:transparent;border:0;color:var(--muted);padding:7px 12px;font:700 12.5px/1 inherit;font-family:inherit;cursor:pointer}
+.ox-seg button.on{background:var(--card2);color:var(--text)}
+.ox-legend{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ox-k{display:inline-block;width:18px;height:3px;border-radius:2px;margin-left:6px}
+.ox-k:first-child{margin-left:0}
+.ox-k-exp{background:var(--gold)}
+.ox-k-now{background:#5b8cff}
+.ox-chartwrap{position:relative;height:340px}
+#ox-svg{width:100%;height:100%;display:block;overflow:visible;touch-action:pan-y}
+.ox-tip{position:absolute;pointer-events:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.5;white-space:nowrap;opacity:0;transition:opacity .1s;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:2}
+.ox-tip b{font-variant-numeric:tabular-nums}
+.ox-slide{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:13px;color:var(--muted)}
+.ox-slide input{flex:1;accent-color:var(--gold)}
+#ox-daylbl{min-width:120px;text-align:right;color:var(--text);font-weight:600}
+.ox-gridwrap{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:12px}
+.ox-grid{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+.ox-grid th{position:sticky;top:0;background:var(--card2);color:var(--muted);font-weight:700;padding:8px 6px;text-align:center;z-index:1;white-space:nowrap;border-bottom:1px solid var(--line)}
+.ox-grid th:first-child,.ox-grid td:first-child{position:sticky;left:0;z-index:2;background:var(--card2);text-align:right;padding-right:10px;color:var(--text);font-weight:700;white-space:nowrap}
+.ox-grid th:first-child{z-index:3}
+.ox-grid td{padding:6px 5px;text-align:center;white-space:nowrap;color:var(--text)}
+.ox-grid tr.ox-spot td:first-child{color:var(--gold)}
+.ox-grid tr.ox-spot td{box-shadow:inset 0 1px 0 var(--gold),inset 0 -1px 0 var(--gold)}
+.ox-legal{font-size:12px;color:var(--muted);margin:4px 2px 10px;line-height:1.55}
+.ox-legal a{color:var(--gold)}
+@media(max-width:760px){
+ .ox-bar{grid-template-columns:1fr 1fr}
+ .ox-f-tick{grid-column:1/-1}
+ .ox-sum{grid-template-columns:repeat(2,1fr)}
+ .ox-grp-n{width:100%;flex-basis:100%}
+ .ox-leg{grid-template-columns:1fr 1fr 64px 34px;row-gap:8px}
+ .ox-leg>.c-k{grid-column:1/2}.ox-leg>.c-e{grid-column:2/4}.ox-leg>.c-p{grid-column:1/3}
+ .ox-leg-hd{display:none}
+ .ox-chartwrap{height:260px}
+ .ox-card{padding:14px}
+}
+</style>
+<script id="edge-ox-js">
+(function(){
+ var $=function(id){return document.getElementById(id);};
+ var S={tick:'',spot:100,iv:0.35,r:0.045,legs:[],strat:'long-call',day:0,rng:30,unit:'usd'};
+ var STR=[
+  ['Bullish',[['long-call','Long call'],['bull-call','Bull call spread'],['bull-put','Bull put spread'],['csp','Cash-secured put'],['covered-call','Covered call']]],
+  ['Bearish',[['long-put','Long put'],['bear-put','Bear put spread'],['bear-call','Bear call spread']]],
+  ['Neutral',[['iron-condor','Iron condor'],['iron-fly','Iron butterfly'],['short-strangle','Short strangle'],['call-fly','Call butterfly'],['put-fly','Put butterfly']]],
+  ['Volatility',[['long-straddle','Long straddle'],['long-strangle','Long strangle'],['calendar','Calendar spread']]],
+  ['Build your own',[['custom','Custom']]]
+ ];
+ /* template legs: [type, side, strike offset in steps, qty, expiry index offset] */
+ var TPL={
+  'long-call':[['call',1,0]],'long-put':[['put',1,0]],
+  'bull-call':[['call',1,0],['call',-1,2]],'bull-put':[['put',-1,0],['put',1,-2]],
+  'csp':[['put',-1,-1]],'covered-call':[['stock',1,0],['call',-1,2]],
+  'bear-put':[['put',1,0],['put',-1,-2]],'bear-call':[['call',-1,0],['call',1,2]],
+  'iron-condor':[['put',1,-4],['put',-1,-2],['call',-1,2],['call',1,4]],
+  'iron-fly':[['put',1,-3],['put',-1,0],['call',-1,0],['call',1,3]],
+  'short-strangle':[['put',-1,-2],['call',-1,2]],
+  'call-fly':[['call',1,-2],['call',-1,0,2],['call',1,2]],'put-fly':[['put',1,2],['put',-1,0,2],['put',1,-2]],
+  'long-straddle':[['call',1,0],['put',1,0]],'long-strangle':[['call',1,2],['put',1,-2]],
+  'calendar':[['call',-1,0,1,0],['call',1,0,1,2]],
+  'custom':[['call',1,0]]
+ };
+ function ncdf(x){var t=1/(1+0.2316419*Math.abs(x)),d=0.3989423*Math.exp(-x*x/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p;}
+ function bs(type,x,K,T,r,v){if(type==='stock')return x;if(T<=1e-6)return type==='call'?Math.max(0,x-K):Math.max(0,K-x);if(x<=0)return type==='call'?0:K*Math.exp(-r*T);var sq=v*Math.sqrt(T),d1=(Math.log(x/K)+(r+v*v/2)*T)/sq,d2=d1-sq;return type==='call'?x*ncdf(d1)-K*Math.exp(-r*T)*ncdf(d2):K*Math.exp(-r*T)*ncdf(-d2)-x*ncdf(-d1);}
+ function step(x){return x<10?0.5:x<50?1:x<150?2.5:x<400?5:x<1000?10:25;}
+ function rnd(x,s){return Math.round(x/s)*s;}
+ function expiries(){var out=[],d=new Date();d.setHours(16,0,0,0);var f=new Date(d);f.setDate(f.getDate()+((5-f.getDay()+7)%7||7));
+  for(var i=0;i<6;i++){var e=new Date(f);e.setDate(f.getDate()+7*i);out.push(e);}
+  var m=new Date(d.getFullYear(),d.getMonth()+2,1);for(var j=0;j<10;j++){var mm=new Date(m.getFullYear(),m.getMonth()+j,1);var fr=new Date(mm);fr.setDate(1+((5-mm.getDay()+7)%7)+14);fr.setHours(16);if(fr>out[out.length-1])out.push(fr);}
+  return out.map(function(e){return {d:e,days:Math.max(1,Math.round((e-d)/864e5))};});}
+ var EXP=expiries();
+ function fm(n,dp){var a=Math.abs(n);return (n<0?'-':'')+'$'+a.toLocaleString(undefined,{minimumFractionDigits:dp==null?0:dp,maximumFractionDigits:dp==null?0:dp});}
+ function fmS(n){return (n>0?'+':'')+fm(n);}
+ function dlab(e){return e.d.toLocaleDateString([],{month:'short',day:'numeric'});}
+ function legPrice(l){return l.type==='stock'?S.spot:bs(l.type,S.spot,l.K,EXP[l.ei].days/365,S.r,S.iv);}
+ function entry(l){return (l.px!=null&&l.px!=='')?+l.px:legPrice(l);}
+ function mult(l){return 100;}
+ function cost(){var c=0;S.legs.forEach(function(l){c+=l.side*l.qty*mult(l)*entry(l);});return c;}
+ function firstExp(){var m=99999;S.legs.forEach(function(l){if(l.type!=='stock')m=Math.min(m,EXP[l.ei].days);});return m===99999?30:m;}
+ function value(x,elapsed){var v=0;S.legs.forEach(function(l){var T=l.type==='stock'?0:Math.max(0,(EXP[l.ei].days-elapsed)/365);v+=l.side*l.qty*mult(l)*bs(l.type,x,l.K,T,S.r,S.iv);});return v;}
+ function pl(x,elapsed){return value(x,elapsed)-cost();}
+ function applyStrat(k){S.strat=k;var st=step(S.spot),c=rnd(S.spot,st),ei=Math.min(2,EXP.length-1);while(ei>0&&EXP[ei].days>45)ei--;if(EXP[ei].days<14&&EXP.length>ei+1)ei++;
+  S.legs=(TPL[k]||TPL['long-call']).map(function(t){return {type:t[0],side:t[1],K:Math.max(st,+(c+t[2]*st).toFixed(2)),qty:t[3]||1,ei:Math.min(EXP.length-1,ei+(t[4]||0)),px:null};});S.day=0;}
+ function stats(){var T=firstExp(),hiK=0;S.legs.forEach(function(l){hiK=Math.max(hiK,l.K||0);});var top=Math.max(S.spot*4,hiK*3),N=2400,mx=-1e18,mn=1e18,bes=[],prev=null,px=null;
+  for(var i=0;i<=N;i++){var x=top*i/N,p=pl(x,T);if(p>mx)mx=p;if(p<mn)mn=p;if(prev!==null&&((prev<0&&p>=0)||(prev>0&&p<=0))){var xb=px+(x-px)*(-prev)/(p-prev);if(xb>0.01)bes.push(xb);}prev=p;px=x;}
+  var slope=pl(top*1.5,T)-pl(top,T);var unlUp=slope>1,unlDn=slope<-1;
+  /* probability of profit at first expiry, lognormal */
+  var tt=T/365,sd=S.iv*Math.sqrt(tt),mu=Math.log(S.spot)+(S.r-S.iv*S.iv/2)*tt,pop=0,lastC=0;
+  for(var j=1;j<=N;j++){var xx=top*j/N,c=ncdf((Math.log(xx)-mu)/sd);var mid=top*(j-0.5)/N;if(pl(mid,T)>0)pop+=c-lastC;lastC=c;}
+  if(pl(top*1.2,T)>0)pop+=1-lastC;
+  return {max:unlUp?Infinity:mx,min:unlDn?-Infinity:mn,bes:bes.slice(0,4),pop:pop,T:T};}
+ function delta(){var d=0,h=S.spot*0.001;S.legs.forEach(function(l){});return (value(S.spot+h,0)-value(S.spot-h,0))/(2*h);}
+ function thetaDay(){return value(S.spot,1)-value(S.spot,0);}
+ /* ---------- render ---------- */
+ function renderStrats(){var h='';STR.forEach(function(g){h+='<div class="ox-grp"><span class="ox-grp-n">'+g[0]+'</span>';g[1].forEach(function(s){h+='<button type="button" class="ox-chip'+(S.strat===s[0]?' on':'')+'" onclick="OX.strat(\''+s[0]+'\')">'+s[1]+'</button>';});h+='</div>';});$('ox-strats').innerHTML=h;}
+ function expOpts(sel){return EXP.map(function(e,i){return '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+dlab(e)+' ('+e.days+'d)</option>';}).join('');}
+ function renderLegs(){var h='<div class="ox-leg ox-leg-hd"><span>Side</span><span>Type</span><span>Qty</span><span>Strike</span><span>Expiry</span><span>Price</span><span></span></div>';
+  S.legs.forEach(function(l,i){var mp=legPrice(l);var stock=l.type==='stock';
+   h+='<div class="ox-leg"><select class="'+(l.side>0?'buy':'sell')+'" onchange="OX.leg('+i+',\'side\',this.value)"><option value="1"'+(l.side>0?' selected':'')+'>Buy</option><option value="-1"'+(l.side<0?' selected':'')+'>Sell</option></select>'
+   +'<select onchange="OX.leg('+i+',\'type\',this.value)"><option value="call"'+(l.type==='call'?' selected':'')+'>Call</option><option value="put"'+(l.type==='put'?' selected':'')+'>Put</option><option value="stock"'+(stock?' selected':'')+'>Stock</option></select>'
+   +'<input type="number" min="1" step="1" value="'+l.qty+'" title="'+(stock?'Lots of 100 shares':'Contracts')+'" onchange="OX.leg('+i+',\'qty\',this.value)">'
+   +'<div class="c-k">'+(stock?'<input type="text" value="Shares" disabled>':'<div class="ox-pre"><span>$</span><input type="number" step="'+step(S.spot)+'" value="'+l.K+'" onchange="OX.leg('+i+',\'K\',this.value)"></div>')+'</div>'
+   +'<div class="c-e">'+(stock?'<input type="text" value="n/a" disabled>':'<select onchange="OX.leg('+i+',\'ei\',this.value)">'+expOpts(l.ei)+'</select>')+'</div>'
+   +'<div class="c-p"><div class="ox-pre"><span>$</span><input type="number" step="0.01" placeholder="'+mp.toFixed(2)+'" value="'+(l.px!=null&&l.px!==''?l.px:'')+'" onchange="OX.leg('+i+',\'px\',this.value)"></div></div>'
+   +'<button type="button" class="ox-x" title="Remove leg" onclick="OX.rm('+i+')">&times;</button></div>';});
+  if(!S.legs.length)h+='<div class="ox-note">Add a leg to start.</div>';$('ox-legs').innerHTML=h;}
+ function renderSum(st){var c=cost(),risk=st.min===-Infinity?null:Math.abs(Math.min(0,st.min));
+  var cards=[
+   [c>=0?'Net debit':'Net credit','<span class="'+(c>=0?'':'ox-up')+'">'+fm(Math.abs(c))+'</span>',c>=0?'You pay to open':'You collect to open'],
+   ['Max profit',st.max===Infinity?'<span class="ox-up">Unlimited</span>':'<span class="ox-up">'+fm(st.max)+'</span>',st.max===Infinity?'Above the top strike':'At expiration'],
+   ['Max loss',st.min===-Infinity?'<span class="ox-dn">Unlimited</span>':'<span class="ox-dn">'+fm(st.min)+'</span>',risk?'Capital at risk':''],
+   ['Breakeven',st.bes.length?st.bes.map(function(b){return '$'+b.toFixed(2);}).join('<br>'):'None',st.bes.length?((st.bes[0]/S.spot-1)*100>=0?'+':'')+((st.bes[0]/S.spot-1)*100).toFixed(1)+'% from here':''],
+   ['Chance of profit',(st.pop*100).toFixed(0)+'%','At '+dlab(EXP.reduce(function(a,e){return e.days===st.T?e:a;},EXP[0]))+', model estimate'],
+   ['Delta / theta',delta().toFixed(0)+' / '+fmS(thetaDay()),'Share-equivalent / per day']];
+  $('ox-sum').innerHTML=cards.map(function(k){return '<div class="ox-s"><div class="l">'+k[0]+'</div><div class="v">'+k[1]+'</div><div class="d">'+k[2]+'</div></div>';}).join('');}
+ function range(){var lo=S.spot*(1-S.rng/100),hi=S.spot*(1+S.rng/100);return [Math.max(0.01,lo),hi];}
+ var CH=null;
+ function renderChart(st){var svg=$('ox-svg');var W=Math.max(300,Math.round(svg.clientWidth||800)),H=Math.max(200,Math.round(svg.clientHeight||340));svg.setAttribute('viewBox','0 0 '+W+' '+H);var pl0=W<500?46:56,pr=12,pt=14,pb=28;var r=range(),N=160,T=st.T,day=Math.min(S.day,T);
+  var xs=[],e=[],n=[];for(var i=0;i<=N;i++){var x=r[0]+(r[1]-r[0])*i/N;xs.push(x);e.push(pl(x,T));n.push(pl(x,day));}
+  var ymin=Math.min.apply(null,e.concat(n,[0])),ymax=Math.max.apply(null,e.concat(n,[0]));var pad=(ymax-ymin)*0.08||50;ymin-=pad;ymax+=pad;
+  var X=function(x){return pl0+(x-r[0])/(r[1]-r[0])*(W-pl0-pr);},Y=function(y){return pt+(ymax-y)/(ymax-ymin)*(H-pt-pb);};
+  var path=function(a){return a.map(function(y,i){return (i?'L':'M')+X(xs[i]).toFixed(1)+' '+Y(y).toFixed(1);}).join('');};
+  var area='M'+X(xs[0])+' '+Y(0)+e.map(function(y,i){return 'L'+X(xs[i]).toFixed(1)+' '+Y(y).toFixed(1);}).join('')+'L'+X(xs[N])+' '+Y(0)+'Z';
+  var g='',raw=(ymax-ymin)/5,mag=Math.pow(10,Math.floor(Math.log10(raw))),ns=[1,2,2.5,5,10].map(function(f){return f*mag;}).filter(function(v){return v>=raw;})[0]||raw;for(var yv=Math.ceil(ymin/ns)*ns;yv<=ymax;yv+=ns){g+='<line x1="'+pl0+'" x2="'+(W-pr)+'" y1="'+Y(yv)+'" y2="'+Y(yv)+'" stroke="var(--line)" stroke-width="1"/><text x="'+(pl0-8)+'" y="'+(Y(yv)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+fm(yv)+'</text>';}
+  for(var q=0;q<=6;q++){var xv=r[0]+(r[1]-r[0])*q/6;g+='<text x="'+X(xv)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--muted)">$'+xv.toFixed(xv<20?2:0)+'</text>';}
+  var h='<defs><clipPath id="oxUp"><rect x="0" y="0" width="'+W+'" height="'+Y(0)+'"/></clipPath><clipPath id="oxDn"><rect x="0" y="'+Y(0)+'" width="'+W+'" height="'+(H-Y(0))+'"/></clipPath></defs>'+g
+   +'<path d="'+area+'" fill="var(--ox-up)" fill-opacity=".16" clip-path="url(#oxUp)"/><path d="'+area+'" fill="var(--ox-dn)" fill-opacity=".16" clip-path="url(#oxDn)"/>'
+   +'<line x1="'+pl0+'" x2="'+(W-pr)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="var(--muted)" stroke-opacity=".6" stroke-width="1.2"/>'
+   +'<line x1="'+X(S.spot)+'" x2="'+X(S.spot)+'" y1="'+pt+'" y2="'+(H-pb)+'" stroke="var(--gold)" stroke-dasharray="3 4" stroke-opacity=".7"/>'
+   +'<text x="'+(X(S.spot)+5)+'" y="'+(pt+11)+'" font-size="11" fill="var(--gold)">Now $'+S.spot.toFixed(2)+'</text>';
+  st.bes.forEach(function(b){if(b>r[0]&&b<r[1])h+='<circle cx="'+X(b)+'" cy="'+Y(0)+'" r="4" fill="var(--card)" stroke="var(--text)" stroke-width="1.5"/>';});
+  if(day<T)h+='<path d="'+path(n)+'" fill="none" stroke="#5b8cff" stroke-width="2" stroke-dasharray="6 4"/>';
+  h+='<path d="'+path(e)+'" fill="none" stroke="var(--gold)" stroke-width="2.6"/>';
+  h+='<line id="ox-cx" x1="0" x2="0" y1="'+pt+'" y2="'+(H-pb)+'" stroke="var(--text)" stroke-opacity=".35" style="display:none"/><circle id="ox-cd" r="4.5" fill="var(--gold)" style="display:none"/>';
+  svg.innerHTML=h;CH={X:X,Y:Y,r:r,W:W,pl0:pl0,pr:pr,T:T,day:day};}
+ function hover(ev){if(!CH)return;var svg=$('ox-svg'),bb=svg.getBoundingClientRect();var cx=(ev.touches?ev.touches[0].clientX:ev.clientX)-bb.left;var vx=cx/bb.width*CH.W;if(vx<CH.pl0||vx>CH.W-CH.pr){leave();return;}
+  var x=CH.r[0]+(vx-CH.pl0)/(CH.W-CH.pl0-CH.pr)*(CH.r[1]-CH.r[0]);var pe=pl(x,CH.T),pn=pl(x,CH.day);
+  var l=$('ox-cx'),d=$('ox-cd');l.setAttribute('x1',vx);l.setAttribute('x2',vx);l.style.display='';d.setAttribute('cx',vx);d.setAttribute('cy',CH.Y(pe));d.style.display='';
+  var tip=$('ox-tip');tip.innerHTML='Stock at <b>$'+x.toFixed(2)+'</b> ('+((x/S.spot-1)*100>=0?'+':'')+((x/S.spot-1)*100).toFixed(1)+'%)<br>At expiration: <b class="'+(pe>=0?'ox-up':'ox-dn')+'">'+fmS(pe)+'</b>'+(CH.day<CH.T?'<br>'+$('ox-onlbl').textContent+': <b class="'+(pn>=0?'ox-up':'ox-dn')+'">'+fmS(pn)+'</b>':'');
+  tip.style.opacity=1;var tx=cx+14;if(tx+tip.offsetWidth>bb.width)tx=cx-14-tip.offsetWidth;tip.style.left=tx+'px';tip.style.top='8px';}
+ function leave(){var t=$('ox-tip');if(t)t.style.opacity=0;['ox-cx','ox-cd'].forEach(function(i){var e=$(i);if(e)e.style.display='none';});}
+ function renderGrid(st){var T=st.T,r=range(),rows=21,cols=Math.min(10,Math.max(2,T+1));var days=[];for(var c=0;c<cols;c++)days.push(Math.round(T*c/(cols-1)));
+  var risk=st.min===-Infinity?Math.abs(cost())||1:Math.max(1,Math.abs(Math.min(0,st.min)));var now=new Date();
+  var h='<thead><tr><th>Price</th>'+days.map(function(d){var dt=new Date(now);dt.setDate(now.getDate()+d);return '<th>'+(d===T?'Exp ':'')+dt.toLocaleDateString([],{month:'short',day:'numeric'})+'</th>';}).join('')+'</tr></thead><tbody>';
+  var prices=[];for(var i=0;i<rows;i++)prices.push(r[1]-(r[1]-r[0])*i/(rows-1));var si=0,bd=1e9;prices.forEach(function(p,i){if(Math.abs(p-S.spot)<bd){bd=Math.abs(p-S.spot);si=i;}});prices[si]=S.spot;
+  var maxAbs=1;prices.forEach(function(p){days.forEach(function(d){maxAbs=Math.max(maxAbs,Math.abs(pl(p,d)));});});
+  prices.forEach(function(p,i){h+='<tr'+(i===si?' class="ox-spot"':'')+'><td>$'+p.toFixed(2)+'</td>';days.forEach(function(d){var v=pl(p,d),a=Math.min(1,Math.abs(v)/maxAbs),col=v>=0?'47,213,138':'255,77,109';var txt=S.unit==='pct'?((v/risk*100)>=0?'+':'')+(v/risk*100).toFixed(0)+'%':(Math.abs(v)>=10000?(v<0?'-':'')+'$'+(Math.abs(v)/1000).toFixed(1)+'k':fm(v));h+='<td style="background:rgba('+col+','+(0.08+a*0.55).toFixed(3)+')">'+txt+'</td>';});h+='</tr>';});
+  $('ox-grid').innerHTML=h+'</tbody>';}
+ function renderDay(st){var sl=$('ox-day');sl.max=st.T;if(S.day>st.T)S.day=st.T;sl.value=S.day;var dt=new Date();dt.setDate(dt.getDate()+S.day);var lbl=S.day===0?'Today':(S.day>=st.T?'Expiration':dt.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'}));$('ox-daylbl').textContent=lbl+(S.day&&S.day<st.T?' ('+S.day+'d)':'');$('ox-onlbl').textContent=lbl;}
+ function render(){if(!$('ox-strats'))return;renderStrats();renderLegs();if(!S.legs.length){$('ox-sum').innerHTML='';$('ox-svg').innerHTML='';$('ox-grid').innerHTML='';return;}var st=stats();renderDay(st);renderSum(st);renderChart(st);renderGrid(st);}
+ function soft(){if(!S.legs.length)return render();var st=stats();renderDay(st);renderSum(st);renderChart(st);renderGrid(st);
+  var ph=document.querySelectorAll('#ox-legs .c-p input');S.legs.forEach(function(l,i){if(ph[i])ph[i].placeholder=legPrice(l).toFixed(2);});}
+ /* ---------- data ---------- */
+ async function load(){var inp=$('lab-tick');if(!inp)return;var raw=(inp.value||'').trim(),t=raw.toUpperCase();if(!t)return;
+  if(typeof edgeLabAck==='function'&&!edgeLabAck())return;
+  var meta=$('ox-meta');meta.innerHTML='Loading <b>'+t+'</b>...';
+  try{var key=(typeof getKey==='function')?getKey():'';
+   if(!/^[A-Z.]{1,6}$/.test(t)&&typeof resolveSymbol==='function'){var rs=await resolveSymbol(raw,key);if(rs){t=rs;inp.value=t;}}
+   var u='https://finnhub.io/api/v1/quote?symbol='+t+'&token='+key,q=null;
+   if(typeof cachedGet==='function')q=await cachedGet(u,60000);
+   if(!q&&typeof fhGet==='function')q=await fhGet(u,5);
+   if(!q){var res=await fetch(u);q=await res.json();}
+   if(!q||!q.c){meta.innerHTML='Could not find a live price for <b>'+t+'</b>. Type the price in the box to keep going.';return;}
+   S.tick=t;S.spot=+q.c;$('ox-spot').value=S.spot.toFixed(2);applyStrat(S.strat);
+   var ch=q.dp!=null?' <span class="'+(q.dp>=0?'ox-up':'ox-dn')+'">'+(q.dp>=0?'+':'')+(+q.dp).toFixed(2)+'% today</span>':'';
+   meta.innerHTML='<b>'+t+'</b> at <b>$'+S.spot.toFixed(2)+'</b>'+ch+'. Strikes and prices below are set around the current price.';
+   render();if(typeof edgeTrack==='function')edgeTrack('lab_load',{tick:t});
+  }catch(e){meta.innerHTML='The live feed is busy. Type the price in the box, or tap Load again in a moment.';}}
+ var tmr=null;function later(f){clearTimeout(tmr);tmr=setTimeout(f,120);}
+ window.OX={
+  strat:function(k){applyStrat(k);render();},
+  setSpot:function(v){v=+v;if(!(v>0))return;var old=S.spot;S.spot=v;later(function(){if(Math.abs(v-old)/old>0.15&&S.legs.every(function(l){return l.px==null||l.px==='';}))applyStrat(S.strat);render();});},
+  setIV:function(v){v=+v;if(!(v>0))return;S.iv=v/100;later(soft);},
+  setRate:function(v){v=+v;if(!(v>=0))return;S.r=v/100;later(soft);},
+  setDay:function(v){S.day=+v;soft();},
+  leg:function(i,f,v){var l=S.legs[i];if(!l)return;if(f==='side')l.side=+v;else if(f==='type'){l.type=v;if(v!=='stock'&&!l.K)l.K=rnd(S.spot,step(S.spot));}else if(f==='qty')l.qty=Math.max(1,Math.round(+v)||1);else if(f==='K')l.K=Math.max(0.01,+v||l.K);else if(f==='ei')l.ei=+v;else if(f==='px')l.px=(v===''?null:Math.max(0,+v));if(S.strat!=='custom'){S.strat='custom';}render();},
+  addLeg:function(t){var ei=S.legs.length?S.legs[0].ei:2;S.legs.push({type:t,side:1,K:rnd(S.spot,step(S.spot)),qty:1,ei:Math.min(ei,EXP.length-1),px:null});S.strat='custom';render();},
+  rm:function(i){S.legs.splice(i,1);S.strat='custom';render();}
+ };
+ /* take over the Lab entry points used elsewhere on the site */
+ window.labLoad=load;window.labRender=render;
+ window.labSet=function(k,v){if(k==='strat'&&TPL[v]){applyStrat(v);render();}};
+ function seg(id,key){var w=$(id);if(!w)return;w.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(w.children,function(c){c.classList.toggle('on',c===b);});S[key]=key==='rng'?+b.getAttribute('data-r'):b.getAttribute('data-u');soft();});}
+ function boot(){if(!$('ox-strats'))return;seg('ox-rng','rng');seg('ox-unit','unit');var svg=$('ox-svg');svg.addEventListener('mousemove',hover);svg.addEventListener('touchmove',hover,{passive:true});svg.addEventListener('touchstart',hover,{passive:true});svg.addEventListener('mouseleave',leave);svg.addEventListener('touchend',function(){setTimeout(leave,1200);});applyStrat(S.strat);render();var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(soft,150);});document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.tabbar'))setTimeout(soft,80);},true);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<!-- /EDGE OPTIONS CALCULATOR -->
 <style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style></body>
 </html>
