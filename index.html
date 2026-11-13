@@ -1083,7 +1083,6 @@
       <div class="edge-more"><h4>What it means</h4><p>Nvidia lost its founder and CEO in one morning. The business did not change on Thursday, but the price investors will pay for its uncertainty did. Customer relationships, the product roadmap and Washington policy on China all ran through Jensen Huang. CFO Colette Kress is interim CEO while the board searches for a permanent one.</p><h4>Where the money went</h4><p>It did not leave AI. Broadcom rose about 5.7 percent, AMD about 4.8 percent and Arista about 4.3 percent. Investors cut their exposure to one name and spread it across the theme.</p><h4>Bull case</h4><p>The stock is about 30 percent below its level of a month ago. If the November 17 report shows data-center demand and guidance intact, the leadership discount can narrow quickly. Cisco's raised AI outlook argues that demand is fine.</p><h4>Bear case</h4><p>More downgrades, a slow CEO search or further media reports could keep the discount in place. Open questions also include commitments Huang championed, such as the $10 billion pledge to Anthropic's placement.</p><h4>What we are watching</h4><p>The November 17 guide, data-center revenue growth, any named permanent CEO, and whether the substitutes (AVGO, AMD) hold their gains or fade back.</p></div>
     </div>
     </div>
-    <p class="conf-note"><b>What is Conf?</b> Our conviction in each signal, from 0 to 100. It weighs how solid the data behind it is and how likely it is to move prices over the next few sessions. Above 80 is high conviction; 60 to 79 is a developing story; below 60 is worth watching but unconfirmed. The bar shows the same score. Tap any card for the full read.</p>
 
 </section>
 
@@ -1559,7 +1558,7 @@
   <footer>
     <b>The Wall Street Edge</b> · Independent market research · Live data via Finnhub<br>
     Educational use only, not financial advice. Do your own research and never invest more than you can afford to lose.<br>
-    <a href="#" onclick="openTerms();return false" style="color:var(--gold);text-decoration:none">Terms &amp; disclaimer</a>
+    <a href="#" onclick="openTerms();return false" style="color:var(--gold);text-decoration:none">Terms &amp; disclaimer</a> <span style="color:var(--muted)">&middot;</span> <a href="#/faq" style="color:var(--gold);text-decoration:none">FAQ</a>
   </footer>
 </div>
 <div id="rgate-bg" class="rgate-bg" onclick="if(event.target===this)closeSubGate()">
@@ -4288,5 +4287,50 @@ body.light .logo-svg.logo-light{display:block}
 })();
 </script>
 <!-- /EDGE UX FIXES -->
+<!-- EDGE FAQ: self-contained appended block. -->
+<style id="edge-faq-css">
+.faq-sheet{max-width:620px}
+.faq-intro{color:var(--muted);font-size:13.5px;margin:0 4px 10px}
+.faq-q,details.faq-q{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;margin:0;padding:0 4px}
+.faq-q:last-child{border-bottom:1px solid var(--line)}
+.faq-q summary{list-style:none;cursor:pointer;padding:14px 26px 14px 0;font-size:14.5px;font-weight:700;color:var(--text);position:relative;line-height:1.4}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary::after{content:"+";position:absolute;right:2px;top:12px;font-size:18px;font-weight:400;color:var(--muted);transition:transform .15s}
+.faq-q[open] summary::after,details.faq-q[open] summary::after{content:"+";transform:rotate(45deg)}
+.faq-a{padding:0 0 14px}
+.faq-a p{margin:0 0 9px;color:var(--muted);font-size:14px;line-height:1.62}
+.faq-a b{color:var(--text)}
+.faq-q.faq-hl summary{color:var(--gold)}
+.signal-conf b{cursor:pointer}
+.signal-conf:hover b{text-decoration:underline;text-underline-offset:3px;color:var(--text)}
+</style>
+<div id="edge-faq" class="lc-modal" role="dialog" aria-modal="true" aria-label="FAQ">
+  <div class="lc-back" data-faq-close="1"></div>
+  <div class="lc-sheet faq-sheet">
+    <div class="lc-hd"><span>FAQ</span><button class="lc-x" type="button" data-faq-close="1" aria-label="Close">&#10005;</button></div>
+    <div class="terms-body">
+      <p class="faq-intro">How to read The Wall Street Edge.</p>
+      <details class="faq-q" id="faq-conf"><summary>What does &ldquo;Conf&rdquo; mean on the signal cards?</summary><div class="faq-a"><p>Conf is our conviction in a signal, on a scale of 0 to 100. It reflects two things: how solid the evidence behind it is (hard data, confirmed reports, the size of the move), and how likely the story is to keep driving prices over the next few sessions.</p><p><b>80 to 100:</b> high conviction. The data is clear and the market is already reacting.<br><b>60 to 79:</b> a developing story. Meaningful, but still being priced.<br><b>Below 60:</b> worth watching, not yet confirmed.</p><p>The thin bar under each card shows the same score. Conf measures how strong a signal is, not whether a stock will go up or down.</p></div></details><details class="faq-q" id="faq-conviction"><summary>What is the conviction score on stock cards?</summary><div class="faq-a"><p>The score out of 10 on each company card is our view of the setup after weighing the business, the valuation and what the market is pricing in. A higher score means the case is cleaner and the risks are easier to define. It is a research view, not a price target.</p></div></details><details class="faq-q" id="faq-labels"><summary>What do &ldquo;Quality on sale,&rdquo; &ldquo;Value trap&rdquo; and the other labels mean?</summary><div class="faq-a"><p><b>Quality on sale:</b> a strong business whose stock has fallen for reasons we think are temporary.<br><b>Value trap risk:</b> the stock looks cheap, but the business itself may be impaired.<br><b>Wait for the flush:</b> a decent business facing near-term selling pressure, such as an index removal, where patience may get a better price.<br><b>Momentum:</b> a stock moving well beyond the market on real news, where the question is what has to stay true for the move to last.</p></div></details><details class="faq-q" id="faq-regime"><summary>How should I read the risk regime meter?</summary><div class="faq-a"><p>The meter summarizes the market&rsquo;s overall appetite for risk. Toward the left, investors are buying aggressively; toward the right, they are reaching for safety. It looks at breadth (how many stocks are participating), interest rates, volatility, and how small caps, gold and crypto are behaving relative to the large indexes.</p></div></details><details class="faq-q" id="faq-full"><summary>What is &ldquo;The full read&rdquo;?</summary><div class="faq-a"><p>Tap any signal or card to open the full read: what the story means, the bull and bear cases, what we are watching next, and what would change our view. The card gives you the headline; the full read gives you the reasoning.</p></div></details><details class="faq-q" id="faq-timing"><summary>When is the brief updated?</summary><div class="faq-a"><p>Every market day, three times: <b>pre-market</b> (about 8:35 a.m. ET, after the morning economic data), <b>midday</b> (about 12:35 p.m. ET), and <b>after the close</b> (about 4:35 p.m. ET, including after-hours earnings). A weekend catch-up edition posts Sunday evening. The date line under the logo shows which edition you are reading.</p></div></details><details class="faq-q" id="faq-data"><summary>Where do the numbers come from?</summary><div class="faq-a"><p>Closing levels, earnings results and economic data come from public market data and the major financial newswires. The live tabs (Wire, Earnings, Search, Movers) pull market data directly and update on their own. Figures marked with &ldquo;~&rdquo; or &ldquo;about&rdquo; are approximate at the time of writing.</p></div></details><details class="faq-q" id="faq-advice"><summary>Is this financial advice?</summary><div class="faq-a"><p>No. The Wall Street Edge is independent market research for educational purposes. Nothing here is a recommendation to buy or sell any security. Do your own research, and never invest more than you can afford to lose.</p></div></details>
+    </div>
+  </div>
+</div>
+<script id="edge-faq-js">
+(function(){
+ var M=document.getElementById('edge-faq');if(!M)return;
+ function openFaq(key){var qs=M.querySelectorAll('.faq-q');for(var i=0;i<qs.length;i++){qs[i].classList.remove('faq-hl');if(key)qs[i].open=false;}
+  M.classList.add('on');document.body.style.overflow='hidden';
+  if(key){var q=document.getElementById('faq-'+key);if(q){q.open=true;q.classList.add('faq-hl');setTimeout(function(){q.scrollIntoView({block:'nearest'});},30);}}}
+ function closeFaq(){M.classList.remove('on');document.body.style.overflow='';if(/^#\/faq/.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}}
+ window.openFaq=openFaq;
+ M.addEventListener('click',function(e){if(e.target.getAttribute&&e.target.getAttribute('data-faq-close'))closeFaq();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&M.classList.contains('on'))closeFaq();});
+ function route(){var m=location.hash.match(/^#\/faq(?:\/([a-z]+))?\/?$/);if(m)openFaq(m[1]||'');}
+ window.addEventListener('hashchange',route);
+ document.addEventListener('click',function(e){var c=e.target.closest&&e.target.closest('.signal-conf');if(!c||c.closest('#rmodal-b'))return;e.preventDefault();e.stopPropagation();openFaq('conf');},true);
+ var cs=document.querySelectorAll('.signal-conf');for(var i=0;i<cs.length;i++)cs[i].setAttribute('title','What is Conf?');
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',route);else route();
+})();
+</script>
+<!-- /EDGE FAQ -->
 <style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style></body>
 </html>
