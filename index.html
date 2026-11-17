@@ -1587,7 +1587,7 @@
     </ul>
     <div class="rgate-fine"><a onclick="openDoc('subs')">Learn more about subscriptions</a> You can cancel anytime. Cancellations take effect at the end of your then-current subscription period. Your subscription will renew automatically unless you cancel at least 2 days before the renewal date. <a onclick="openDoc('terms')">Terms &amp; Conditions</a> apply, including the cancellation policy, and <a onclick="openDoc('privacy')">Privacy Statement</a>.</div>
     <div class="rgate-foot"><b>Already subscribed?</b> <a onclick="subscribe();closeSubGate()">Sign in</a> &nbsp;|&nbsp; <a onclick="closeSubGate()">Go to Homepage</a></div>
-    <div id="rgate-note" class="rgate-note">Add your Stripe Payment Link URLs in the script (STRIPE_LINKS) to go live.</div>
+    <div id="rgate-note" class="rgate-note">Checkout is temporarily unavailable. Please try again shortly.</div>
   </div>
 </div>
 <div id="doc-bg" class="rgate-bg" onclick="if(event.target===this)closeDoc()">
@@ -1768,18 +1768,18 @@
   }
   function goHome(){ showTab('today'); window.scrollTo(0,0); }
   function viewBrief(){ var m=document.getElementById('member'); if(m) m.scrollIntoView({behavior:'smooth',block:'start'}); }
-  function isSub(){try{return localStorage.getItem('wse_sub')==='1';}catch(e){return false;}}
+  function isSub(){try{return entTier()!=='free';}catch(e){return false;}}
   function applySub(){var s=isSub();document.body.classList.toggle('subscribed',s);var b=el('subBtn');if(b){b.textContent=s?'Member':'Subscribe';b.classList.toggle('is-sub',s);}}
-  function subscribe(){try{localStorage.setItem('wse_sub','1');}catch(e){}applySub();window.scrollTo(0,0);}
-  function toggleSub(){if(isSub()){try{localStorage.removeItem('wse_sub');}catch(e){}applySub();}else{openSubGate();}}
+  function subscribe(){closeSubGate();ACCT_AUTH='signin';openMembership();}
+  function toggleSub(){if(isSub()){openMembership();}else{openSubGate();}}
   /* --- Stripe Payment Links: create these in dashboard.stripe.com > Payment Links, then paste the URLs below. Set each link's success/after-payment URL to this app's URL with ?subscribed=1 appended so members unlock automatically. --- */
   var STRIPE_LINKS={
-    weekly:'REPLACE_WITH_STRIPE_WEEKLY_PAYMENT_LINK', /* Monthly plan: $29/month (key name kept for compatibility) */
-    annual:'REPLACE_WITH_STRIPE_ANNUAL_PAYMENT_LINK'  /* Annual plan: $249/year */
+    weekly:'https://buy.stripe.com/bJe14meCNh2paI7fUT73G00', /* Monthly plan: $29/month (key name kept for compatibility) */
+    annual:'https://buy.stripe.com/9B65kC7al27v9E30ZZ73G01'  /* Annual plan: $249/year */
   };
   function openSubGate(){var g=el('rgate-bg');if(g){g.classList.add('open');document.body.style.overflow='hidden';}}
   function closeSubGate(){var g=el('rgate-bg');if(g){g.classList.remove('open');document.body.style.overflow='';}}
-  function goStripe(plan){var url=(STRIPE_LINKS&&STRIPE_LINKS[plan])||'';if(!url||url.indexOf('REPLACE_WITH')===0){var n=el('rgate-note');if(n)n.style.display='block';return;}window.location.href=url;}
+  var EDGE_PENDING_PLAN=null;var EDGE_PORTAL='https://billing.stripe.com/p/login/bJe14meCNh2paI7fUT73G00';function goStripe(plan){var url=(STRIPE_LINKS&&STRIPE_LINKS[plan])||'';if(!url)return;if(!edgeState.user){EDGE_PENDING_PLAN=plan;closeSubGate();ACCT_AUTH='signup';openMembership();var n=el('ea-authnote');if(n)n.textContent='Create your free account first (or sign in), then you will go straight to checkout.';return;}EDGE_PENDING_PLAN=null;window.location.href=url+'?client_reference_id='+encodeURIComponent(edgeState.user.id)+'&prefilled_email='+encodeURIComponent(edgeState.user.email||'');}
   var DOC_TITLES={subs:'Subscriptions',terms:'Terms & Conditions',privacy:'Privacy Statement'};
   function openDoc(k){var src=el('src-'+k);if(!src)return;var t=el('doc-title');if(t)t.textContent=DOC_TITLES[k]||'';var b=el('doc-body');if(b){b.innerHTML=src.innerHTML;b.scrollTop=0;}var g=el('doc-bg');if(g){g.classList.add('open');document.body.style.overflow='hidden';}}
   function closeDoc(){var g=el('doc-bg');if(g)g.classList.remove('open');var rg=el('rgate-bg');document.body.style.overflow=(rg&&rg.classList.contains('open'))?'hidden':'';}
@@ -2903,10 +2903,10 @@
   /* ================= PAID ARCHITECTURE (Phase 5), infra only, no paywall ================= */
   /* Central config, change here, nowhere else. Billing OFF until keys + explicit go-live. */
   var EDGE_CFG={
-    supabaseUrl:'',            /* set to your Supabase project URL to enable cloud accounts */
-    supabaseAnon:'',           /* Supabase anon (public) key, safe in browser; NEVER the service_role key */
-    stripeEnabled:false,       /* stays false until Stripe is connected AND you authorize go-live */
-    trialEnabled:false, trialDays:7,
+    supabaseUrl:'https://rtohcbtfwaukdtteswgz.supabase.co',            /* set to your Supabase project URL to enable cloud accounts */
+    supabaseAnon:'sb_publishable_kZGErelCvaZNgaNw3wVj6g_HX_AQBvp',           /* Supabase anon (public) key, safe in browser; NEVER the service_role key */
+    stripeEnabled:true,       /* stays false until Stripe is connected AND you authorize go-live */
+    trialEnabled:true, trialDays:7,
     foundingEnabled:false, foundingCap:1000,
     referralEnabled:false,
     prices:{ pro:{amount:29,label:'$29/mo',id:''}, elite:{amount:99,label:'$99/mo',id:''} }
@@ -2942,7 +2942,7 @@
   function edgeSaveLocalProfile(p){try{localStorage.setItem('edge_account',JSON.stringify(p));}catch(e){}}
   function entTier(){
     if(edgeState.source==='supabase'&&edgeState.user)return edgeState.tier||'free';   /* server-authoritative */
-    if(edgeDevMode()){try{var t=localStorage.getItem('edge_dev_tier');if(t)return t;}catch(e){}}
+    
     return 'free';
   }
   function entHas(cap){var need=CAP_MIN[cap];if(!need)return true;return (TIER_RANK[entTier()]||0)>=(TIER_RANK[need]||0);}
@@ -2966,12 +2966,15 @@
     if(edgeState.user&&window.edgeSB){
       /* entitlement comes from a server row the user CANNOT write (RLS). Read-only here. */
       window.edgeSB.from('subscriptions').select('tier,status').eq('user_id',edgeState.user.id).maybeSingle()
-        .then(function(r){var d=r&&r.data;edgeState.tier=(d&&d.status==='active')?(d.tier||'free'):'free';edgeRefreshHeader();})
-        .catch(function(){edgeState.tier='free';edgeRefreshHeader();});
+        .then(function(r){var d=r&&r.data;edgeState.tier=(d&&(d.status==='active'||d.status==='trialing'))?(d.tier||'free'):'free';edgeRefreshHeader();applySub();edgeAfterTier();})
+        .catch(function(){edgeState.tier='free';edgeRefreshHeader();applySub();});
       edgeMergeLocal();
-    } else { edgeState.tier='free'; }
+    } else { edgeState.tier='free'; applySub(); }
     edgeRefreshHeader();
   }
+  var EDGE_ACTIVATING=false;
+  function edgeAfterTier(){if(EDGE_PENDING_PLAN&&edgeState.tier==='free'){var p=EDGE_PENDING_PLAN;acctClose();goStripe(p);return;}if(EDGE_ACTIVATING&&edgeState.tier!=='free'){EDGE_ACTIVATING=false;closeSubGate();if(typeof toast==='function')toast('Welcome to The Wall Street Edge Pro. Your membership is active.');}}
+  function edgeRecheckTier(){if(edgeState.user)edgeApplySession({user:edgeState.user});}
   /* ---- auth actions (Supabase when connected; local profile fallback, clearly labelled) ---- */
   function edgeSignUp(email,pass,name,cb){
     if(window.edgeSB){window.edgeSB.auth.signUp({email:email,password:pass,options:{data:{display_name:name}}}).then(function(r){cb(r.error?r.error.message:null);});return;}
@@ -3030,22 +3033,22 @@
       if(ACCT_AUTH==='signup')h+='<input id="ea-name" class="ea-in" placeholder="Display name">';
       h+='<input id="ea-email" class="ea-in" placeholder="Email" type="email"><input id="ea-pass" class="ea-in" placeholder="Password" type="password">';
       h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
-      h+='<div class="ea-note" id="ea-authnote">'+(EDGE_CFG.supabaseUrl?'':'Cloud sign-in activates once the Supabase project is connected. For now this saves a profile on this device.')+'</div></div>';
+      h+='<div class="ea-note" id="ea-authnote">'+(EDGE_PENDING_PLAN?'Create your free account first (or sign in), then you will go straight to checkout.':'')+'</div></div>';
     }
     /* appearance */
     h+='<div class="ea-sec-l">Appearance</div><div class="ea-theme"><button type="button" class="ea-theme-btn'+(edgeTheme()!=='light'?' on':'')+'" onclick="setThemePref(\'dark\')">Dark</button><button type="button" class="ea-theme-btn'+(edgeTheme()==='light'?' on':'')+'" onclick="setThemePref(\'light\')">Light</button></div><div class="ea-note">This becomes your default every time you open the site.</div>';
     /* membership block */
     var badge=tier==='elite'?'ELITE':tier==='pro'?'PRO':'FREE';
     h+='<div class="ea-plan"><div class="ea-plan-top"><span class="ea-badge '+tier+'">'+badge+'</span><span class="ea-plan-l">Your membership</span></div>';
-    h+='<div class="ea-plan-note">You have full access to everything live on The Wall Street Edge today. '+(EDGE_CFG.stripeEnabled?'':'<b>Billing is not active yet</b>, Edge Pro and Edge Elite are in development.')+'</div></div>';
+    h+='<div class="ea-plan-note">You have full access to everything live on The Wall Street Edge today. '+(tier!=='free'?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Manage billing or cancel</a>':'')+'</div></div>';
     /* feature matrix */
     h+='<div class="ea-sec-l">Free vs Pro vs Elite</div><div class="ea-matrix"><table><thead><tr><th>Feature</th><th class="'+(tier==='free'?'cur':'')+'">Free</th><th class="'+(tier==='pro'?'cur':'')+'">Pro '+EDGE_CFG.prices.pro.label+'</th><th class="'+(tier==='elite'?'cur':'')+'">Elite '+EDGE_CFG.prices.elite.label+'</th></tr></thead><tbody>';
     for(var i=0;i<FEATURE_MATRIX.length;i++){var r=FEATURE_MATRIX[i];h+='<tr><td>'+esc(r.f)+'</td><td>'+esc(r.free)+'</td><td>'+esc(r.pro)+'</td><td>'+esc(r.elite)+'</td></tr>';}
     h+='</tbody></table></div>';
     /* pricing / waitlist */
-    h+='<div class="ea-price-row"><div class="ea-price"><div class="ea-price-t">Edge Pro</div><div class="ea-price-a">'+EDGE_CFG.prices.pro.label+'</div><button class="ea-primary sm" onclick="joinWaitlist(\'pro\')">Join the Pro waitlist</button></div>';
+    h+='<div class="ea-price-row"><div class="ea-price"><div class="ea-price-t">Edge Pro</div><div class="ea-price-a">'+EDGE_CFG.prices.pro.label+'</div>'+(tier==='free'?'<button class="ea-primary sm" onclick="goStripe(\'weekly\')">Start 7-day free trial</button><button class="ea-ghost sm" style="margin-top:6px" onclick="goStripe(\'annual\')">$249/yr, save 28%</button>':'<div class="ea-note">Your plan</div>')+'</div>';
     h+='<div class="ea-price"><div class="ea-price-t">Edge Elite</div><div class="ea-price-a">'+EDGE_CFG.prices.elite.label+'</div><button class="ea-ghost sm" onclick="joinWaitlist(\'elite\')">Join the Elite waitlist</button></div></div>';
-    h+='<div class="ea-legal">Pricing is provisional. Nothing here charges you, billing turns on only after Stripe is connected and launch is authorized. Not financial advice.</div>';
+    h+='<div class="ea-legal">Edge Pro is billed through Stripe after a 7-day free trial. Cancel anytime from Manage billing; cancellation takes effect at the end of the period. Elite is waitlist only. Educational research, not financial advice.</div>';
     /* dev tools */
     if(edgeDevMode()){
       h+='<div class="ea-dev"><div class="ea-dev-l">Developer preview, simulate a plan to test the UI (not a real subscription)</div><div class="ea-dev-btns">';
@@ -4104,7 +4107,7 @@
   }
   document.addEventListener('input',runCalcs);
   applySub();
-  (function(){try{if(location.search.indexOf('subscribed=1')>-1){localStorage.setItem('wse_sub','1');applySub();history.replaceState(null,'',location.pathname);}}catch(e){}
+  (function(){try{try{localStorage.removeItem('wse_sub');}catch(_){}if(location.search.indexOf('subscribed=1')>-1){EDGE_ACTIVATING=true;try{sessionStorage.setItem('rgate_seen','1');}catch(_){}history.replaceState(null,'',location.pathname);if(typeof toast==='function')toast('Payment received. Activating your membership...');var _n=0;var _iv=setInterval(function(){_n++;if(!EDGE_ACTIVATING||_n>20){clearInterval(_iv);return;}edgeRecheckTier();},3000);}}catch(e){}
     if(!isSub()){try{if(!sessionStorage.getItem('rgate_seen')){setTimeout(function(){openSubGate();try{sessionStorage.setItem('rgate_seen','1');}catch(_){}} ,1200);}}catch(e){setTimeout(openSubGate,1200);}}
   })();
   updateKeyUI();
@@ -4666,5 +4669,5 @@ body.light #themeTgl .tt-moon{display:block}
 })();
 </script>
 <!-- /EDGE THEME TOGGLE -->
-<style id="deploy-open">#rgate-bg,.rgate,.gate,.paywall{display:none!important}.premium{display:block!important}#login{display:none!important}body{overflow:auto!important}</style></body>
+</body>
 </html>
