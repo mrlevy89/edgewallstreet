@@ -2993,7 +2993,7 @@
   function edgeRecheckTier(){if(edgeState.user)edgeApplySession({user:edgeState.user});}
   /* ---- auth actions (Supabase when connected; local profile fallback, clearly labelled) ---- */
   function edgeSignUp(email,pass,name,cb){
-    if(window.edgeSB){window.edgeSB.auth.signUp({email:email,password:pass,options:{data:{display_name:name}}}).then(function(r){cb(r.error?r.error.message:null);});return;}
+    if(window.edgeSB){window.edgeSB.auth.signUp({email:email,password:pass,options:{data:{display_name:name,week_ahead:!!(el('ea-wa')&&el('ea-wa').checked),week_ahead_consent_at:new Date().toISOString()}}}).then(function(r){cb(r.error?r.error.message:null);});return;}
     edgeSaveLocalProfile({email:email,name:name||email.split('@')[0],local:true,created:Date.now()});edgeState.source='local';edgeMergeLocal();edgeRefreshHeader();if(cb)cb(null);
   }
   function edgeSignIn(email,pass,cb){
@@ -3048,7 +3048,7 @@
       h+='<div class="ea-auth-why">Create an account to save your watchlist, Floor identity and lesson progress across devices, and get a personalized Your Edge.</div>';
       if(ACCT_AUTH==='signup')h+='<input id="ea-name" class="ea-in" placeholder="Display name">';
       h+='<input id="ea-email" class="ea-in" placeholder="Email" type="email"><input id="ea-pass" class="ea-in" placeholder="Password" type="password">';
-      h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
+      if(ACCT_AUTH==='signup')h+='<label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4;margin:10px 2px 4px;cursor:pointer;text-align:left"><input id="ea-wa" type="checkbox" checked style="margin-top:2px;accent-color:var(--gold)"><span>Email me <b>The Week Ahead</b>, free every Sunday: the brief on the week that was, plus the CPI, Fed and earnings dates that matter next. Unsubscribe anytime.</span></label>';h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
       h+='<div class="ea-note" id="ea-authnote">'+(EDGE_PENDING_PLAN?'Create your free account first (or sign in), then you will go straight to checkout.':'')+'</div></div>';
     }
     /* appearance */
