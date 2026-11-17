@@ -4114,7 +4114,7 @@
   document.addEventListener('input',runCalcs);
   applySub();
   (function(){try{try{localStorage.removeItem('wse_sub');}catch(_){}if(location.search.indexOf('subscribed=1')>-1){EDGE_ACTIVATING=true;try{sessionStorage.setItem('rgate_seen','1');}catch(_){}history.replaceState(null,'',location.pathname);if(typeof toast==='function')toast('Payment received. Activating your membership...');var _n=0;var _iv=setInterval(function(){_n++;if(!EDGE_ACTIVATING||_n>20){clearInterval(_iv);return;}edgeRecheckTier();},3000);}}catch(e){}
-    if(!isSub()){try{if(!sessionStorage.getItem('rgate_seen')){setTimeout(function(){openSubGate();try{sessionStorage.setItem('rgate_seen','1');}catch(_){}} ,1200);}}catch(e){setTimeout(openSubGate,1200);}}
+    if(!isSub()){var RGATE_DELAY=5*60*1000;/* popup after 5 minutes on the page, once per session */try{if(!sessionStorage.getItem('rgate_seen')){setTimeout(function(){if(isSub())return;openSubGate();try{sessionStorage.setItem('rgate_seen','1');}catch(_){}} ,RGATE_DELAY);}}catch(e){setTimeout(function(){if(!isSub())openSubGate();},RGATE_DELAY);}}
   })();
   updateKeyUI();
   try{edgeInitSupabase(edgeRefreshHeader);edgeRefreshHeader();}catch(e){}
