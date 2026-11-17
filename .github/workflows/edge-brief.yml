@@ -1,0 +1,76 @@
+name: Edge brief
+
+on:
+  schedule:
+    # GitHub cron is UTC. Two slots per edition so it works in both PST and PDT;
+    # the second slot skips itself when the edition is already live.
+    - cron: "35 13,14,17,18,21,22 * * 1-5"
+    - cron: "35 2,3 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if this edition is already live"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: edge-brief
+  cancel-in-progress: false
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pick edition
+        id: ed
+        env:
+          FORCE: ${{ inputs.force }}
+        run: python3 .github/edge/edition.py >> "$GITHUB_OUTPUT"
+
+      - name: Build prompt
+        id: p
+        if: steps.ed.outputs.skip != 'true'
+        env:
+          DATELINE: ${{ steps.ed.outputs.dateline }}
+          EDITION: ${{ steps.ed.outputs.edition }}
+        run: |
+          cp index.html /tmp/orig.html
+          {
+            echo 'prompt<<EOF_PROMPT'
+            sed -e "s|{{DATELINE}}|${DATELINE}|g" -e "s|{{EDITION}}|${EDITION}|g" .github/edge/brief-prompt.md
+            echo 'EOF_PROMPT'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Research and write the brief
+        if: steps.ed.outputs.skip != 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: ${{ steps.p.outputs.prompt }}
+          claude_args: |
+            --max-turns 150
+            --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
+
+      - name: Validate
+        if: steps.ed.outputs.skip != 'true'
+        run: python3 .github/edge/edge_validate.py /tmp/orig.html index.html "${{ steps.ed.outputs.dateline }}"
+
+      - name: Commit and push
+        if: steps.ed.outputs.skip != 'true'
+        run: |
+          git config user.name "The Wall Street Edge"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then echo "index.html unchanged"; exit 1; fi
+          git commit -m "Auto: Edge brief ${{ steps.ed.outputs.date }} ${{ steps.ed.outputs.label }}"
+          git pull --rebase origin main
+          git push origin HEAD:main
