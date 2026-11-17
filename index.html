@@ -3110,7 +3110,9 @@
     var y=now.getFullYear(),m=now.getMonth();
     for(var k=0;k<18;k++){chPush(out,seen,thirdFriday(y,m+k),now);}                                // monthlies
     out.sort(function(a,b){return a.days-b.days;});
-    return out.slice(0,16);
+    var res=out.slice(0,16),lt=res[res.length-1].d,cy=now.getFullYear(),cap=thirdFriday(cy+3,0),seen2={};
+    for(var yy=lt.getFullYear();yy<=cy+3;yy++){[0,5,11].forEach(function(mo){var x=thirdFriday(yy,mo);if(x>lt&&x<=cap)chPush(res,seen2,x,now);});} // LEAPS out to Jan, 3 years ahead
+    return res;
   }
   function chainStrikes(S){var st=strikeStep(S),lo=Math.max(st,Math.floor(S*0.6/st)*st),hi=Math.ceil(S*1.4/st)*st,out=[],k;for(k=lo;k<=hi+0.001;k+=st)out.push(+k.toFixed(2));return out;}
   function chainQuote(type,S,K,T,r,v){var mid=Math.max(0,bsVal(type,S,K,T,r,v));var hs=Math.max(0.02,mid*0.03);var bid=mid-hs;bid=bid<0.01?null:+bid.toFixed(2);var ask=+Math.max(0.01,mid+hs).toFixed(2);return {bid:bid,mid:+mid.toFixed(2),ask:ask};}
@@ -4496,6 +4498,9 @@ body.light .logo-svg.logo-light{display:block}
  function expiries(){var out=[],d=new Date();d.setHours(16,0,0,0);var f=new Date(d);f.setDate(f.getDate()+((5-f.getDay()+7)%7||7));
   for(var i=0;i<6;i++){var e=new Date(f);e.setDate(f.getDate()+7*i);out.push(e);}
   var m=new Date(d.getFullYear(),d.getMonth()+2,1);for(var j=0;j<10;j++){var mm=new Date(m.getFullYear(),m.getMonth()+j,1);var fr=new Date(mm);fr.setDate(1+((5-mm.getDay()+7)%7)+14);fr.setHours(16);if(fr>out[out.length-1])out.push(fr);}
+  /* LEAPS: Jun/Dec/Jan third-Friday expiries out to January three years ahead (e.g. Jan 2029) */
+  var lt=out[out.length-1],cap=new Date(d.getFullYear()+3,0,1);cap.setDate(1+((5-cap.getDay()+7)%7)+14);cap.setHours(16,0,0,0);
+  for(var yy=lt.getFullYear();yy<=d.getFullYear()+3;yy++){[0,5,11].forEach(function(mo){var x=new Date(yy,mo,1);x.setDate(1+((5-x.getDay()+7)%7)+14);x.setHours(16,0,0,0);if(x>lt&&x<=cap)out.push(x);});}
   return out.map(function(e){return {d:e,days:Math.max(1,Math.round((e-d)/864e5))};});}
  var EXP=expiries();
  function fm(n,dp){var a=Math.abs(n);return (n<0?'-':'')+'$'+a.toLocaleString(undefined,{minimumFractionDigits:dp==null?0:dp,maximumFractionDigits:dp==null?0:dp});}
