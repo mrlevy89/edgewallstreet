@@ -2361,9 +2361,9 @@ body:not(.tier-elite) .elite-only{display:none}
   function edgeTrack(ev,props){try{var a=JSON.parse(localStorage.getItem('edge_events')||'[]');a.push({ev:ev,t:Date.now(),p:props||{}});if(a.length>500)a=a.slice(a.length-500);localStorage.setItem('edge_events',JSON.stringify(a));}catch(e){}if(window.console&&console.debug)console.debug('[edge]',ev,props||{});}
   function shareCardsFor(type,tick){
     if(type==='watchlist')return ['changed','score'];
-    if(type==='floor')return (window.LASTSIG&&LASTSIG.tick===tick)?['floor','check']:['floor'];
+    if(type==='floor')return ['check'];
     if(type==='lab')return ['options'];
-    var base=['check','score','bull','angle','floor','alert'];
+    var base=['check','score','bull','angle','alert'];
     if(window.WL&&WL.intel&&WL.intel[tick])base.splice(2,0,'changed');
     return base;
   }
@@ -2494,15 +2494,7 @@ body:not(.tier-elite) .elite-only{display:none}
      edge:'Edge Check ranks information by how hard it is: verified facts and earnings first, then market data and analysts, then derived signals, then community sentiment last.',
      mistake:'Reading only the green rows. The verdict weighs the reds and the missing data too, that’s why it can say “mixed, not enough evidence.”',
      deeper:'A stock can have a high Edge Score and a “mixed” Edge Check at the same time: the score can be lifted by momentum while the evidence underneath stays thin.',
-     tryLabel:'Run Edge Check on AAPL',tryAction:'ticker:AAPL',related:['edge-score','floor-vs-evidence','the-angle']},
-    {id:'floor-vs-evidence',t:'Sentiment is a signal, not evidence',cat:'The Edge Method',diff:'Starter',time:'2 min',tags:['floor','sentiment','community'],
-     summary:'The Floor shows what retail thinks. Edge Check shows what the evidence says. They are two different things, and they often disagree.',
-     why:'Crowds can be right early and wrong at the top. Sentiment tells you the mood; it doesn’t tell you the facts.',
-     real:'A ticker can be 78% bullish on the Floor while its Edge Check reads “mixed.” That gap is the whole point, loud ≠ proven.',
-     edge:'Edge never lets community opinion outrank verified data. The Floor adds energy; the evidence layer keeps you honest.',
-     mistake:'Buying because “everyone’s bullish.” High sentiment with thin evidence is exactly when to slow down.',
-     deeper:'Sentiment is most useful at extremes and as a contrarian tell, not as a reason on its own.',
-     tryLabel:'Compare Floor vs Edge on NVDA',tryAction:'floor:NVDA',related:['edge-check','short-squeeze','what-changed']},
+     tryLabel:'Run Edge Check on AAPL',tryAction:'ticker:AAPL',related:['edge-score','what-changed','the-angle']},
     {id:'what-changed',t:'Why “what changed” beats “what’s the price”',cat:'The Edge Method',diff:'Starter',time:'2 min',tags:['watchlist','change'],
      summary:'Staring at price tells you little. What moves your decision is what changed, a new catalyst, an analyst shift, a score move, earnings approaching.',
      why:'Markets are forward-looking. The edge is noticing the change before the crowd fully reacts.',
@@ -2683,15 +2675,15 @@ body:not(.tier-elite) .elite-only{display:none}
      edge:'Edge treats short interest as a signal to weigh, never as proof a squeeze is coming.',
      mistake:'Buying only because short interest is high. High and rising short interest sometimes means the bears are right.',
      deeper:'“Days to cover” (short interest ÷ average volume) estimates how long shorts would need to buy back, squeeze fuel.',
-     tryLabel:'Check a ticker’s positioning',tryAction:'ticker:GME',related:['short-squeeze','floor-vs-evidence','volume']},
+     tryLabel:'Check a ticker’s positioning',tryAction:'ticker:GME',related:['short-squeeze','momentum','volume']},
     {id:'short-squeeze',t:'Short squeeze',cat:'Positioning',diff:'Intermediate',time:'2 min',tags:['squeeze','short interest'],
      summary:'When a rising price forces shorts to buy back to cut losses, and that buying pushes the price even higher, feeding on itself.',
      why:'Squeezes create explosive, unsustainable moves. Understanding the mechanics keeps you from mistaking one for a real trend.',
      real:'A crowded short with a sudden catalyst and heavy volume is the classic setup, fast up, often just as fast down.',
-     edge:'The Floor may go euphoric during a squeeze; Edge Check keeps the evidence separate from the frenzy.',
+     edge:'Social chatter goes euphoric during a squeeze; Edge Check keeps the evidence separate from the frenzy.',
      mistake:'Buying late into a squeeze and holding for “more.” The fuel (shorts covering) runs out, then it reverses.',
      deeper:'A squeeze is a positioning event, not a fundamental one, the story rarely justifies the final prices.',
-     tryLabel:'See the Floor on a squeeze name',tryAction:'floor:GME',related:['short-interest','floor-vs-evidence','volume']},
+     tryLabel:'Run Edge Check on a squeeze name',tryAction:'ticker:GME',related:['short-interest','momentum','volume']},
     /* ---- Valuation ---- */
     {id:'valuation-vs-growth',t:'Growth vs valuation',cat:'Valuation',diff:'Intermediate',time:'3 min',tags:['valuation','growth'],
      summary:'A high multiple isn’t automatically expensive, and a low one isn’t automatically cheap. Price only makes sense next to growth.',
@@ -2715,7 +2707,7 @@ body:not(.tier-elite) .elite-only{display:none}
     {id:'better-analyst',t:'Become a better analyst',sub:'Read a company like a pro.',ids:['eps-vs-revenue','free-cash-flow','valuation-vs-growth','analyst-revisions','the-angle','edge-check']},
     {id:'understand-options',t:'Understand options',sub:'From a single call to spreads.',ids:['calls','puts','implied-volatility','greeks','bull-call-spread','iron-condor']},
     {id:'read-the-market',t:'Read the market',sub:'Volume, momentum, catalysts.',ids:['volume','momentum','volatility','guidance','why-fall-after-beat']},
-    {id:'think-like-trader',t:'Think like a trader',sub:'Positioning and psychology.',ids:['momentum','short-interest','short-squeeze','floor-vs-evidence','iv-crush']}
+    {id:'think-like-trader',t:'Think like a trader',sub:'Positioning and psychology.',ids:['momentum','short-interest','short-squeeze','iv-crush']}
   ];
   var LCATS=['The Edge Method','Market Basics','Price & Momentum','Earnings & Catalysts','Options','Positioning','Valuation'];
   /* ================= END LEARN lessons ================= */
@@ -2770,7 +2762,7 @@ body:not(.tier-elite) .elite-only{display:none}
     h+='<div class="lz-sec-h">Browse by topic</div><div class="lz-cats">';
     for(i=0;i<LCATS.length;i++){var cn=LESSONS.filter(function(l){return l.cat===LCATS[i];}).length;h+='<button class="lz-cat" onclick="learnCat(\''+LCATS[i].replace(/'/g,"\\'")+'\')">'+esc(LCATS[i])+' <span>'+cn+'</span></button>';}
     h+='</div>';
-    var today=['why-fall-after-beat','implied-volatility','floor-vs-evidence'];
+    var today=['why-fall-after-beat','implied-volatility','what-changed'];
     h+='<div class="lz-sec-h">Learn from today’s market</div><div class="lz-grid">'+today.map(function(id){var l=lessonById(id);return l?learnCard(l):'';}).join('')+'</div>';
     root.innerHTML=h;
   }
