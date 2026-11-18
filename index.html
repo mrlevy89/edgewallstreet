@@ -17,6 +17,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId:"ba216a8f-f731-40cb-a743-0ab1a836799a",serviceWorkerPath:"sw.js",serviceWorkerParam:{scope:"/"},promptOptions:{slidedown:{prompts:[]}},notifyButton:{enable:false},welcomeNotification:{disable:false}});window.EDGE_PUSH_READY=true;}catch(e){window.EDGE_PUSH_READY=false;}});
+</script>
 <meta name="theme-color" content="#0b0c12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4701,6 +4706,39 @@ body.light #themeTgl .tt-moon{display:block}
 
 <script>
 (function(){try{var d=document.querySelector('.date');if(!d)return;var t=d.textContent.replace(/\s+/g,' ').trim();document.querySelectorAll('.gate-live-t').forEach(function(x){x.textContent=t+' is live';});}catch(e){}})();
+</script>
+
+<!-- PUSH OPT-IN: soft ask first; the browser permission prompt appears only after the reader taps "Notify me". -->
+<div id="push-ask" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:9998;max-width:460px;margin:0 auto;background:#14161f;color:#f5f6fb;border:1px solid #262a38;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45);padding:12px 12px 12px 14px;font-family:Inter,system-ui,sans-serif">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="flex:0 0 40px;width:40px;height:40px;border-radius:10px;background:rgba(0,226,138,.14);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e28a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+    <div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">Know the moment each edition drops</div><div style="font-size:12.5px;color:#8b90a3;line-height:1.35">Pre-market, midday and after the close. One alert each, nothing else.</div></div>
+    <button id="push-yes" type="button" style="background:#00e28a;color:#0b0c12;border:0;border-radius:9px;font-weight:800;font-size:13px;padding:9px 12px;cursor:pointer;white-space:nowrap">Notify me</button>
+    <button id="push-no" type="button" aria-label="Not now" style="background:transparent;border:0;color:#8b90a3;font-size:18px;cursor:pointer;padding:4px 6px">&#10005;</button>
+  </div>
+</div>
+<script>
+(function(){
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  function track(n,p){try{if(typeof edgeTrack==='function')edgeTrack(n,p||{});}catch(e){}}
+  if(!('Notification' in window)||!('serviceWorker' in navigator)||!('PushManager' in window))return;
+  if(Notification.permission!=='default')return;
+  if(Date.now()<(+ls('edge_push_snooze')||0))return;
+  var visits=+ls('edge_visits')||1,shown=false;
+  function busy(){var a=document.getElementById('app-inst');return document.querySelector('.rgate-bg.open,.ea-modal.on')||(a&&a.style.display==='block');}
+  function show(){if(shown)return;if(!window.EDGE_PUSH_READY){setTimeout(show,5000);return;}if(busy()){setTimeout(show,20000);return;}
+    shown=true;document.getElementById('push-ask').style.display='block';track('push_ask_shown');}
+  function hide(days){document.getElementById('push-ask').style.display='none';if(days)ls('edge_push_snooze',String(Date.now()+days*864e5));}
+  document.addEventListener('click',function(e){
+    var id=e.target&&e.target.id;
+    if(id==='push-no'){hide(14);track('push_ask_dismiss');}
+    if(id==='push-yes'){hide(0);track('push_ask_yes');window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){
+      try{await OneSignal.Notifications.requestPermission();var ok=OneSignal.Notifications.permission;track('push_permission',{granted:!!ok});
+        if(ok){try{OneSignal.User.addTag('tier',(typeof isSub==='function'&&isSub())?'pro':'free');}catch(_){} if(typeof toast==='function')toast('You are in. We will alert you when each edition goes live.');}
+        else{ls('edge_push_snooze',String(Date.now()+30*864e5));}}catch(err){}});}
+  });
+  setTimeout(show,visits>=2?20000:60000);
+})();
 </script>
 <!-- APP INSTALL: home-screen install banner (PWA). Shows on a return visit or after ~90s of reading, never over the subscribe popup. -->
 <div id="app-inst" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:9998;max-width:460px;margin:0 auto;background:#14161f;color:#f5f6fb;border:1px solid #262a38;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45);padding:12px 12px 12px 14px;font-family:Inter,system-ui,sans-serif">
