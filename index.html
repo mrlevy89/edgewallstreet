@@ -597,48 +597,6 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
   .ea-theme{display:flex;gap:8px;margin:4px 0 2px}
   .ea-theme-btn{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:8px 20px;font-size:13px;font-weight:700;cursor:pointer}
   .ea-theme-btn.on{border-color:var(--gold);color:var(--gold)}
-  /* ===== LIVE FEED (StockTwits-style) ===== */
-  #edge-feed{margin-top:14px}
-  .feed-wrap{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px}
-  .feed-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  .feed-t{font-size:16px;font-weight:800;color:var(--text)}
-  .feed-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--buy)}
-  .fl-dot{width:7px;height:7px;border-radius:50%;background:var(--buy);animation:flpulse 1.6s infinite}
-  @keyframes flpulse{0%,100%{opacity:1}50%{opacity:.25}}
-  .feed-you{margin-left:auto;font-size:12px;color:var(--muted)}
-  .feed-comp{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:12px}
-  .feed-ta{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--text);font:inherit;font-size:14px;padding:9px 11px;resize:vertical;min-height:52px}
-  .feed-tags{font-size:11.5px;color:var(--muted);margin:6px 2px 0;min-height:14px}
-  .ft-tk{color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none}
-  .ft-tk:hover{text-decoration:underline}
-  .feed-comp-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px}
-  .feed-sent{display:flex;gap:5px}
-  .fs-btn{background:var(--bg);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:700;cursor:pointer}
-  .fs-btn.bull.on{background:var(--buy-bg);border-color:var(--buy);color:var(--buy)}
-  .fs-btn.bear.on{background:var(--avoid-bg);border-color:var(--avoid);color:var(--avoid)}
-  .fs-btn.neut.on{border-color:var(--gold);color:var(--gold)}
-  .feed-pt{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
-  .feed-pt-in{width:64px}.feed-by-in{width:74px}
-  .feed-pt input{background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:5px 7px;font:inherit;font-size:12.5px}
-  .feed-post{margin-left:auto;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;color:#04140d;font-weight:800;font-size:13px;padding:8px 20px;border-radius:9px;cursor:pointer}
-  .feed-post:disabled{opacity:.6;cursor:default}
-  .feed-list{display:flex;flex-direction:column;gap:9px}
-  .feed-empty{color:var(--muted);font-size:13px;padding:16px 4px;text-align:center}
-  .fp{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
-  .fp-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-  .fp-h{font-weight:800;font-size:13px;color:var(--text)}
-  .fp-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:1px 7px;border-radius:6px}
-  .fp-tag.bull{color:var(--buy);background:var(--buy-bg)}
-  .fp-tag.bear{color:var(--avoid);background:var(--avoid-bg)}
-  .fp-time{margin-left:auto;font-size:11.5px;color:var(--muted)}
-  .fp-body{font-size:14px;line-height:1.5;color:var(--text);white-space:pre-wrap;word-break:break-word}
-  .fp-meta{margin-top:6px}
-  .fp-pt{display:inline-block;font-size:11.5px;font-weight:700;color:var(--gold);background:rgba(0,226,138,.08);border:1px solid var(--line);padding:2px 9px;border-radius:7px}
-  .fp-acts{display:flex;gap:8px;margin-top:9px}
-  .fp-act{background:var(--bg);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 12px;font-size:13px;cursor:pointer}
-  .fp-act:hover{border-color:var(--gold);color:var(--text)}
-  .fp-act.done{color:var(--gold);border-color:var(--gold)}
-  .fp-act b{font-weight:700}
   /* ===== THE FLOOR ===== */
   .floor-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:2px 0 6px}
   .floor-head h2{font-size:24px;letter-spacing:-.02em}
@@ -1302,7 +1260,6 @@ body:not(.tier-elite) .elite-only{display:none}
           <div id="s-status" class="search-status"></div>
           <div id="s-earnings"></div>
           <div id="s-news"></div>
-          <div id="edge-feed"></div>
         </div>
         <!-- /STATIC TOOL -->
       </div>
@@ -1969,7 +1926,7 @@ body:not(.tier-elite) .elite-only{display:none}
     var _lb=null;if(eObj){if(eObj.surprisePercent!=null)_lb=+eObj.surprisePercent;else if(eObj.estimate!=null&&eObj.estimate!=0&&eObj.actual!=null)_lb=(eObj.actual-eObj.estimate)/Math.abs(eObj.estimate)*100;}
     var _cf=!!(top&&top.datetime&&(Date.now()/1000-top.datetime)<3*86400);
     var _sig={tick:t,chgp:d.chgp,spyPct:spyPct,pos52:_pos52,ret52:(oneYr!=null?+oneYr:null),pe:_sr.pe,ps:_sr.ps,nm:_sr.nm,revg:_sr.revg,roe:(mm&&mm.roeTTM!=null?+mm.roeTTM:null),beta:_sr.beta,aBuy:(sb+bb),aHold:hh,aSell:ss,aTot:tot,upside:upPct,catFresh:_cf,newsN:(news?news.length:0),nextDays:nextDays,lastBeat:_lb,insBuys:_ib,insSells:_is,insN:insData.length};
-    var _ew=el('edge-wrap');if(_ew){var _ecx=computeEdgeCheck(_sig);_ew.innerHTML=edgeBlockHTML(_sig,d);if(typeof feedLoad==='function')feedLoad(_sig.tick);}
+    var _ew=el('edge-wrap');if(_ew){var _ecx=computeEdgeCheck(_sig);_ew.innerHTML=edgeBlockHTML(_sig,d);}
     try{window.LASTSIG={tick:t,d:d,sig:_sig};}catch(e){}
     /* ---- templated catalyst-led "why" ---- */
     var mt=(d.chgp!=null&&!isNaN(d.chgp))?((d.tick||'The stock')+' '+movePhrase(d)+'. '):'';
@@ -3345,62 +3302,6 @@ body:not(.tier-elite) .elite-only{display:none}
   function addWatch(){var i=el('w-ticker');if(!i)return;var t=i.value.trim().toUpperCase();if(!t)return;var a=getWatch();if(a.indexOf(t)===-1){a.push(t);setWatch(a);}i.value='';renderWatch();}
   function removeWatch(t){setWatch(getWatch().filter(function(x){return x!==t;}));renderWatch();}
   function searchWatch(t){if(el('g-ticker'))el('g-ticker').value=t;showTab('search');runSearch();}
-  /* ============ LIVE FEED (StockTwits-style, Supabase-backed) ============ */
-  var FEED_SB={url:'https://ybhxtpkscslrluidvmig.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InliaHh0cGtzY3Nscmx1aWR2bWlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwMzE2NTcsImV4cCI6MjEwMTYwNzY1N30.EXIkkPVO5XDsmpgT1hUDBfYVP5wIFuMjuQ4vIgG7DPc'};
-  var FEED={tick:'',posts:[],timer:null,sent:'neutral'};
-  function feedHdrs(){return {apikey:FEED_SB.key,Authorization:'Bearer '+FEED_SB.key};}
-  function feedHandle(){try{var h=localStorage.getItem('edge_handle');if(!h){h='trader_'+Math.random().toString(36).slice(2,6);localStorage.setItem('edge_handle',h);}return h;}catch(e){return 'trader';}}
-  function feedSeen(kind){try{return JSON.parse(localStorage.getItem('edge_feed_'+kind)||'{}');}catch(e){return {};}}
-  function feedMark(kind,id){try{var o=feedSeen(kind);o[id]=1;localStorage.setItem('edge_feed_'+kind,JSON.stringify(o));}catch(e){}}
-  function feedAgo(t){var s=Math.max(1,Math.floor((Date.now()-new Date(t).getTime())/1000));if(s<60)return s+'s';var m=Math.floor(s/60);if(m<60)return m+'m';var h=Math.floor(m/60);if(h<24)return h+'h';return Math.floor(h/24)+'d';}
-  function feedTickerLinks(txt){return esc(txt).replace(/\$([A-Za-z]{1,6})\b/g,function(_,t){var u=t.toUpperCase();return '<a class="ft-tk" onclick="feedGoTicker(\''+u+'\')">$'+u+'</a>';});}
-  function feedGoTicker(t){var i=el('g-ticker');if(i)i.value=t;if(typeof gSearch==='function')gSearch();}
-  function feedClear(){clearInterval(FEED.timer);var b=el('edge-feed');if(b)b.innerHTML='';FEED.tick='';}
-  async function feedLoad(tick){tick=(tick||'').toUpperCase();if(!tick){feedClear();return;}
-    FEED.tick=tick;FEED.sent='neutral';var box=el('edge-feed');if(!box)return;
-    box.innerHTML=feedShellHTML(tick);feedBindComposer();
-    await feedFetch();
-    clearInterval(FEED.timer);FEED.timer=setInterval(function(){var tp=document.getElementById('tab-search');if(el('edge-feed')&&FEED.tick===tick&&tp&&tp.classList.contains('active'))feedFetch();},12000);}
-  async function feedFetch(){try{
-      var r=await fetch(FEED_SB.url+'/rest/v1/edge_posts?select=*&ticker=eq.'+encodeURIComponent(FEED.tick)+'&order=created_at.desc&limit=100',{headers:feedHdrs()});
-      if(!r.ok)throw 0;FEED.posts=await r.json();feedRenderList();
-    }catch(e){var l=el('feed-list');if(l&&(!FEED.posts||!FEED.posts.length))l.innerHTML='<div class="feed-empty">Feed is warming up. It will appear in a moment.</div>';}}
-  function feedShellHTML(tick){var h=feedHandle();
-    return '<div class="feed-wrap"><div class="feed-h"><span class="feed-t">$'+esc(tick)+' feed</span><span class="feed-live"><span class="fl-dot"></span>live</span><span class="feed-you">posting as @'+esc(h)+'</span></div>'
-     +'<div class="feed-comp"><textarea id="feed-ta" class="feed-ta" maxlength="480" placeholder="Share your read on $'+esc(tick)+'..." oninput="feedTagHint()"></textarea><div class="feed-tags" id="feed-tags"></div>'
-     +'<div class="feed-comp-row"><div class="feed-sent"><button type="button" class="fs-btn bull" data-s="bull" onclick="feedSent(\'bull\',this)">Bull</button><button type="button" class="fs-btn bear" data-s="bear" onclick="feedSent(\'bear\',this)">Bear</button><button type="button" class="fs-btn neut on" data-s="neutral" onclick="feedSent(\'neutral\',this)">Neutral</button></div>'
-     +'<div class="feed-pt">PT $<input id="feed-pt" class="feed-pt-in" type="number" min="0" step="0.01" placeholder="opt"> by <input id="feed-by" class="feed-by-in" type="text" maxlength="14" placeholder="e.g. Dec"></div>'
-     +'<button class="feed-post" onclick="feedPost()">Post</button></div></div>'
-     +'<div class="feed-list" id="feed-list"><div class="feed-empty">Loading $'+esc(tick)+' chatter...</div></div></div>';}
-  function feedBindComposer(){var ta=el('feed-ta');if(ta){ta.value='$'+FEED.tick+' ';setTimeout(function(){try{ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);}catch(e){}},0);feedTagHint();}}
-  function feedSent(sv,btn){FEED.sent=sv;var p=btn.parentNode.querySelectorAll('.fs-btn');for(var i=0;i<p.length;i++)p[i].classList.remove('on');btn.classList.add('on');}
-  function feedTagHint(){var ta=el('feed-ta'),box=el('feed-tags');if(!ta||!box)return;var m=(ta.value.match(/\$[A-Za-z]{1,6}\b/g)||[]).map(function(x){return x.toUpperCase();}),u=[];m.forEach(function(x){if(u.indexOf(x)<0)u.push(x);});box.innerHTML=u.length?('Tagging '+u.map(function(x){return '<span class="ft-tk">'+esc(x)+'</span>';}).join(' ')):'';}
-  async function feedPost(){var ta=el('feed-ta');if(!ta)return;var body=ta.value.trim();if(!body||body==='$'+FEED.tick)return;
-    if(body.toUpperCase().indexOf('$'+FEED.tick)<0)body='$'+FEED.tick+' '+body;
-    var pt=parseFloat(el('feed-pt').value),by=(el('feed-by').value||'').trim();
-    var rec={ticker:FEED.tick,handle:feedHandle(),body:body.slice(0,480),sentiment:FEED.sent};
-    if(!isNaN(pt)&&pt>0)rec.price_target=pt;if(by)rec.target_by=by.slice(0,14);
-    var btn=document.querySelector('.feed-post');if(btn){btn.disabled=true;btn.textContent='Posting...';}
-    try{var r=await fetch(FEED_SB.url+'/rest/v1/edge_posts',{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},feedHdrs()),body:JSON.stringify(rec)});
-      if(r.ok){ta.value='$'+FEED.tick+' ';el('feed-pt').value='';el('feed-by').value='';feedTagHint();await feedFetch();if(typeof edgeTrack==='function')edgeTrack('feed_post',{tick:FEED.tick});}}catch(e){}
-    if(btn){btn.disabled=false;btn.textContent='Post';}}
-  async function feedLike(id){if(feedSeen('like')[id])return;feedMark('like',id);
-    try{await fetch(FEED_SB.url+'/rest/v1/rpc/edge_like',{method:'POST',headers:Object.assign({'Content-Type':'application/json'},feedHdrs()),body:JSON.stringify({pid:id})});}catch(e){}
-    var p=FEED.posts.filter(function(x){return x.id===id;})[0];if(p)p.hearts=(p.hearts||0)+1;feedRenderList();}
-  async function feedReblog(id){if(feedSeen('reblog')[id])return;feedMark('reblog',id);
-    try{await fetch(FEED_SB.url+'/rest/v1/rpc/edge_reblog',{method:'POST',headers:Object.assign({'Content-Type':'application/json'},feedHdrs()),body:JSON.stringify({pid:id})});}catch(e){}
-    var p=FEED.posts.filter(function(x){return x.id===id;})[0];if(p)p.reblogs=(p.reblogs||0)+1;feedRenderList();}
-  function feedRenderList(){var l=el('feed-list');if(!l)return;
-    if(!FEED.posts.length){l.innerHTML='<div class="feed-empty">No posts yet on $'+esc(FEED.tick)+'. Be the first.</div>';return;}
-    var liked=feedSeen('like'),rebl=feedSeen('reblog'),h='';
-    for(var i=0;i<FEED.posts.length;i++){var p=FEED.posts[i];
-      var stag=p.sentiment==='bull'?'<span class="fp-tag bull">Bull</span>':p.sentiment==='bear'?'<span class="fp-tag bear">Bear</span>':'';
-      var pt=(p.price_target!=null)?('<span class="fp-pt">PT $'+(+p.price_target).toLocaleString()+(p.target_by?(' &middot; '+esc(p.target_by)):'')+'</span>'):'';
-      h+='<div class="fp"><div class="fp-top"><span class="fp-h">@'+esc(p.handle||'trader')+'</span>'+stag+'<span class="fp-time">'+feedAgo(p.created_at)+'</span></div>'
-        +'<div class="fp-body">'+feedTickerLinks(p.body||'')+'</div>'+(pt?'<div class="fp-meta">'+pt+'</div>':'')
-        +'<div class="fp-acts"><button class="fp-act'+(liked[p.id]?' done':'')+'" onclick="feedLike(\''+p.id+'\')">&#9829; <b>'+(p.hearts||0)+'</b></button>'
-        +'<button class="fp-act'+(rebl[p.id]?' done':'')+'" onclick="feedReblog(\''+p.id+'\')">&#8635; <b>'+(p.reblogs||0)+'</b></button></div></div>';}
-    l.innerHTML=h;}
   function edgeTickerClick(ev){
     var tg=ev.target;if(!tg||!tg.closest)return;
     var n=tg.closest('.tick,.er-t,.dd-tick,[data-tk]');if(!n)return;
@@ -4677,7 +4578,7 @@ body.light #themeTgl .tt-moon{display:block}
   if(Date.now()<(+ls('edge_push_snooze')||0)&&!dbg)return;
   var visits=+ls('edge_visits')||1,shown=false;
   function busy(){var a=document.getElementById('app-inst');return document.querySelector('.rgate-bg.open,.ea-modal.on')||(a&&a.style.display==='block');}
-  function show(){if(shown)return;if(busy()){setTimeout(show,20000);return;}
+  function show(){if(shown)return;if(window.EDGE_PUSH_ERR&&!dbg)return;/* push service not working: never ask */if(busy()){setTimeout(show,20000);return;}
     if(window.EDGE_BANNER&&window.EDGE_BANNER!=='push')return;window.EDGE_BANNER='push';
     shown=true;document.getElementById('push-ask').style.display='block';track('push_ask_shown');}
   function hide(days){document.getElementById('push-ask').style.display='none';if(days)ls('edge_push_snooze',String(Date.now()+days*864e5));}
@@ -4687,7 +4588,7 @@ body.light #themeTgl .tt-moon{display:block}
     if(id==='push-yes'){hide(0);track('push_ask_yes');window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){
       try{if(dbg)diag();await OneSignal.Notifications.requestPermission();if(dbg)diag();var ok=OneSignal.Notifications.permission;track('push_permission',{granted:!!ok});
         if(ok){try{OneSignal.User.addTag('tier',(typeof entTier==='function')?entTier():'free');}catch(_){} if(typeof toast==='function')toast('You are in. We will alert you when each edition goes live.');}
-        else{ls('edge_push_snooze',String(Date.now()+30*864e5));}}catch(err){window.EDGE_PUSH_ERR=String(err&&err.message||err);if(dbg)diag();}});}
+        else{ls('edge_push_snooze',String(Date.now()+30*864e5));}}catch(err){window.EDGE_PUSH_ERR=String(err&&err.message||err);ls('edge_push_snooze',String(Date.now()+864e5));if(typeof toast==='function')toast('Notifications are not available right now. Try again tomorrow.');if(dbg)diag();}});}
   });
   setTimeout(show,visits>=2?20000:45000);
 })();
