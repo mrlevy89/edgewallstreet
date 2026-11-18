@@ -20,7 +20,7 @@
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
 window.OneSignalDeferred=window.OneSignalDeferred||[];
-OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId:"ba216a8f-f731-40cb-a743-0ab1a836799a",serviceWorkerPath:"sw.js",serviceWorkerParam:{scope:"/"},promptOptions:{slidedown:{prompts:[]}},notifyButton:{enable:false},welcomeNotification:{disable:false}});window.EDGE_PUSH_READY=true;}catch(e){window.EDGE_PUSH_READY=false;window.EDGE_PUSH_ERR=String(e&&e.message||e);}});
+OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId:"ba216a8f-f731-40cb-a743-0ab1a836799a",serviceWorkerPath:"sw.js",serviceWorkerParam:{scope:"/"},promptOptions:{autoPrompt:false,slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"Get each read the moment we publish.",acceptButton:"Allow",cancelButton:"Later"}}]}},notifyButton:{enable:false},welcomeNotification:{disable:false}});window.EDGE_PUSH_READY=true;}catch(e){window.EDGE_PUSH_READY=false;window.EDGE_PUSH_ERR=String(e&&e.message||e);}});
 </script>
 <meta name="theme-color" content="#0b0c12">
 <meta name="apple-mobile-web-app-capable" content="yes">
