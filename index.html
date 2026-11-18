@@ -4133,7 +4133,8 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     if(!isSub()){(function(){/* subscribe popup: shows once per session on real engagement: ~75s of visible reading, reaching a paywall box after 20s, or a second tab switch */
     try{if(sessionStorage.getItem('rgate_seen'))return;}catch(_){}
     var fired=false,t=0,gate=false,tabs={},iv;
-    function fire(why){if(fired||isSub())return;if(document.querySelector('.rgate-bg.open,.ea-modal.on')){setTimeout(function(){fire(why);},15000);return;}fired=true;clearInterval(iv);openSubGate();try{sessionStorage.setItem('rgate_seen','1');}catch(_){}if(typeof edgeTrack==='function')edgeTrack('rgate_auto',{why:why,secs:t});}
+    var waits=0;function bannerUp(){var a=document.getElementById('push-ask'),b=document.getElementById('app-inst');return (a&&a.style.display==='block')||(b&&b.style.display==='block');}
+    function fire(why){if(fired||isSub())return;if(document.querySelector('.rgate-bg.open,.ea-modal.on')){setTimeout(function(){fire(why);},15000);return;}if(bannerUp()){if(waits<2){waits++;setTimeout(function(){fire(why);},15000);return;}['push-ask','app-inst'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});}fired=true;clearInterval(iv);openSubGate();try{sessionStorage.setItem('rgate_seen','1');}catch(_){}if(typeof edgeTrack==='function')edgeTrack('rgate_auto',{why:why,secs:t});}
     iv=setInterval(function(){if(document.visibilityState!=='visible')return;t+=5;if(t>=75)fire('time');else if(gate&&t>=20)fire('gate');},5000);
     try{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)gate=true;});},{threshold:0.5});document.querySelectorAll('.gate').forEach(function(g){io.observe(g);});}catch(_){}
     document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-tab]');if(!b)return;tabs[b.getAttribute('data-tab')]=1;if(Object.keys(tabs).length>=2)setTimeout(function(){fire('tabs');},1500);},true);
@@ -4707,6 +4708,9 @@ body.light #themeTgl .tt-moon{display:block}
 (function(){try{var d=document.querySelector('.date');if(!d)return;var t=d.textContent.replace(/\s+/g,' ').trim();document.querySelectorAll('.gate-live-t').forEach(function(x){x.textContent=t+' is live';});}catch(e){}})();
 </script>
 
+<style>
+@media (min-width:900px){#push-ask,#app-inst{left:auto!important;right:20px!important;bottom:20px!important;margin:0!important;width:400px;max-width:400px!important}}
+</style>
 <!-- PUSH OPT-IN: soft ask first; the browser permission prompt appears only after the reader taps "Notify me". -->
 <div id="push-ask" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:9998;max-width:460px;margin:0 auto;background:#14161f;color:#f5f6fb;border:1px solid #262a38;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45);padding:12px 12px 12px 14px;font-family:Inter,system-ui,sans-serif">
   <div style="display:flex;align-items:center;gap:12px">
@@ -4729,6 +4733,7 @@ body.light #themeTgl .tt-moon{display:block}
   var visits=+ls('edge_visits')||1,shown=false;
   function busy(){var a=document.getElementById('app-inst');return document.querySelector('.rgate-bg.open,.ea-modal.on')||(a&&a.style.display==='block');}
   function show(){if(shown)return;if(busy()){setTimeout(show,20000);return;}
+    if(window.EDGE_BANNER&&window.EDGE_BANNER!=='push')return;window.EDGE_BANNER='push';
     shown=true;document.getElementById('push-ask').style.display='block';track('push_ask_shown');}
   function hide(days){document.getElementById('push-ask').style.display='none';if(days)ls('edge_push_snooze',String(Date.now()+days*864e5));}
   document.addEventListener('click',function(e){
@@ -4765,7 +4770,7 @@ body.light #themeTgl .tt-moon{display:block}
   function box(){return document.getElementById('app-inst');}
   function track(n,p){try{if(typeof edgeTrack==='function')edgeTrack(n,p||{});}catch(e){}}
   function show(){if(shown)return;if(!(ready||ios))return;if(document.querySelector('.rgate-bg.open,.ea-modal.on')){setTimeout(show,20000);return;}
-    var b=box();if(!b)return;shown=true;
+    var b=box();if(!b)return;if(window.EDGE_BANNER&&window.EDGE_BANNER!=='app')return;window.EDGE_BANNER='app';shown=true;
     if(ios&&!deferred){document.getElementById('app-inst-sub').innerHTML='Tap <b>Share</b> then <b>Add to Home Screen</b> to put The Edge on your phone.';document.getElementById('app-inst-btn').style.display='none';}
     b.style.display='block';track('app_install_shown',{ios:ios});}
   function hide(days){var b=box();if(b)b.style.display='none';ls('edge_app_snooze',String(Date.now()+days*864e5));}
