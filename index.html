@@ -1605,7 +1605,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
       <li><span class="rgate-check">&#10003;</span> What Wall Street is missing, sector rotation and the risk regime</li>
       <li><span class="rgate-check">&#10003;</span> Every "quality on sale" vs "value trap" call with conviction scores</li>
       <li><span class="rgate-check">&#10003;</span> Smart-money signals: analyst upgrades and downgrades, buybacks, big-money moves</li>
-      <li><span class="rgate-check">&#10003;</span> The Week Ahead, our subscriber-only newsletter</li>
+      <li><span class="rgate-check">&#10003;</span> The drawdown map and momentum movers</li>
     </ul>
     <div class="rgate-free" style="text-align:center;font-size:13.5px;margin:0 0 14px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px">Not ready yet? <a style="color:var(--gold);font-weight:700;cursor:pointer;text-decoration:underline" onclick="closeSubGate();ACCT_AUTH='signup';openMembership();if(typeof edgeTrack==='function')edgeTrack('rgate_free_account',{});">Create a free account</a> to save your watchlist and get the free Sunday Week Ahead.</div>
     <div class="rgate-fine"><a onclick="openDoc('subs')">Learn more about subscriptions</a> You can cancel anytime. Cancellations take effect at the end of your then-current subscription period. Your subscription will renew automatically unless you cancel at least 2 days before the renewal date. <a onclick="openDoc('terms')">Terms &amp; Conditions</a> apply, including the cancellation policy, and <a onclick="openDoc('privacy')">Privacy Statement</a>.</div>
@@ -1642,7 +1642,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
 <h4>Price and plan changes</h4>
 <p>We may change prices, plans, or included features. Changes take effect from your next billing period, and we will give advance notice where required by law. Continuing your subscription after a change takes effect means you accept the new terms. If you do not agree, you may cancel before the change applies.</p>
 <h4>What's included</h4>
-<p>An active subscription unlocks the full brief in every edition (pre-market, midday, after the close and the Sunday catch-up), including headlines with analysis, what to watch, sector rotation and What Wall Street is missing; every stock call with its conviction score, bull and bear case; the drawdown map, momentum names and smart-money signals; The Week Ahead subscriber newsletter; and archive access. Specific features may change over time.</p>
+<p>An active subscription unlocks the full brief in every edition (pre-market, midday, after the close and the Sunday catch-up), including headlines with analysis, what to watch, sector rotation and What Wall Street is missing; every stock call with its conviction score, bull and bear case; and the drawdown map, momentum names and smart-money signals. Specific features may change over time.</p>
 <h4>Educational only, not financial advice</h4>
 <p>The Wall Street Edge is an educational market-intelligence service. Nothing provided as part of a subscription is investment, financial, legal, or tax advice, or a recommendation to buy or sell any security. Please review our full <strong>Terms &amp; Conditions</strong>.</p>
 </div>
@@ -2935,25 +2935,23 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
   var TIER_RANK={free:0,pro:1,elite:2};
   /* Capability -> minimum tier. Anything not listed defaults to FREE (so nothing shipped ever locks). */
   var CAP_MIN={
-    advanced_watchlist:'pro', custom_alerts:'pro', personalized_edge:'pro', advanced_research:'pro',
-    historical_edge:'pro', advanced_floor:'pro', learn_advanced:'pro', saved_research:'pro',
+    custom_alerts:'pro', personalized_edge:'pro', advanced_research:'pro',
+    historical_edge:'pro', advanced_floor:'pro', saved_research:'pro',
     portfolio_intelligence:'elite', advanced_options:'elite', thesis_tracking:'elite', advanced_alerts:'elite'
   };
   var FEATURE_MATRIX=[
-    {f:'Market intelligence & The Edge',free:'✓',pro:'✓',elite:'✓'},
-    {f:'Edge Score & Edge Check',free:'✓',pro:'✓',elite:'✓'},
-    {f:'The Angle',free:'✓',pro:'✓',elite:'✓'},
+    {f:'Market vitals, risk regime & today\'s Edge signals',free:'✓',pro:'✓',elite:'✓'},
+    {f:'Wire, Earnings, Search & Compare',free:'✓',pro:'✓',elite:'✓'},
+    {f:'Edge Score, Edge Check & The Angle',free:'✓',pro:'✓',elite:'✓'},
     {f:'Calculator & Options Lab (modeled)',free:'✓',pro:'✓',elite:'✓'},
-    {f:'Watchlist',free:'Up to 12',pro:'Expanded',elite:'Unlimited'},
-    {f:'What Changed intelligence',free:'Basic',pro:'Advanced',elite:'Advanced'},
-    {f:'Alerts',free:'—',pro:'Custom',elite:'Advanced'},
-    {f:'Learn the Edge',free:'Full basics',pro:'+ Advanced',elite:'+ Advanced'},
-    {f:'Viral Edge Cards & sharing',free:'✓',pro:'✓ + premium',elite:'✓ + premium'},
-    {f:'Personalized daily Your Edge',free:'—',pro:'✓',elite:'✓'},
-    {f:'Advanced research & saved analyses',free:'—',pro:'✓',elite:'✓'},
-    {f:'Portfolio intelligence',free:'—',pro:'—',elite:'✓'},
-    {f:'Advanced options analytics',free:'—',pro:'—',elite:'✓'},
-    {f:'Thesis tracking',free:'—',pro:'—',elite:'✓'}
+    {f:'Watchlist & Learn the Edge',free:'✓',pro:'✓',elite:'✓'},
+    {f:'The Week Ahead email (Sundays)',free:'✓',pro:'✓',elite:'✓'},
+    {f:'The full brief, 3x a day + Sunday catch-up',free:'Preview',pro:'✓',elite:'✓'},
+    {f:'Stock calls with conviction scores (0 to 10)',free:'—',pro:'✓',elite:'✓'},
+    {f:'What Wall Street is missing',free:'—',pro:'✓',elite:'✓'},
+    {f:'Sector rotation, drawdowns & momentum',free:'—',pro:'✓',elite:'✓'},
+    {f:'Smart-money signals: analyst calls, buybacks',free:'—',pro:'✓',elite:'✓'},
+    {f:'Portfolio intelligence, advanced options analytics, thesis tracking',free:'—',pro:'—',elite:'Coming soon'}
   ];
   /* ---- account state (Supabase-authoritative when connected; local profile otherwise) ---- */
   var edgeState={ready:false,user:null,tier:'free',source:'anon'};
@@ -3049,7 +3047,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
       h+='<div class="ea-acct"><div class="ea-avatar">'+esc((edgeDisplayName()||'?').charAt(0).toUpperCase())+'</div><div><div class="ea-name">'+esc(edgeDisplayName())+'</div><div class="ea-sub">'+(edgeState.source==='supabase'?'Cloud account · syncs across devices':'Local profile on this device')+'</div></div><button class="ea-signout" onclick="edgeSignOut()">Sign out</button></div>';
     } else {
       h+='<div class="ea-auth"><div class="ea-auth-tabs"><button class="'+(ACCT_AUTH==='signup'?'on':'')+'" onclick="acctShowAuth(\'signup\')">Create account</button><button class="'+(ACCT_AUTH==='signin'?'on':'')+'" onclick="acctShowAuth(\'signin\')">Sign in</button></div>';
-      h+='<div class="ea-auth-why">Create a free account to save your watchlist and lesson progress across devices, and get a personalized Your Edge.</div>';
+      h+='<div class="ea-auth-why">Create a free account to save your watchlist and lesson progress across devices.</div>';
       if(ACCT_AUTH==='signup')h+='<input id="ea-name" class="ea-in" placeholder="Display name">';
       h+='<input id="ea-email" class="ea-in" placeholder="Email" type="email"><input id="ea-pass" class="ea-in" placeholder="Password" type="password">';
       if(ACCT_AUTH==='signup')h+='<label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4;margin:10px 2px 4px;cursor:pointer;text-align:left"><input id="ea-wa" type="checkbox" checked style="margin-top:2px;accent-color:var(--gold)"><span>Email me <b>The Week Ahead</b>, free every Sunday: the brief on the week that was, plus the CPI, Fed and earnings dates that matter next. Unsubscribe anytime.</span></label>';h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
