@@ -1369,7 +1369,9 @@ body:not(.tier-elite) .elite-only{display:none}
           <div class="elite-teaser">
             <div class="elite-teaser-h">Go deeper than the brief</div>
             <div class="elite-teaser-p">Everything in Pro, plus the Sunday Deep Dive (one company, fully torn down), Follow the Money (hedge fund filings and insider buying), the Earnings Playbook (expected moves, setups and same-night reads) and call alerts pushed to your phone when a call or conviction score changes.</div>
-            <button class="gate-cta" onclick="eliteCta()">See Edge Elite</button>
+            <div class="gate-price">$99<span>/mo</span> &nbsp;<span style="font-size:14px;font-weight:600">or $990/yr &middot; save $198</span></div>
+            <button class="gate-cta" onclick="eliteCta()">Start 7-day free trial</button>
+            <div class="gate-note"><a style="color:var(--gold);cursor:pointer;text-decoration:underline" onclick="goStripe('elite_annual')">Or go annual</a> · Cancel anytime · Educational, not financial advice</div>
           </div>
           <div class="elite-only">
             <div class="section-title">Call alerts</div>
@@ -1719,17 +1721,19 @@ body:not(.tier-elite) .elite-only{display:none}
   function applySub(){var s=isSub();document.body.classList.toggle('subscribed',s);var _el=false;try{_el=entTier()==='elite';}catch(e){}document.body.classList.toggle('tier-elite',_el);edgePushIdentity();var b=el('subBtn');if(b){b.textContent=s?'Member':'Subscribe';b.classList.toggle('is-sub',s);}}
   /* Link this browser's push subscription to the signed-in account so Elite call alerts can target verified Elite members by account id (never by a browser-set tag). */
   function edgePushIdentity(){try{var u=edgeState&&edgeState.user;var t=entTier();window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){try{if(u){await OneSignal.login(u.id);}else if(OneSignal.User&&OneSignal.User.externalId){await OneSignal.logout();}OneSignal.User.addTag('tier',t);}catch(_){}});}catch(e){}}
-  function eliteCta(){if(typeof edgeTrack==='function')edgeTrack('elite_cta',{tier:entTier()});openMembership();}
+  function eliteCta(){if(typeof edgeTrack==='function')edgeTrack('elite_cta',{tier:entTier()});goStripe('elite_monthly');}
   function subscribe(){closeSubGate();ACCT_AUTH='signin';openMembership();}
   function toggleSub(){if(isSub()){openMembership();}else{openSubGate();}}
   /* --- Stripe Payment Links: create these in dashboard.stripe.com > Payment Links, then paste the URLs below. Set each link's success/after-payment URL to this app's URL with ?subscribed=1 appended so members unlock automatically. --- */
   var STRIPE_LINKS={
     weekly:'https://buy.stripe.com/bJe14meCNh2paI7fUT73G00', /* Monthly plan: $29/month (key name kept for compatibility) */
-    annual:'https://buy.stripe.com/9B65kC7al27v9E30ZZ73G01'  /* Annual plan: $249/year */
+    annual:'https://buy.stripe.com/9B65kC7al27v9E30ZZ73G01', /* Annual plan: $249/year */
+    elite_monthly:'https://buy.stripe.com/5kQdR8fGR8vT2bB24373G02', /* Edge Elite: $99/month */
+    elite_annual:'https://buy.stripe.com/6oU7sK9itdQd8zZcIH73G03'   /* Edge Elite: $990/year */
   };
   function openSubGate(){var g=el('rgate-bg');if(g){g.classList.add('open');document.body.style.overflow='hidden';}}
   function closeSubGate(){var g=el('rgate-bg');if(g){g.classList.remove('open');document.body.style.overflow='';}}
-  var EDGE_PENDING_PLAN=null;var EDGE_PORTAL='https://billing.stripe.com/p/login/bJe14meCNh2paI7fUT73G00';function goStripe(plan){var url=(STRIPE_LINKS&&STRIPE_LINKS[plan])||'';if(!url)return;if(!edgeState.user){EDGE_PENDING_PLAN=plan;closeSubGate();ACCT_AUTH='signup';openMembership();var n=el('ea-authnote');if(n)n.textContent='Create your free account first (or sign in), then you will go straight to checkout.';return;}EDGE_PENDING_PLAN=null;window.location.href=url+'?client_reference_id='+encodeURIComponent(edgeState.user.id)+'&prefilled_email='+encodeURIComponent(edgeState.user.email||'');}
+  var EDGE_PENDING_PLAN=null;var EDGE_PORTAL='https://billing.stripe.com/p/login/bJe14meCNh2paI7fUT73G00';function goStripe(plan){var url=(STRIPE_LINKS&&STRIPE_LINKS[plan])||'';if(!url)return;if(/^elite/.test(plan)&&edgeState.user&&edgeState.tier==='pro'){if(typeof toast==='function')toast('Switch your plan to Edge Elite in Manage billing. Your Pro time is credited.');window.open(EDGE_PORTAL,'_blank','noopener');return;}if(/^elite/.test(plan)&&edgeState.tier==='elite')return;if(!edgeState.user){EDGE_PENDING_PLAN=plan;closeSubGate();ACCT_AUTH='signup';openMembership();var n=el('ea-authnote');if(n)n.textContent='Create your free account first (or sign in), then you will go straight to checkout.';return;}EDGE_PENDING_PLAN=null;window.location.href=url+'?client_reference_id='+encodeURIComponent(edgeState.user.id)+'&prefilled_email='+encodeURIComponent(edgeState.user.email||'');}
   var DOC_TITLES={subs:'Subscriptions',terms:'Terms & Conditions',privacy:'Privacy Statement'};
   function openDoc(k){var src=el('src-'+k);if(!src)return;var t=el('doc-title');if(t)t.textContent=DOC_TITLES[k]||'';var b=el('doc-body');if(b){b.innerHTML=src.innerHTML;b.scrollTop=0;}var g=el('doc-bg');if(g){g.classList.add('open');document.body.style.overflow='hidden';}}
   function closeDoc(){var g=el('doc-bg');if(g)g.classList.remove('open');var rg=el('rgate-bg');document.body.style.overflow=(rg&&rg.classList.contains('open'))?'hidden':'';}
@@ -2881,10 +2885,10 @@ body:not(.tier-elite) .elite-only{display:none}
     {f:'What Wall Street is missing',free:'—',pro:'✓',elite:'✓'},
     {f:'Sector rotation, drawdowns & momentum',free:'—',pro:'✓',elite:'✓'},
     {f:'Smart-money signals: analyst calls, buybacks',free:'—',pro:'✓',elite:'✓'},
-    {f:'Weekly Deep Dive: one company, fully torn down',free:'—',pro:'—',elite:'Coming soon'},
-    {f:'Follow the Money: hedge fund filings & insider buying',free:'—',pro:'—',elite:'Coming soon'},
-    {f:'Earnings Playbook: expected moves, setups, same-night reads',free:'—',pro:'—',elite:'Coming soon'},
-    {f:'Instant alerts when a call or conviction score changes',free:'—',pro:'—',elite:'Coming soon'}
+    {f:'Sunday Deep Dive: one company, fully torn down',free:'—',pro:'—',elite:'✓'},
+    {f:'Follow the Money: hedge fund filings & insider buying',free:'—',pro:'—',elite:'✓'},
+    {f:'Earnings Playbook: expected moves, setups, same-night reads',free:'—',pro:'—',elite:'✓'},
+    {f:'Call alerts pushed when a call or conviction score changes',free:'—',pro:'—',elite:'✓'}
   ];
   /* ---- account state (Supabase-authoritative when connected; local profile otherwise) ---- */
   var edgeState={ready:false,user:null,tier:'free',source:'anon'};
@@ -3007,8 +3011,8 @@ body:not(.tier-elite) .elite-only{display:none}
     h+='</tbody></table></div>';
     /* pricing / waitlist */
     h+='<div class="ea-price-row"><div class="ea-price"><div class="ea-price-t">Edge Pro</div><div class="ea-price-a">'+EDGE_CFG.prices.pro.label+'</div>'+(tier==='free'?'<button class="ea-primary sm" onclick="goStripe(\'weekly\')">Start 7-day free trial</button><button class="ea-ghost sm" style="margin-top:6px" onclick="goStripe(\'annual\')">$249/yr, save 28%</button>':'<div class="ea-note">Your plan</div>')+'</div>';
-    h+='<div class="ea-price"><div class="ea-price-t">Edge Elite</div><div class="ea-price-a">'+EDGE_CFG.prices.elite.label+'</div><div class="ea-note" style="text-align:left;margin:6px 0 8px;line-height:1.45">Everything in Pro, plus the Weekly Deep Dive, Follow the Money, the Earnings Playbook and instant call alerts. Coming soon.</div><button class="ea-ghost sm" onclick="joinWaitlist(\'elite\')">Join the Elite waitlist</button></div></div>';
-    h+='<div class="ea-legal">Edge Pro is billed through Stripe after a 7-day free trial. Cancel anytime from Manage billing; cancellation takes effect at the end of the period. Elite is waitlist only. Educational research, not financial advice; alerts included.</div>';
+    h+='<div class="ea-price"><div class="ea-price-t">Edge Elite</div><div class="ea-price-a">'+EDGE_CFG.prices.elite.label+'</div><div class="ea-note" style="text-align:left;margin:6px 0 8px;line-height:1.45">Everything in Pro, plus the Sunday Deep Dive, Follow the Money, the Earnings Playbook and call alerts pushed to your phone.</div>'+(tier==='elite'?'<div class="ea-note">Your plan</div>':(tier==='pro'?'<button class="ea-primary sm" onclick="goStripe(\'elite_monthly\')">Upgrade to Elite</button>':'<button class="ea-primary sm" onclick="goStripe(\'elite_monthly\')">Start 7-day free trial</button><button class="ea-ghost sm" style="margin-top:6px" onclick="goStripe(\'elite_annual\')">$990/yr, save 17%</button>'))+'</div></div>';
+    h+='<div class="ea-legal">Edge Pro is billed through Stripe after a 7-day free trial. Edge Elite is billed the same way, $99 a month or $990 a year after a 7-day free trial. Cancel anytime from Manage billing; cancellation takes effect at the end of the period. Educational research, not financial advice; alerts included.</div>';
     /* dev tools */
     if(edgeDevMode()){
       h+='<div class="ea-dev"><div class="ea-dev-l">Developer preview, simulate a plan to test the UI (not a real subscription)</div><div class="ea-dev-btns">';
