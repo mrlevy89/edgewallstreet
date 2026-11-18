@@ -2991,14 +2991,14 @@ body:not(.tier-elite) .elite-only{display:none}
       h+='<div class="ea-auth-why">Create a free account to save your watchlist and lesson progress across devices.</div>';
       if(ACCT_AUTH==='signup')h+='<input id="ea-name" class="ea-in" placeholder="Display name">';
       h+='<input id="ea-email" class="ea-in" placeholder="Email" type="email"><input id="ea-pass" class="ea-in" placeholder="Password" type="password">';
-      if(ACCT_AUTH==='signup')h+='<label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4;margin:10px 2px 4px;cursor:pointer;text-align:left"><input id="ea-wa" type="checkbox" checked style="margin-top:2px;accent-color:var(--gold)"><span>Email me <b>The Week Ahead</b>, free every Sunday: the brief on the week that was, plus the CPI, Fed and earnings dates that matter next. Unsubscribe anytime.</span></label>';h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
+      if(ACCT_AUTH==='signup')h+='<label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4;margin:10px 2px 4px;cursor:pointer;text-align:left"><input id="ea-wa" type="checkbox" checked style="margin-top:2px;accent-color:var(--gold)"><span>Email me <b>The Week Ahead</b> free on Sundays: last week&rsquo;s recap plus the CPI, Fed and earnings dates ahead. Unsubscribe anytime.</span></label>';h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
       h+='<div class="ea-note" id="ea-authnote">'+(EDGE_PENDING_PLAN?'Create your free account first (or sign in), then you will go straight to checkout.':'')+'</div></div>';
     }
     /* appearance */
     h+='<div class="ea-sec-l">Appearance</div><div class="ea-theme"><button type="button" class="ea-theme-btn'+(edgeTheme()!=='light'?' on':'')+'" onclick="setThemePref(\'dark\')">Dark</button><button type="button" class="ea-theme-btn'+(edgeTheme()==='light'?' on':'')+'" onclick="setThemePref(\'light\')">Light</button></div><div class="ea-note">This becomes your default every time you open the site.</div>';
     /* membership block */
     var badge=tier==='elite'?'ELITE':tier==='pro'?'PRO':(edgeSignedIn()?'FREE':'GUEST');
-    h+='<div class="ea-plan"><div class="ea-plan-top"><span class="ea-badge '+tier+'">'+badge+'</span><span class="ea-plan-l">'+(edgeSignedIn()?'Your membership':'Plans')+'</span></div>';
+    h+='<div class="ea-plan">';
     var planNote=tier==='elite'?'Elite member: full access to the brief, every call and every Elite report.':tier==='pro'?'Pro member: full access to the full brief, every stock call and the smart-money signals.':(edgeSignedIn()?'Free account: market vitals, Edge signals, the research tools and the Sunday Week Ahead. Upgrade to Pro for the full brief and every call.':'You are browsing the free preview. Create a free account to save your watchlist, or start a 7-day free trial of Pro for the full brief and every call.');
     h+='<div class="ea-plan-note">'+planNote+' '+(tier!=='free'?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Manage billing or cancel</a>':'')+'</div></div>';
     /* feature matrix */
