@@ -2951,7 +2951,10 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     {f:'What Wall Street is missing',free:'—',pro:'✓',elite:'✓'},
     {f:'Sector rotation, drawdowns & momentum',free:'—',pro:'✓',elite:'✓'},
     {f:'Smart-money signals: analyst calls, buybacks',free:'—',pro:'✓',elite:'✓'},
-    {f:'Portfolio intelligence, advanced options analytics, thesis tracking',free:'—',pro:'—',elite:'Coming soon'}
+    {f:'Weekly Deep Dive: one company, fully torn down',free:'—',pro:'—',elite:'Coming soon'},
+    {f:'Follow the Money: hedge fund filings & insider buying',free:'—',pro:'—',elite:'Coming soon'},
+    {f:'Earnings Playbook: expected moves, setups, same-night reads',free:'—',pro:'—',elite:'Coming soon'},
+    {f:'Instant alerts when a call or conviction score changes',free:'—',pro:'—',elite:'Coming soon'}
   ];
   /* ---- account state (Supabase-authoritative when connected; local profile otherwise) ---- */
   var edgeState={ready:false,user:null,tier:'free',source:'anon'};
@@ -2991,11 +2994,11 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     edgeRefreshHeader();
   }
   var EDGE_ACTIVATING=false;
-  function edgeAfterTier(){if(EDGE_PENDING_PLAN&&edgeState.tier==='free'){var p=EDGE_PENDING_PLAN;acctClose();goStripe(p);return;}if(EDGE_ACTIVATING&&edgeState.tier!=='free'){EDGE_ACTIVATING=false;closeSubGate();if(typeof toast==='function')toast('Welcome to The Wall Street Edge Pro. Your membership is active.');}}
+  function edgeAfterTier(){if(EDGE_PENDING_WAITLIST&&edgeState.user){var wt=EDGE_PENDING_WAITLIST;EDGE_PENDING_WAITLIST=null;joinWaitlist(wt);}if(EDGE_PENDING_PLAN&&edgeState.tier==='free'){var p=EDGE_PENDING_PLAN;acctClose();goStripe(p);return;}if(EDGE_ACTIVATING&&edgeState.tier!=='free'){EDGE_ACTIVATING=false;closeSubGate();if(typeof toast==='function')toast('Welcome to The Wall Street Edge Pro. Your membership is active.');}}
   function edgeRecheckTier(){if(edgeState.user)edgeApplySession({user:edgeState.user});}
   /* ---- auth actions (Supabase when connected; local profile fallback, clearly labelled) ---- */
   function edgeSignUp(email,pass,name,cb){
-    if(window.edgeSB){window.edgeSB.auth.signUp({email:email,password:pass,options:{data:{display_name:name,week_ahead:!!(el('ea-wa')&&el('ea-wa').checked),week_ahead_consent_at:new Date().toISOString()}}}).then(function(r){cb(r.error?r.error.message:null);});return;}
+    if(window.edgeSB){window.edgeSB.auth.signUp({email:email,password:pass,options:{data:{display_name:name,week_ahead:!!(el('ea-wa')&&el('ea-wa').checked),week_ahead_consent_at:new Date().toISOString(),waitlist_elite:EDGE_PENDING_WAITLIST==='elite'?true:undefined}}}).then(function(r){cb(r.error?r.error.message:null);});return;}
     edgeSaveLocalProfile({email:email,name:name||email.split('@')[0],local:true,created:Date.now()});edgeState.source='local';edgeMergeLocal();edgeRefreshHeader();if(cb)cb(null);
   }
   function edgeSignIn(email,pass,cb){
@@ -3056,17 +3059,18 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     /* appearance */
     h+='<div class="ea-sec-l">Appearance</div><div class="ea-theme"><button type="button" class="ea-theme-btn'+(edgeTheme()!=='light'?' on':'')+'" onclick="setThemePref(\'dark\')">Dark</button><button type="button" class="ea-theme-btn'+(edgeTheme()==='light'?' on':'')+'" onclick="setThemePref(\'light\')">Light</button></div><div class="ea-note">This becomes your default every time you open the site.</div>';
     /* membership block */
-    var badge=tier==='elite'?'ELITE':tier==='pro'?'PRO':'FREE';
-    h+='<div class="ea-plan"><div class="ea-plan-top"><span class="ea-badge '+tier+'">'+badge+'</span><span class="ea-plan-l">Your membership</span></div>';
-    h+='<div class="ea-plan-note">You have full access to everything live on The Wall Street Edge today. '+(tier!=='free'?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Manage billing or cancel</a>':'')+'</div></div>';
+    var badge=tier==='elite'?'ELITE':tier==='pro'?'PRO':(edgeSignedIn()?'FREE':'GUEST');
+    h+='<div class="ea-plan"><div class="ea-plan-top"><span class="ea-badge '+tier+'">'+badge+'</span><span class="ea-plan-l">'+(edgeSignedIn()?'Your membership':'Plans')+'</span></div>';
+    var planNote=tier==='elite'?'Elite member: full access to the brief, every call and every Elite report.':tier==='pro'?'Pro member: full access to the full brief, every stock call and the smart-money signals.':(edgeSignedIn()?'Free account: market vitals, Edge signals, the research tools and the Sunday Week Ahead. Upgrade to Pro for the full brief and every call.':'You are browsing the free preview. Create a free account to save your watchlist, or start a 7-day free trial of Pro for the full brief and every call.');
+    h+='<div class="ea-plan-note">'+planNote+' '+(tier!=='free'?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Manage billing or cancel</a>':'')+'</div></div>';
     /* feature matrix */
     h+='<div class="ea-sec-l">Free vs Pro vs Elite</div><div class="ea-matrix"><table><thead><tr><th>Feature</th><th class="'+(tier==='free'?'cur':'')+'">Free</th><th class="'+(tier==='pro'?'cur':'')+'">Pro '+EDGE_CFG.prices.pro.label+'</th><th class="'+(tier==='elite'?'cur':'')+'">Elite '+EDGE_CFG.prices.elite.label+'</th></tr></thead><tbody>';
     for(var i=0;i<FEATURE_MATRIX.length;i++){var r=FEATURE_MATRIX[i];h+='<tr><td>'+esc(r.f)+'</td><td>'+esc(r.free)+'</td><td>'+esc(r.pro)+'</td><td>'+esc(r.elite)+'</td></tr>';}
     h+='</tbody></table></div>';
     /* pricing / waitlist */
     h+='<div class="ea-price-row"><div class="ea-price"><div class="ea-price-t">Edge Pro</div><div class="ea-price-a">'+EDGE_CFG.prices.pro.label+'</div>'+(tier==='free'?'<button class="ea-primary sm" onclick="goStripe(\'weekly\')">Start 7-day free trial</button><button class="ea-ghost sm" style="margin-top:6px" onclick="goStripe(\'annual\')">$249/yr, save 28%</button>':'<div class="ea-note">Your plan</div>')+'</div>';
-    h+='<div class="ea-price"><div class="ea-price-t">Edge Elite</div><div class="ea-price-a">'+EDGE_CFG.prices.elite.label+'</div><button class="ea-ghost sm" onclick="joinWaitlist(\'elite\')">Join the Elite waitlist</button></div></div>';
-    h+='<div class="ea-legal">Edge Pro is billed through Stripe after a 7-day free trial. Cancel anytime from Manage billing; cancellation takes effect at the end of the period. Elite is waitlist only. Educational research, not financial advice.</div>';
+    h+='<div class="ea-price"><div class="ea-price-t">Edge Elite</div><div class="ea-price-a">'+EDGE_CFG.prices.elite.label+'</div><div class="ea-note" style="text-align:left;margin:6px 0 8px;line-height:1.45">Everything in Pro, plus the Weekly Deep Dive, Follow the Money, the Earnings Playbook and instant call alerts. Coming soon.</div><button class="ea-ghost sm" onclick="joinWaitlist(\'elite\')">Join the Elite waitlist</button></div></div>';
+    h+='<div class="ea-legal">Edge Pro is billed through Stripe after a 7-day free trial. Cancel anytime from Manage billing; cancellation takes effect at the end of the period. Elite is waitlist only. Educational research, not financial advice; alerts included.</div>';
     /* dev tools */
     if(edgeDevMode()){
       h+='<div class="ea-dev"><div class="ea-dev-l">Developer preview, simulate a plan to test the UI (not a real subscription)</div><div class="ea-dev-btns">';
@@ -3084,12 +3088,11 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     if(ACCT_AUTH==='signup')edgeSignUp(email,pass,name,done);else edgeSignIn(email,pass,done);
   }
   function devSetTier(t){try{localStorage.setItem('edge_dev_tier',t);}catch(e){}edgeRefreshHeader();renderMembership();if(typeof edgeTrack==='function')edgeTrack('dev_tier',{tier:t});}
+  var EDGE_PENDING_WAITLIST=null;
   function joinWaitlist(tier){
-    var email=edgeSignedIn()? (edgeState.user?edgeState.user.email:(edgeLocalProfile()||{}).email) : prompt('Enter your email to join the '+tier.toUpperCase()+' waitlist:');
-    if(!email)return;
-    try{var w=JSON.parse(localStorage.getItem('edge_waitlist')||'[]');w.push({tier:tier,email:email,t:Date.now()});localStorage.setItem('edge_waitlist',JSON.stringify(w));}catch(e){}
-    if(typeof edgeTrack==='function')edgeTrack('waitlist_join',{tier:tier});
-    if(typeof toast==='function')toast('You’re on the '+tier.toUpperCase()+' waitlist. No charge, we’ll notify you at launch.');
+    function done(){if(typeof edgeTrack==='function')edgeTrack('waitlist_join',{tier:tier});if(typeof toast==='function')toast('You’re on the '+tier.toUpperCase()+' waitlist. No charge, we’ll email you at launch.');}
+    if(window.edgeSB&&edgeState.user){var d={};d['waitlist_'+tier]=true;d['waitlist_'+tier+'_at']=new Date().toISOString();window.edgeSB.auth.updateUser({data:d}).then(function(r){if(r&&r.error){if(typeof toast==='function')toast('Could not join the waitlist. Please try again.');return;}done();});return;}
+    EDGE_PENDING_WAITLIST=tier;ACCT_AUTH='signup';acctOpen();renderMembership();var n=el('ea-authnote');if(n)n.textContent='Create your free account (or sign in) and you will be added to the '+tier.toUpperCase()+' waitlist.';
   }
   /* ---- reusable upgrade modal (soft, never charges, never blocks) ---- */
   function openUpgrade(feature){
