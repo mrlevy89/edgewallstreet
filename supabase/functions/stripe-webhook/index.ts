@@ -85,7 +85,8 @@ Deno.serve(async (req) => {
     if (event.type === "checkout.session.completed") {
       const userId = obj.client_reference_id;
       if (!userId) return new Response("no client_reference_id, ignored");
-      const trialing = obj.payment_status === "no_payment_required";
+      // a free-trial checkout reports payment_status "paid" with a $0 total
+      const trialing = obj.payment_status === "no_payment_required" || obj.amount_total === 0;
       const tier = ELITE_LINKS.has(obj.payment_link) || obj.metadata?.tier === "elite" ? "elite" : "pro";
       const { error } = await supabase.from("subscriptions").upsert({
         user_id: userId,
@@ -106,14 +107,17 @@ Deno.serve(async (req) => {
         stripe_subscription_id: obj.id,
         updated_at: new Date().toISOString(),
       };
-      const { data, error } = await supabase.from("subscriptions").update(row)
-        .eq("stripe_customer_id", obj.customer).select("user_id");
-      if (error) throw error;
-      if (!data || data.length === 0) {
-        // checkout.session.completed has not landed yet; ask Stripe to retry shortly
-        if (event.type === "customer.subscription.created") return new Response("ok, pending checkout");
-        return new Response("customer not linked yet", { status: 409 });
+      // Stripe often sends subscription.created in the same instant as checkout.session.completed,
+      // so give the checkout handler a few seconds to link the customer before giving up.
+      let linked = false;
+      for (let attempt = 0; attempt < 4 && !linked; attempt++) {
+        if (attempt > 0) await new Promise((r) => setTimeout(r, 2500));
+        const { data, error } = await supabase.from("subscriptions").update(row)
+          .eq("stripe_customer_id", obj.customer).select("user_id");
+        if (error) throw error;
+        linked = !!data && data.length > 0;
       }
+      if (!linked) return new Response("customer not linked yet", { status: 409 });
     }
     return new Response(JSON.stringify({ received: true }), { headers: { "Content-Type": "application/json" } });
   } catch (e) {
