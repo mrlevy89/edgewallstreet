@@ -1050,6 +1050,26 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
   body.light .lc-c{color:var(--buy)}
   body.light .lc-p{color:var(--avoid)}
 </style>
+<style id="edge-elite-css">
+.elite-wrap{margin-top:34px;padding-top:6px;border-top:1px solid var(--line)}
+.elite-wrap>.section-title .ea-badge{margin-right:8px;vertical-align:middle}
+.elite-teaser{border:1px solid var(--gold);background:rgba(212,178,90,.06);border-radius:14px;padding:22px 20px;text-align:center;margin:14px 0}
+.elite-teaser-h{font-size:19px;font-weight:800;margin-bottom:8px}
+.elite-teaser-p{color:var(--muted);font-size:14.5px;line-height:1.55;max-width:560px;margin:0 auto 16px}
+body.tier-elite .elite-teaser{display:none}
+body:not(.tier-elite) .elite-only{display:none}
+.elite-only [data-tier="elite"]:empty::before{display:block;color:var(--muted);font-size:14px;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;margin:8px 0 18px}
+.elite-only [data-slot="call_alerts"]:empty::before{content:"No call changes yet. Alerts land here and on your phone when a call is added or its conviction moves."}
+.elite-only [data-slot="earnings_playbook"]:empty::before{content:"The next Earnings Playbook publishes with the next edition."}
+.elite-only [data-slot="deep_dive"]:empty::before{content:"The next Deep Dive publishes Sunday evening."}
+.elite-only [data-slot="follow_money"]:empty::before{content:"The next Follow the Money publishes Sunday evening."}
+.alert-row{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+.alert-row:last-child{border-bottom:none}
+.alert-when{flex:none;width:112px;color:var(--muted);font-size:12.5px;line-height:1.4}
+.alert-what{font-size:14.5px;line-height:1.5}
+.alert-what .tick{font-weight:800;color:var(--gold);margin-right:6px}
+.alert-nfa{color:var(--muted);font-size:12px}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -1269,65 +1289,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
             <div class="gate-note">Cancel anytime · Educational, not financial advice</div>
           </div>
         </div>
-        <div class="premium">
-
-        <!-- HEADLINES -->
-<div class="section-title">Headlines moving markets</div>
-<div class="section-sub">How the day closed, what landed after the bell, and why it matters.</div>
-<div class="card">
-<div class="rows">
-<div class="row"><span class="k">Nvidia beats: EPS $2.68 vs ~$2.47, revenue ~$115.8 billion vs ~$109 billion; stock up ~2.4% after hours</span><span class="v"><b>The demand question is answered.</b> Data center revenue rose 110 percent to about $107.6 billion.</span></div>
-<div class="row"><span class="k">Nvidia guides fourth-quarter revenue near $130 billion, above the roughly $125 billion expected</span><span class="v"><b>The guide is what moves the group.</b> It points to growth continuing through the leadership change.</span></div>
-<div class="row"><span class="k">Nvidia authorizes a $150 billion share buyback</span><span class="v"><b>A buyer with deep pockets.</b> Management is putting cash behind the stock at a 13-year-low valuation.</span></div>
-<div class="row"><span class="k">Kress: roadmap intact, early Vera Rubin sales strong; board reportedly not looking to bring Huang back</span><span class="v"><b>Continuity, not resolution.</b> The governance discount stays until a permanent CEO is named.</span></div>
-<div class="row"><span class="k">Nvidia will not sell to customers renting more than half their GPUs to Chinese companies; WSJ reports an SEC probe</span><span class="v"><b>The overhangs are policy and governance.</b> Neither showed up in the quarter, both can show up in the multiple.</span></div>
-<div class="row"><span class="k">S&amp;P falls a fourth day to 7,340.53, closing on its 200-day; Dow down about 849 points</span><span class="v"><b>The line held, barely.</b> Tonight's reaction decides whether it was a test or a break.</span></div>
-<div class="row"><span class="k">Musalem backs multiple hikes; Williams dismisses an outsized move; December hike ~95% priced</span><span class="v"><b>Steady steps, not shock.</b> The path is higher, the pace is measured.</span></div>
-<div class="row"><span class="k">BofA fund manager survey: net tech overweight falls to 12% from 37%, lowest since 2006</span><span class="v"><b>Positioning is washed out.</b> Light ownership makes a good print more powerful.</span></div>
-<div class="edge-more"><h4>How the headlines connect</h4><p>Two forces pressed on the market all day: a Fed that is pricing a December hike and talking about more, and an AI leader reporting into a leadership crisis. Tonight resolved one of them. Nvidia's numbers and guide were strong, which leaves the Fed as the main overhang.</p><h4>The exception</h4><p>Defensive sectors. Staples, health care and utilities have gained about 13 percent since October 1 and now look crowded against a cheaper, under-owned tech sector.</p><h4>What it adds up to</h4><p>A market that de-risked into a binary event and got a good outcome. The question for Wednesday is whether investors use it to rebuild tech exposure or sell into the bounce.</p></div>
-</div>
-</div>
-
-<div class="section-title">What to watch, and where the leverage sits</div>
-<div class="section-sub">Nvidia's reaction, an Anthropic pricing, a heavy retail slate and a Fed that has December all but decided.</div>
-<div class="card">
-<div class="rows">
-<div class="row"><span class="k">Wednesday open: does Nvidia's after-hours gain hold?</span><span class="v"><b>The swing factor for tech.</b> A fade from the open would say the governance discount is sticky.</span></div>
-<div class="row"><span class="k">Wednesday: Anthropic IPO set to price, reportedly at the high end of the range or above</span><span class="v"><b>Risk appetite gauge.</b> Amazon and Google are expected to own about 15% and 14% after the deal.</span></div>
-<div class="row"><span class="k">Wednesday: Lowe's and Target before the open, Palo Alto Networks after</span><span class="v"><b>The consumer and security spend.</b> Follows a Home Depot report the market sold.</span></div>
-<div class="row"><span class="k">S&amp;P 7,300 to 7,400</span><span class="v"><b>The repair zone.</b> Above 7,400 repairs the trend; below 7,300 confirms a break.</span></div>
-<div class="row"><span class="k">Thursday: Anthropic expected to begin trading</span><span class="v"><b>Possibly the largest debut on record.</b> A strong open would say AI appetite survived the selloff.</span></div>
-<div class="row"><span class="k">Nov 30: MSCI index changes, including Strategy deletion</span><span class="v"><b>Forced selling.</b> Passive flows hit at the close that day.</span></div>
-<div class="row"><span class="k">Dec 9: FOMC decision</span><span class="v"><b>Size and path.</b> A quarter point is priced; guidance on how many more is the risk.</span></div>
-<div class="edge-more"><h4>How to read the calendar</h4><p>Wednesday's first hour is the pivot. If Nvidia holds its after-hours gain, chips should lead and the S&amp;P has a path back toward 7,400. Lowe's and Target then test whether retail keeps getting sold on decent numbers.</p><h4>The sentiment read</h4><p>Anthropic pricing at or above the top of its range in a falling tape would show investors are rotating within AI rather than abandoning it.</p><h4>The one to circle</h4><p>December 9. A hike is priced. What is not priced is whether the committee signals the 100 to 150 basis points Musalem described or the measured pace Williams prefers.</p></div>
-</div>
-</div>
-<div class="section-title">Where the money is moving</div>
-<div class="section-sub">Today's leadership and pressure. Approximate year-to-date returns for context: S&amp;P about +7%, Nasdaq about +4%, Dow about +6%, Russell about +9%; consumer staples (XLP) about +18.7%, technology (XLK) about +12.7%; the semiconductor index about +34%, down from about +106% at its June peak.</div>
-<div class="flow">
-<div class="flow-col in">
-<div class="flow-h">In / leadership</div>
-<div class="flow-item"><span><b>Defensives.</b> Staples, health care and utilities up about 13% since October 1; staples at about 24 times forward earnings, richest since 1999.</span></div>
-<div class="flow-item"><span><b>Nvidia after hours.</b> Up about 2.4% to near $159 on a beat, a raised guide and a $150 billion buyback.</span></div>
-<div class="flow-item"><span><b>Bonds.</b> The ten-year eased about 4 basis points to near 5.09% as stocks fell.</span></div>
-</div>
-<div class="flow-col out">
-<div class="flow-h">Out / pressure</div>
-<div class="flow-item"><span><b>Software.</b> Salesforce, Workday, Intuit and Adobe all lower; tech overweight at its lowest since 2006 per BofA.</span></div>
-<div class="flow-item"><span><b>Blue chips and small caps.</b> Dow down 1.6% and Russell down 1.5%, both worse than the Nasdaq.</span></div>
-<div class="flow-item"><span><b>Crypto.</b> Bitcoin down about 2.4% near $63,700; a third straight week of ETF outflows.</span></div>
-</div>
-</div>
-
-<!-- WHAT WALL STREET IS MISSING -->
-<div class="mood" style="margin-top:30px">
-<h2>What Wall Street is missing</h2>
-<p><b>One. The good print lands on the lightest tech positioning in nearly 20 years.</b> Fund managers cut their net tech overweight to 12 percent from 37 percent, the lowest since 2006. Under-owned plus a beat and raise is how short, sharp rallies start.</p>
-<p><b>Two. Buyers showed up before the number.</b> Nvidia was down more than 3 percent at the open and closed down 0.4 percent; the Nasdaq halved its midday loss. Someone was buying the risk ahead of the report, not after it.</p>
-<p><b>Three. The selling today was broader than AI.</b> The Dow and Russell both lost about 1.5 percent or more while the Nasdaq lost 0.7 percent. That is the Fed's footprint on cyclicals and small caps, and Nvidia does not fix it.</p>
-<p><b>Four. The China risk just got a number.</b> Nvidia drew a hard line: no sales to customers who rent more than half their GPUs to Chinese companies. That turns a vague policy fear into a defined compliance rule the market can model.</p>
-<p><b>Five. The real overhang is governance.</b> The quarter was strong under interim management, but the board is reportedly not bringing Huang back and the WSJ reports an SEC probe. The valuation discount will not fully close until there is a permanent CEO.</p>
-</div>
+        <div class="premium" data-slot="today">
 <!-- /premium -->
       </div>
       </div><!-- /tab-today -->
@@ -1397,77 +1359,41 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
             <div class="gate-note">Cancel anytime · Educational, not financial advice</div>
           </div>
         </div>
-        <div class="premium">
-
-        <!-- GOOD COMPANIES GETTING HIT -->
-<div class="section-title">Good companies getting hit hard</div>
-<div class="section-sub">The after-hours discount rack. The test is whether the business is impaired or only the multiple.</div>
-<div class="card">
-<div class="card-top"><span class="tick">NVDA</span><span class="name">Nvidia &middot; beat and raised, still about a third below its October peak</span><span class="badge badge b-watch">Quality on sale</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:72%;background:var(--hold)"></div></div><span class="conv-num">7.2/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>The quarter cleared the bar.</b> Revenue of about $115.8 billion versus about $109 billion, a guide near $130 billion and a $150 billion buyback. Near $159 after hours, up about 2.4 percent.</span></div><div class="row"><span class="k">What is genuinely wrong with it</span><span class="v"><b></b> Governance. No permanent CEO, the board reportedly not bringing Huang back, and a reported SEC probe.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> Vera Rubin ramps as Kress described and the China customer rule does not dent the guide.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>The business delivered while the stock priced in damage. Data center revenue more than doubled from a year ago. What remains is a governance discount, which tends to close when a permanent leader is named.</p><h4>Bull case</h4><p>A beat and raise, a $150 billion buyback and the lightest tech positioning since 2006 is a strong combination for a rebound.</p><h4>Bear case</h4><p>Leadership uncertainty and a regulatory probe can cap the multiple for months even with strong numbers.</p><h4>What would change our view</h4><p>A failed rally on Wednesday, or customer commentary suggesting orders are shifting to alternatives.</p></div>
-</div>
-<div class="card">
-<div class="card-top"><span class="tick">HD</span><span class="name">Home Depot &middot; beat on revenue, then sold off and weighed on the Dow</span><span class="badge badge b-watch">Quality on sale</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:58%;background:var(--hold)"></div></div><span class="conv-num">5.8/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>Good quarter, softer comp outlook.</b> Revenue of about $43.4 billion topped estimates, but Bloomberg reports comparable sales growth is now seen near 1.4 percent versus a prior target of up to 2 percent.</span></div><div class="row"><span class="k">What is genuinely wrong with it</span><span class="v"><b></b> Housing. Builder sentiment is at a 14-year low and a 5 percent ten-year keeps home turnover frozen.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> Pro and repair demand must keep growing without a housing recovery; the CEO handoff to McPhail on November 23 must be smooth.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>The company is still growing in the worst housing backdrop since 2012. The stock is being priced for a Fed that keeps hiking, not for a broken business.</p><h4>Bull case</h4><p>Positive comps in a frozen market mean earnings power that grows once rates stop rising. A CFO stepping up to CEO signals continuity.</p><h4>Bear case</h4><p>If the Fed delivers the 100 to 150 basis points Musalem described, housing stays frozen well into 2027 and the multiple has room to compress.</p><h4>What would change our view</h4><p>Comparable sales turning negative, or Lowe's reporting Wednesday that the category is weakening.</p></div>
-</div>
-<div class="card">
-<div class="card-top"><span class="tick">DIS</span><span class="name">Disney &middot; streaming-led beat and a 33 percent dividend raise, met by a selling tape</span><span class="badge badge b-watch">Quality on sale</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:58%;background:var(--hold)"></div></div><span class="conv-num">5.8/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>A clean beat.</b> Adjusted EPS of $1.77 versus $1.68 expected and revenue of $25.9 billion versus $25.2 billion, led by streaming. The dividend moves to twice a year.</span></div><div class="row"><span class="k">What is genuinely wrong with it</span><span class="v"><b></b> Little in the quarter; the stock is fighting a risk-off tape that sells beats.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> Streaming growth and parks demand must hold as the consumer faces higher rates.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>A 33 percent dividend increase is management telling you it trusts its cash flow. When a beat and a payout raise cannot lift a stock, the problem is the market's appetite, not the business.</p><h4>Bull case</h4><p>Growing streaming profits and a bigger dividend make it a cash-return story that can hold up if the tape steadies.</p><h4>Bear case</h4><p>Parks and advertising are cyclical. If rates keep rising and the consumer cools, that half of the business takes the hit.</p><h4>What would change our view</h4><p>Weak parks bookings or signs the streaming growth was one-off.</p></div>
-</div>
-<div class="section-title">Where the pain is concentrated</div>
-<div class="section-sub">Scaled to the size of the move (largest = full bar). Mix of drawdowns from peak and today's moves, as labeled.</div>
-<div class="dd">
-<div class="dd-row"><span class="dd-tick">BTC</span><div class="dd-track"><div class="dd-fill" style="width:100%"></div></div><span class="dd-pct">-50%</span><span class="dd-tag">Bitcoin near $63,700, about half its record of roughly $126,000.</span></div>
-<div class="dd-row"><span class="dd-tick">NVDA</span><div class="dd-track"><div class="dd-fill" style="width:68%"></div></div><span class="dd-pct">-34%</span><span class="dd-tag">Nvidia from its October 6 peak, using the after-hours price near $159.</span></div>
-<div class="dd-row"><span class="dd-tick">GOLD</span><div class="dd-track"><div class="dd-fill" style="width:30%"></div></div><span class="dd-pct">-15%</span><span class="dd-tag">Gold near $3,849 versus its September 3 high near $4,505.</span></div>
-<div class="dd-row"><span class="dd-tick">NDX</span><div class="dd-track"><div class="dd-fill" style="width:26%"></div></div><span class="dd-pct">-13%</span><span class="dd-tag">Nasdaq-100 since October 1, per Bespoke and Morgan Stanley.</span></div>
-<div class="dd-row"><span class="dd-tick">SPX</span><div class="dd-track"><div class="dd-fill" style="width:7%"></div></div><span class="dd-pct">-3.3%</span><span class="dd-tag">S&amp;P since last Thursday's close near 7,592, four straight losses.</span></div>
-<div class="dd-row"><span class="dd-tick">BTC</span><div class="dd-track"><div class="dd-fill" style="width:5%"></div></div><span class="dd-pct">-2.4%</span><span class="dd-tag">Bitcoin today, late afternoon.</span></div>
-<div class="dd-row"><span class="dd-tick">DJIA</span><div class="dd-track"><div class="dd-fill" style="width:3%"></div></div><span class="dd-pct">-1.6%</span><span class="dd-tag">Dow today, down about 849 points.</span></div>
-<div class="dd-row"><span class="dd-tick">RUT</span><div class="dd-track"><div class="dd-fill" style="width:3%"></div></div><span class="dd-pct">-1.5%</span><span class="dd-tag">Russell 2000 today, closing near 2,702.</span></div>
-</div>
-<div class="section-title">Momentum movers, what is actually working now</div>
-<div class="section-sub">Names moving against or well beyond the tape, and what has to stay true.</div>
-<div class="card">
-<div class="card-top"><span class="tick">XLP</span><span class="name">Consumer staples &middot; about +18.7 percent year to date, the market's hiding place</span><span class="badge badge b-buy">Momentum</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:50%;background:var(--buy)"></div></div><span class="conv-num">5.0/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>The defensive rotation.</b> Staples have outpaced tech over the past month by a margin not seen since 2000, per Schwab.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> Risk-off has to persist; at about 24 times forward earnings, the richest since 1999, the group has no valuation cushion.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>Money left tech for stable earnings. It works while the market is afraid, and the price of that safety is now the highest in a quarter century.</p><h4>Bull case</h4><p>If the Fed hikes 100 basis points or more and growth slows, predictable earnings keep their premium.</p><h4>Bear case</h4><p>Nvidia just beat and raised, and tech trades near 17 times forward earnings with ownership at its lowest since 2006. That is the recipe for a fast rotation out of the crowded defensive trade.</p><h4>What would change our view</h4><p>A sustained tech rebound after Nvidia, or staples companies reporting volume declines.</p></div>
-</div>
-<div class="card">
-<div class="card-top"><span class="tick">COHR</span><span class="name">Coherent &middot; up as much as 7.5 percent early before paring on China policy headlines</span><span class="badge badge b-buy">Momentum</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:58%;background:var(--buy)"></div></div><span class="conv-num">5.8/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>A green name in a red chip tape.</b> Coherent rallied early; optical peers Applied Optoelectronics, Lumentum and Corning reversed gains on reports of planned US restrictions on Chinese data center equipment.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> AI data-center optics demand must hold, and any restriction on Chinese suppliers must translate into share for US vendors.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>Optical interconnects carry data between AI chips. Restrictions on Chinese equipment could shift orders to US suppliers, but the policy is still a report and the trade is volatile.</p><h4>Bull case</h4><p>Policy plus AI demand is a two-engine story. If Nvidia's guide is strong tonight, optics are among the most leveraged beneficiaries.</p><h4>Bear case</h4><p>Beijing has threatened countermeasures, and policy-driven pops reverse quickly, as today's paring showed.</p><h4>What would change our view</h4><p>A weak Nvidia guide or retaliation that hits US optical suppliers' China revenue.</p></div>
-</div>
-<div class="card">
-<div class="card-top"><span class="tick">KLAR</span><span class="name">Klarna &middot; up more than 5 percent early after revenue grew 12 percent</span><span class="badge badge b-buy">Momentum</span></div>
-<div class="conv"><span class="conv-label">Conviction</span><div class="bar"><div class="fill" style="width:50%;background:var(--buy)"></div></div><span class="conv-num">5.0/10</span></div>
-<div class="rows"><div class="row"><span class="k">What happened</span><span class="v"><b>Growth beats the tape.</b> Third-quarter revenue rose 12 percent year over year and the stock rallied at the open.</span></div><div class="row"><span class="k">What has to stay true</span><span class="v"><b></b> Credit quality must hold as funding costs rise; a firm consumer, shown in today's retail sales, helps.</span></div></div>
-<div class="edge-more"><h4>The bigger picture</h4><p>Klarna sits where the consumer and rates meet. Firm retail sales support volumes; higher rates raise its funding costs.</p><h4>Bull case</h4><p>Double-digit growth and a still-spending consumer give it room to keep compounding.</p><h4>Bear case</h4><p>If the Fed tightens another 100 to 150 basis points, both funding costs and consumer defaults can rise at the same time.</p><h4>What would change our view</h4><p>Rising credit losses or a slowdown in merchant volume.</p></div>
-</div>
-<div class="section-title">Smart-money signals</div>
-<div class="section-sub">Analyst calls, corporate buyers, and who is putting capital behind a view.</div>
-<div class="card">
-<div class="rows">
-<div class="row"><span class="k">Nvidia authorizes a $150 billion buyback alongside its beat</span><span class="v"><b>The biggest buyer in the chip trade is the company.</b> A floor under a stock fighting a governance discount.</span></div>
-<div class="row"><span class="k">BofA fund manager survey: net tech overweight cut to 12% from 37%, lowest since 2006</span><span class="v"><b>The pros already sold.</b> Light positioning is fuel if the Nvidia bid holds.</span></div>
-<div class="row"><span class="k">Anthropic IPO set to price Wednesday, reportedly at the high end of the range or above</span><span class="v"><b>Institutions are buying AI, selectively.</b> New AI paper is in demand even as the old leaders get sold.</span></div>
-<div class="row"><span class="k">Nvidia cut its stake in Intel by 25%</span><span class="v"><b>A strategic investor stepping back.</b> Intel fell on the news.</span></div>
-<div class="row"><span class="k">SpaceX may start part of a $40 billion debt sale to fund AI chip purchases</span><span class="v"><b>AI capex is still being financed.</b> Demand for Nvidia's product is not slowing at the buyer level.</span></div>
-<div class="row"><span class="k">Micron's record $35.16 billion buyback authorization can start December 9</span><span class="v"><b>A corporate buyer in waiting.</b> Restrictions tied to CHIPS Act funding lift that day.</span></div>
-<div class="row"><span class="k">Spot Bitcoin ETFs shed about $1.1 billion in the week through November 15, a third straight week</span><span class="v"><b>Institutions trimming crypto.</b> A 5 percent ten-year makes a zero-yield asset harder to hold.</span></div>
-<div class="edge-more"><h4>Reading the signals</h4><p>Money is moving, not leaving. Fund managers have cut tech to the bone, yet they are lining up for the Anthropic listing, SpaceX is raising debt to buy chips, and Nvidia and Micron are pointing their cash at their own shares.</p><h4>What we weight most</h4><p>Actions with money behind them. A $150 billion buyback and a full IPO book say more than any price-target change made into an earnings report.</p></div>
-</div>
-</div>
+        <div class="premium" data-slot="picks">
 <!-- /premium -->
       </div>
+
+        <!-- EDGE ELITE: the shells below are fixed; only the contents of each data-slot change -->
+        <div class="elite-wrap" id="elite">
+          <div class="section-title"><span class="ea-badge elite">ELITE</span> Edge Elite</div>
+          <div class="elite-teaser">
+            <div class="elite-teaser-h">Go deeper than the brief</div>
+            <div class="elite-teaser-p">Everything in Pro, plus the Sunday Deep Dive (one company, fully torn down), Follow the Money (hedge fund filings and insider buying), the Earnings Playbook (expected moves, setups and same-night reads) and call alerts pushed to your phone when a call or conviction score changes.</div>
+            <button class="gate-cta" onclick="eliteCta()">See Edge Elite</button>
+          </div>
+          <div class="elite-only">
+            <div class="section-title">Call alerts</div>
+            <div class="section-sub">Every new call and every conviction change, newest first. Pushed to your phone as they publish.</div>
+            <div class="premium" data-slot="call_alerts" data-tier="elite">
+<!-- /premium -->
+            </div>
+            <div class="section-title">Earnings Playbook</div>
+            <div class="section-sub">The reports that matter next: the expected move, the setup, and what would change the read.</div>
+            <div class="premium" data-slot="earnings_playbook" data-tier="elite">
+<!-- /premium -->
+            </div>
+            <div class="section-title">The Sunday Deep Dive</div>
+            <div class="section-sub">One company, fully torn down. Published with the Sunday catch-up.</div>
+            <div class="premium" data-slot="deep_dive" data-tier="elite">
+<!-- /premium -->
+            </div>
+            <div class="section-title">Follow the Money</div>
+            <div class="section-sub">What the big funds filed and what insiders bought with their own money. Published with the Sunday catch-up.</div>
+            <div class="premium" data-slot="follow_money" data-tier="elite">
+<!-- /premium -->
+            </div>
+          </div>
+        </div>
       </div><!-- /tab-picks -->
 
       <!-- ===== TAB: TOOLS ===== -->
@@ -1790,7 +1716,10 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
   function goHome(){ showTab('today'); window.scrollTo(0,0); }
   function viewBrief(){ var m=document.getElementById('member'); if(m) m.scrollIntoView({behavior:'smooth',block:'start'}); }
   function isSub(){try{return entTier()!=='free';}catch(e){return false;}}
-  function applySub(){var s=isSub();document.body.classList.toggle('subscribed',s);var b=el('subBtn');if(b){b.textContent=s?'Member':'Subscribe';b.classList.toggle('is-sub',s);}}
+  function applySub(){var s=isSub();document.body.classList.toggle('subscribed',s);var _el=false;try{_el=entTier()==='elite';}catch(e){}document.body.classList.toggle('tier-elite',_el);edgePushIdentity();var b=el('subBtn');if(b){b.textContent=s?'Member':'Subscribe';b.classList.toggle('is-sub',s);}}
+  /* Link this browser's push subscription to the signed-in account so Elite call alerts can target verified Elite members by account id (never by a browser-set tag). */
+  function edgePushIdentity(){try{var u=edgeState&&edgeState.user;var t=entTier();window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){try{if(u){await OneSignal.login(u.id);}else if(OneSignal.User&&OneSignal.User.externalId){await OneSignal.logout();}OneSignal.User.addTag('tier',t);}catch(_){}});}catch(e){}}
+  function eliteCta(){if(typeof edgeTrack==='function')edgeTrack('elite_cta',{tier:entTier()});openMembership();}
   function subscribe(){closeSubGate();ACCT_AUTH='signin';openMembership();}
   function toggleSub(){if(isSub()){openMembership();}else{openSubGate();}}
   /* --- Stripe Payment Links: create these in dashboard.stripe.com > Payment Links, then paste the URLs below. Set each link's success/after-payment URL to this app's URL with ?subscribed=1 appended so members unlock automatically. --- */
@@ -2578,6 +2507,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     if(/^#\/watchlist\/?$/.test(h)){showTab('watchlist');edgeTrack('landing',{route:'watchlist'});return true;}
     if(m=h.match(/^#\/learn\/([a-z0-9\-]+)/i)){openLearn(m[1].toLowerCase());edgeTrack('landing',{route:'learn',id:m[1]});return true;}
     if(/^#\/learn\/?$/.test(h)){LEARN.pending=null;showTab('learn');learnHome();edgeTrack('landing',{route:'learn'});return true;}
+    if(/^#\/(alerts|elite-reports)\/?$/.test(h)){showTab('picks');setTimeout(function(){var e=el('elite');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},300);edgeTrack('landing',{route:'alerts'});return true;}
     if(/^#\/(account|membership|upgrade|pricing|pro|elite)\/?$/.test(h)){openMembership();edgeTrack('landing',{route:'membership'});return true;}
     return false;
   }
@@ -2987,14 +2917,22 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     if(edgeState.user&&window.edgeSB){
       /* entitlement comes from a server row the user CANNOT write (RLS). Read-only here. */
       window.edgeSB.from('subscriptions').select('tier,status').eq('user_id',edgeState.user.id).maybeSingle()
-        .then(function(r){var d=r&&r.data;edgeState.tier=(d&&(d.status==='active'||d.status==='trialing'))?(d.tier||'free'):'free';edgeRefreshHeader();applySub();edgeAfterTier();})
-        .catch(function(){edgeState.tier='free';edgeRefreshHeader();applySub();});
+        .then(function(r){var d=r&&r.data;edgeState.tier=(d&&(d.status==='active'||d.status==='trialing'||d.status==='past_due'))?(d.tier||'free'):'free';edgeRefreshHeader();applySub();edgeLoadMemberContent();edgeAfterTier();})
+        .catch(function(){edgeState.tier='free';edgeRefreshHeader();applySub();edgeLoadMemberContent();});
       edgeMergeLocal();
-    } else { edgeState.tier='free'; applySub(); }
+    } else { edgeState.tier='free'; applySub(); edgeLoadMemberContent(); }
     edgeRefreshHeader();
   }
+  /* Member content (full brief, calls, Elite reports) is served by Supabase only to verified paying members (RLS on public.member_content). Nothing member-only ships in the page source. */
+  function edgeLoadMemberContent(){
+    var slots=document.querySelectorAll('[data-slot]');
+    function fill(map){for(var i=0;i<slots.length;i++){var k=slots[i].getAttribute('data-slot');slots[i].innerHTML=map[k]||'';}
+      try{if(window.edgeWireCards)window.edgeWireCards();}catch(e){}try{if(window.edgeReadmoreScan)setTimeout(window.edgeReadmoreScan,60);}catch(e){}}
+    if(!window.edgeSB||!edgeState.user||entTier()==='free'){fill({});return;}
+    window.edgeSB.from('member_content').select('slot,html').then(function(r){var m={};var d=(r&&r.data)||[];for(var i=0;i<d.length;i++)m[d[i].slot]=d[i].html;fill(m);}).catch(function(){fill({});});
+  }
   var EDGE_ACTIVATING=false;
-  function edgeAfterTier(){if(EDGE_PENDING_WAITLIST&&edgeState.user){var wt=EDGE_PENDING_WAITLIST;EDGE_PENDING_WAITLIST=null;joinWaitlist(wt);}if(EDGE_PENDING_PLAN&&edgeState.tier==='free'){var p=EDGE_PENDING_PLAN;acctClose();goStripe(p);return;}if(EDGE_ACTIVATING&&edgeState.tier!=='free'){EDGE_ACTIVATING=false;closeSubGate();if(typeof toast==='function')toast('Welcome to The Wall Street Edge Pro. Your membership is active.');}}
+  function edgeAfterTier(){if(EDGE_PENDING_WAITLIST&&edgeState.user){var wt=EDGE_PENDING_WAITLIST;EDGE_PENDING_WAITLIST=null;joinWaitlist(wt);}if(EDGE_PENDING_PLAN&&edgeState.tier==='free'){var p=EDGE_PENDING_PLAN;acctClose();goStripe(p);return;}if(EDGE_ACTIVATING&&edgeState.tier!=='free'){EDGE_ACTIVATING=false;closeSubGate();if(typeof toast==='function')toast('Welcome to The Wall Street Edge '+(edgeState.tier==='elite'?'Elite':'Pro')+'. Your membership is active.');}}
   function edgeRecheckTier(){if(edgeState.user)edgeApplySession({user:edgeState.user});}
   /* ---- auth actions (Supabase when connected; local profile fallback, clearly labelled) ---- */
   function edgeSignUp(email,pass,name,cb){
@@ -3005,7 +2943,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     if(window.edgeSB){window.edgeSB.auth.signInWithPassword({email:email,password:pass}).then(function(r){cb(r.error?r.error.message:null);});return;}
     var p=edgeLocalProfile();if(p&&p.email===email){edgeState.source='local';edgeRefreshHeader();if(cb)cb(null);}else{edgeSaveLocalProfile({email:email,name:email.split('@')[0],local:true,created:Date.now()});edgeState.source='local';edgeRefreshHeader();if(cb)cb(null);}
   }
-  function edgeSignOut(){if(window.edgeSB){window.edgeSB.auth.signOut();}edgeState.user=null;edgeState.source=(EDGE_CFG.supabaseUrl?'supabase':'anon');edgeRefreshHeader();openMembership();}
+  function edgeSignOut(){if(window.edgeSB){window.edgeSB.auth.signOut();}edgeState.user=null;edgeState.tier='free';try{edgeLoadMemberContent();}catch(e){}edgeState.source=(EDGE_CFG.supabaseUrl?'supabase':'anon');edgeRefreshHeader();openMembership();}
   function edgeReset(email,cb){if(window.edgeSB){window.edgeSB.auth.resetPasswordForEmail(email).then(function(r){cb(r.error?r.error.message:null);});return;}if(cb)cb('local');}
   function edgeSignedIn(){return !!(edgeState.user||(edgeState.source==='local'&&edgeLocalProfile()));}
   function edgeDisplayName(){if(edgeState.user)return (edgeState.user.user_metadata&&edgeState.user.user_metadata.display_name)||edgeState.user.email;var p=edgeLocalProfile();return p?p.name:'';}
@@ -4262,6 +4200,7 @@ body.light #rmodal{background:var(--card);box-shadow:0 26px 70px rgba(20,30,50,.
   }
 
   function boot(){
+    window.edgeReadmoreScan=scan;
     scan();
     var bg = document.getElementById('rmodal-bg');
     document.getElementById('rmodal-x').addEventListener('click', close);
@@ -4319,6 +4258,7 @@ body.light .logo-svg.logo-light{display:block}
  function titleOf(c){var t=c.querySelector('.signal-type');if(t)return t.textContent.trim();var tk=c.querySelector('.card-top .tick'),nm=c.querySelector('.card-top .name');if(tk)return tk.textContent.trim()+'  '+(nm?nm.textContent.trim():'');var p=c.previousElementSibling,n=0;while(p&&n<4){if(p.classList&&p.classList.contains('section-title'))return p.textContent.trim();p=p.previousElementSibling;n++;}return 'The full read';}
  function openDR(c){var bg=document.getElementById('rmodal-bg'),b=document.getElementById('rmodal-b'),t=document.getElementById('rmodal-t');if(!bg||!b)return;var cl=c.cloneNode(true);cl.classList.remove('rm-clip','rm-faded');cl.style.maxHeight='none';var cs=cl.querySelectorAll('.rm-clip');for(var i=0;i<cs.length;i++){cs[i].classList.remove('rm-clip','rm-faded');cs[i].style.maxHeight='none';}var bs=cl.querySelectorAll('.rm-more');for(var k=0;k<bs.length;k++)bs[k].parentNode.removeChild(bs[k]);b.innerHTML='';b.appendChild(cl);if(t)t.textContent=titleOf(c);bg.classList.add('on');document.body.style.overflow='hidden';b.scrollTop=0;}
  function wire(){var cs=document.querySelectorAll('.signal, #tab-today .card, #tab-picks .card, .premium .card');for(var i=0;i<cs.length;i++){(function(c){if(c.getAttribute('data-dr')||(c.closest&&c.closest('#rmodal-b')))return;if(!c.querySelector('.edge-more'))return;c.setAttribute('data-dr','1');c.classList.add('has-more');var btn=document.createElement('button');btn.type='button';btn.className='rm-more dr-btn';btn.innerHTML='The full read <span class="rm-caret">&rsaquo;</span>';btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openDR(c);});c.appendChild(btn);if(c.classList.contains('signal'))c.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('a,button'))return;openDR(c);});})(cs[i]);}}
+ window.edgeWireCards=wire;
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
  setTimeout(wire,700);
 })();
@@ -4742,7 +4682,7 @@ body.light #themeTgl .tt-moon{display:block}
     if(id==='push-no'){hide(14);track('push_ask_dismiss');}
     if(id==='push-yes'){hide(0);track('push_ask_yes');window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){
       try{if(dbg)diag();await OneSignal.Notifications.requestPermission();if(dbg)diag();var ok=OneSignal.Notifications.permission;track('push_permission',{granted:!!ok});
-        if(ok){try{OneSignal.User.addTag('tier',(typeof isSub==='function'&&isSub())?'pro':'free');}catch(_){} if(typeof toast==='function')toast('You are in. We will alert you when each edition goes live.');}
+        if(ok){try{OneSignal.User.addTag('tier',(typeof entTier==='function')?entTier():'free');}catch(_){} if(typeof toast==='function')toast('You are in. We will alert you when each edition goes live.');}
         else{ls('edge_push_snooze',String(Date.now()+30*864e5));}}catch(err){window.EDGE_PUSH_ERR=String(err&&err.message||err);if(dbg)diag();}});}
   });
   setTimeout(show,visits>=2?20000:45000);

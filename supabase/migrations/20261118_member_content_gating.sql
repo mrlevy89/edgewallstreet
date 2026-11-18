@@ -1,0 +1,10 @@
+-- Applied to project rtohcbtfwaukdtteswgz on 2026-11-18 via the Supabase connector (migrations
+-- "member_content_gating" and "elite_push_recipients"). Kept here for reference; the publish token's
+-- hash lives only in the database (edge_private.publish_tokens), never in this public repo.
+--
+-- public.member_content(slot pk, min_tier 'pro'|'elite', html, edition, updated_at), RLS on.
+--   SELECT for authenticated only when the caller's paid tier rank >= min_tier
+--   (public.edge_my_tier_rank(): elite 2, pro 1, else 0; statuses active, trialing, past_due).
+-- public.edge_publish_member_content(p_token, p_slots jsonb, p_edition)  token-gated upsert
+-- public.edge_read_member_content(p_token)                              token-gated read
+-- public.edge_elite_push_ids(p_token)                                   token-gated Elite account ids

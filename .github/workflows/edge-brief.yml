@@ -23,7 +23,7 @@ concurrency:
 jobs:
   brief:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,6 +34,14 @@ jobs:
         env:
           FORCE: ${{ inputs.force }}
         run: python3 .github/edge/edition.py >> "$GITHUB_OUTPUT"
+
+      - name: Load member content
+        if: steps.ed.outputs.skip != 'true'
+        env:
+          EDGE_PUBLISH_TOKEN: ${{ secrets.EDGE_PUBLISH_TOKEN }}
+        run: |
+          git show ${{ github.sha }}:.github/edge/member_content.py > /tmp/member_content.py
+          python3 /tmp/member_content.py load
 
       - name: Build prompt
         id: p
@@ -57,12 +65,31 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: ${{ steps.p.outputs.prompt }}
           claude_args: |
-            --max-turns 150
+            --max-turns 220
             --allowedTools Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch
 
       - name: Validate
         if: steps.ed.outputs.skip != 'true'
         run: python3 .github/edge/edge_validate.py /tmp/orig.html index.html "${{ steps.ed.outputs.dateline }}"
+
+      - name: Elite call alerts (diff the calls, update the alert log)
+        if: steps.ed.outputs.skip != 'true'
+        env:
+          DATELINE: ${{ steps.ed.outputs.dateline }}
+        run: |
+          git show ${{ github.sha }}:.github/edge/elite_alerts.py > /tmp/elite_alerts.py
+          python3 /tmp/elite_alerts.py diff /tmp/orig.html index.html "$DATELINE"
+
+      - name: Publish member content to Supabase and strip it from the page
+        if: steps.ed.outputs.skip != 'true'
+        env:
+          EDGE_PUBLISH_TOKEN: ${{ secrets.EDGE_PUBLISH_TOKEN }}
+          DATELINE: ${{ steps.ed.outputs.dateline }}
+        run: |
+          # run the script from the commit, not the working tree the writer could touch
+          git show ${{ github.sha }}:.github/edge/member_content.py > /tmp/member_content.py
+          python3 /tmp/member_content.py publish "$DATELINE"
+          python3 -c "import re,sys;s=open('index.html').read();b=re.findall(r'<div class=\"premium[^\"]*\" data-slot=\"[a-z_]+\"[^>]*>(.*?)<!-- /premium -->',s,re.S);sys.exit('member content still in page' if any(x.strip() for x in b) or not b else 0)"
 
       - name: Commit and push
         if: steps.ed.outputs.skip != 'true'
@@ -74,3 +101,14 @@ jobs:
           git commit -m "Auto: Edge brief ${{ steps.ed.outputs.date }} ${{ steps.ed.outputs.label }}"
           git pull --rebase origin main
           git push origin HEAD:main
+
+      - name: Push notifications (edition is live, Elite call alerts)
+        if: steps.ed.outputs.skip != 'true'
+        continue-on-error: true
+        env:
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+          EDGE_PUBLISH_TOKEN: ${{ secrets.EDGE_PUBLISH_TOKEN }}
+          DATELINE: ${{ steps.ed.outputs.dateline }}
+        run: |
+          sleep 60  # let Vercel finish deploying the new edition before phones open it
+          python3 /tmp/elite_alerts.py notify "$DATELINE"
