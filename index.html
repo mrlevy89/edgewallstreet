@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta property="og:title" content="The Wall Street Edge, Get the edge on Wall Street">
-  <meta property="og:description" content="Market intelligence for retail: Edge Score, Edge Check, The Angle, the Options Lab and The Floor. See what changed in your stocks.">
+  <meta property="og:description" content="Market intelligence for retail: the daily brief, stock calls with conviction scores, Edge Score, Edge Check and the Options Lab. See what changed in your stocks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://edgewallstreet.com">
   <meta property="og:image" content="https://edgewallstreet.com/og.png">
@@ -1607,7 +1607,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
       <li><span class="rgate-check">&#10003;</span> Smart-money signals: analyst upgrades and downgrades, buybacks, big-money moves</li>
       <li><span class="rgate-check">&#10003;</span> The Week Ahead, our subscriber-only newsletter</li>
     </ul>
-    <div class="rgate-free" style="text-align:center;font-size:13.5px;margin:0 0 14px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px">Not ready yet? <a style="color:var(--gold);font-weight:700;cursor:pointer;text-decoration:underline" onclick="closeSubGate();ACCT_AUTH='signup';openMembership();if(typeof edgeTrack==='function')edgeTrack('rgate_free_account',{});">Create a free account</a> to save your watchlist and join The Floor.</div>
+    <div class="rgate-free" style="text-align:center;font-size:13.5px;margin:0 0 14px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px">Not ready yet? <a style="color:var(--gold);font-weight:700;cursor:pointer;text-decoration:underline" onclick="closeSubGate();ACCT_AUTH='signup';openMembership();if(typeof edgeTrack==='function')edgeTrack('rgate_free_account',{});">Create a free account</a> to save your watchlist and get the free Sunday Week Ahead.</div>
     <div class="rgate-fine"><a onclick="openDoc('subs')">Learn more about subscriptions</a> You can cancel anytime. Cancellations take effect at the end of your then-current subscription period. Your subscription will renew automatically unless you cancel at least 2 days before the renewal date. <a onclick="openDoc('terms')">Terms &amp; Conditions</a> apply, including the cancellation policy, and <a onclick="openDoc('privacy')">Privacy Statement</a>.</div>
     <div class="rgate-foot"><b>Already subscribed?</b> <a onclick="subscribe();closeSubGate()">Sign in</a> &nbsp;|&nbsp; <a onclick="closeSubGate()">Go to Homepage</a></div>
     <div id="rgate-note" class="rgate-note">Checkout is temporarily unavailable. Please try again shortly.</div>
@@ -2944,7 +2944,6 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
     {f:'Edge Score & Edge Check',free:'✓',pro:'✓',elite:'✓'},
     {f:'The Angle',free:'✓',pro:'✓',elite:'✓'},
     {f:'Calculator & Options Lab (modeled)',free:'✓',pro:'✓',elite:'✓'},
-    {f:'The Floor (community)',free:'Read + post',pro:'Expanded',elite:'Advanced'},
     {f:'Watchlist',free:'Up to 12',pro:'Expanded',elite:'Unlimited'},
     {f:'What Changed intelligence',free:'Basic',pro:'Advanced',elite:'Advanced'},
     {f:'Alerts',free:'—',pro:'Custom',elite:'Advanced'},
@@ -3020,7 +3019,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
 
 /* ================= PAID ARCHITECTURE, UI (Phase 5) ================= */
   var UPGRADE_COPY={
-    advanced_watchlist:{tier:'pro',h:'Unlock Advanced Watchlist Intelligence',b:'See the full breakdown of every catalyst, analyst shift, score move and Floor swing across your whole watchlist, with deeper history than the free top-changes view.'},
+    advanced_watchlist:{tier:'pro',h:'Unlock Advanced Watchlist Intelligence',b:'See the full breakdown of every catalyst, analyst shift, and score move across your whole watchlist, with deeper history than the free top-changes view.'},
     custom_alerts:{tier:'pro',h:'Get alerted when your stocks change',b:'Edge watches your watchlist and pings you when an Edge Score moves, a catalyst appears, or sentiment shifts, so you never miss what changed.'},
     personalized_edge:{tier:'pro',h:'Your Edge, personalized',b:'A daily brief built from YOUR watchlist: what changed overnight, which catalysts are near, and what needs attention.'},
     learn_advanced:{tier:'pro',h:'Go deeper with Advanced lessons',b:'Case studies plus advanced options, valuation and market-structure lessons that build on the free basics.'},
@@ -3050,7 +3049,7 @@ OneSignalDeferred.push(async function(OneSignal){try{await OneSignal.init({appId
       h+='<div class="ea-acct"><div class="ea-avatar">'+esc((edgeDisplayName()||'?').charAt(0).toUpperCase())+'</div><div><div class="ea-name">'+esc(edgeDisplayName())+'</div><div class="ea-sub">'+(edgeState.source==='supabase'?'Cloud account · syncs across devices':'Local profile on this device')+'</div></div><button class="ea-signout" onclick="edgeSignOut()">Sign out</button></div>';
     } else {
       h+='<div class="ea-auth"><div class="ea-auth-tabs"><button class="'+(ACCT_AUTH==='signup'?'on':'')+'" onclick="acctShowAuth(\'signup\')">Create account</button><button class="'+(ACCT_AUTH==='signin'?'on':'')+'" onclick="acctShowAuth(\'signin\')">Sign in</button></div>';
-      h+='<div class="ea-auth-why">Create an account to save your watchlist, Floor identity and lesson progress across devices, and get a personalized Your Edge.</div>';
+      h+='<div class="ea-auth-why">Create a free account to save your watchlist and lesson progress across devices, and get a personalized Your Edge.</div>';
       if(ACCT_AUTH==='signup')h+='<input id="ea-name" class="ea-in" placeholder="Display name">';
       h+='<input id="ea-email" class="ea-in" placeholder="Email" type="email"><input id="ea-pass" class="ea-in" placeholder="Password" type="password">';
       if(ACCT_AUTH==='signup')h+='<label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4;margin:10px 2px 4px;cursor:pointer;text-align:left"><input id="ea-wa" type="checkbox" checked style="margin-top:2px;accent-color:var(--gold)"><span>Email me <b>The Week Ahead</b>, free every Sunday: the brief on the week that was, plus the CPI, Fed and earnings dates that matter next. Unsubscribe anytime.</span></label>';h+='<button class="ea-primary" onclick="acctSubmitAuth()">'+(ACCT_AUTH==='signup'?'Create account':'Sign in')+'</button>';
