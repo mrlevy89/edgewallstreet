@@ -2870,8 +2870,8 @@ body:not(.tier-elite) .elite-only{display:none}
     edgeState.user=sess&&sess.user?sess.user:null;
     if(edgeState.user&&window.edgeSB){
       /* entitlement comes from a server row the user CANNOT write (RLS). Read-only here. */
-      window.edgeSB.from('subscriptions').select('tier,status').eq('user_id',edgeState.user.id).maybeSingle()
-        .then(function(r){var d=r&&r.data;edgeState.tier=(d&&(d.status==='active'||d.status==='trialing'||d.status==='past_due'))?(d.tier||'free'):'free';edgeRefreshHeader();applySub();edgeLoadMemberContent();edgeAfterTier();})
+      window.edgeSB.from('subscriptions').select('tier,status,comp_tier').eq('user_id',edgeState.user.id).maybeSingle()
+        .then(function(r){var d=r&&r.data;var R={free:0,pro:1,elite:2};var paid=(d&&(d.status==='active'||d.status==='trialing'||d.status==='past_due'))?(d.tier||'free'):'free';var comp=(d&&d.comp_tier)||'free';edgeState.tier=(R[comp]>R[paid])?comp:paid;edgeState.comp=(R[comp]>R[paid]);edgeRefreshHeader();applySub();edgeLoadMemberContent();edgeAfterTier();})
         .catch(function(){edgeState.tier='free';edgeRefreshHeader();applySub();edgeLoadMemberContent();});
       edgeMergeLocal();
     } else { edgeState.tier='free'; applySub(); edgeLoadMemberContent(); }
@@ -2954,7 +2954,8 @@ body:not(.tier-elite) .elite-only{display:none}
     var badge=tier==='elite'?'ELITE':tier==='pro'?'PRO':(edgeSignedIn()?'FREE':'GUEST');
     h+='<div class="ea-plan">';
     var planNote=tier==='elite'?'Elite member: full access to the brief, every call and every Elite report.':tier==='pro'?'Pro member: full access to the full brief, every stock call and the smart-money signals.':(edgeSignedIn()?'Free account: market vitals, Edge signals, the research tools and the Sunday Week Ahead. Upgrade to Pro for the full brief and every call.':'You are browsing the free preview. Create a free account to save your watchlist, or start a 7-day free trial of Pro for the full brief and every call.');
-    h+='<div class="ea-plan-note">'+planNote+' '+(tier!=='free'?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Change plan or billing</a>'+(tier==='elite'?'<div class="ea-note" style="margin-top:8px">Switching to Pro keeps Elite until your paid period ends, then Pro starts at the Pro price.</div>':tier==='pro'?'<div class="ea-note" style="margin-top:8px">Upgrading to Elite starts now; you pay only the prorated difference.</div>':'')+'':'')+'</div></div>';
+    if(edgeState.comp)planNote='Complimentary '+(tier==='elite'?'Elite':'Pro')+' access: everything in your plan, no billing.';
+    h+='<div class="ea-plan-note">'+planNote+' '+(tier!=='free'&&!edgeState.comp?'<a class="ea-primary sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="'+EDGE_PORTAL+'" target="_blank" rel="noopener">Change plan or billing</a>'+(tier==='elite'?'<div class="ea-note" style="margin-top:8px">Switching to Pro keeps Elite until your paid period ends, then Pro starts at the Pro price.</div>':tier==='pro'?'<div class="ea-note" style="margin-top:8px">Upgrading to Elite starts now; you pay only the prorated difference.</div>':'')+'':'')+'</div></div>';
     /* feature matrix */
     h+='<div class="ea-sec-l">Free vs Pro vs Elite</div><div class="ea-matrix"><table><thead><tr><th>Feature</th><th class="'+(tier==='free'?'cur':'')+'">Free</th><th class="'+(tier==='pro'?'cur':'')+'">Pro '+EDGE_CFG.prices.pro.label+'</th><th class="'+(tier==='elite'?'cur':'')+'">Elite '+EDGE_CFG.prices.elite.label+'</th></tr></thead><tbody>';
     for(var i=0;i<FEATURE_MATRIX.length;i++){var r=FEATURE_MATRIX[i];h+='<tr><td>'+esc(r.f)+'</td><td>'+esc(r.free)+'</td><td>'+esc(r.pro)+'</td><td>'+esc(r.elite)+'</td></tr>';}
